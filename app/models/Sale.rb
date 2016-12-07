@@ -5,5 +5,10 @@ class Sale < ActiveRecord::Base
   self.primary_key = "NroInt"
 
   scope :last_sale, -> { where("acoma.softland.iw_gsaen.Total > ?",0).last }
+  belongs_to :store, foreign_key: 'CodBode'
+
+  def self.folio_sale(folio)
+		where(Folio: folio).take
+  end
 
 end

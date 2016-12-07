@@ -84,7 +84,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-byebug (3.4.1)
+    pry-byebug (3.4.2)
       byebug (~> 9.0)
       pry (~> 0.10)
     rack (1.5.5)
@@ -105,7 +105,7 @@ GEM
       activesupport (= 4.1.16)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (11.3.0)
+    rake (12.0.0)
     rdoc (4.3.0)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
@@ -171,7 +171,7 @@ DEPENDENCIES
   pry-byebug
   rails (= 4.1.16)
   sass-rails
-  sdoc (~> 0.4.0)
+  sdoc
   spring
   sqlite3
   thin
