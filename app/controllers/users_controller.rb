@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     def update
         @user = User.find(params[:id])
         if @user.update_attributes(user_params)
-            redirect_to user_url, success: "Usuario actualizado satisfactoriamente."
+            redirect_to root_path, success: "Usuario actualizado satisfactoriamente."
         else
             render :edit, danger: "Ha ocurrido un error al ingresar los datos." 
         end

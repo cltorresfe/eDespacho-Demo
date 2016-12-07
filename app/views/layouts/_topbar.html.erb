@@ -31,9 +31,9 @@
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Perfil <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.email %> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><%= link_to 'Editar mi Perfil', edit_user_registration_path %></li>
+              <li><%= link_to 'Editar mi Perfil', edit_users_admin_path(current_user.id) %></li>
               <li><%= link_to "Crear Usuario", new_users_admin_path, class: 'button' %></li>
               <li><%= link_to "Cerrar Sesión", destroy_user_session_path, method: :delete %></li>
             </ul>

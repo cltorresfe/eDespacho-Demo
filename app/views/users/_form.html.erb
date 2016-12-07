@@ -1,0 +1,38 @@
+<fieldset>
+  <ol>
+    <li class="required">
+      <%= f.label :email %>
+      <%= f.email_field :email, size: 40 %>
+    </li>
+    <li class="required">
+      <%= f.label :password %>
+      <%= f.password_field :password, size: 40 %>
+    </li>
+    <li class="required">
+      <%= f.label :password_confirmation, "Confirm Password" %>
+      <%= f.password_field :password_confirmation, size: 40 %>
+    </li>
+    <li >
+      <% if current_user.admin? %>
+        <%= f.label :warehouse %><br />
+        <%= f.collection_select(:warehouse_id, Warehouse.all, :id, :name) %><br/>
+      <% else %>
+        <%= f.hidden_field :warehouse_id %>
+      <% end %>
+    </li>
+    <li class="required">
+      <%= f.check_box :admin %>
+      <%= f.label :admin, "Administrador?" %>
+    </li>
+  </ol>
+  <p>
+  <div class="actions">
+    <% if @user.new_record? %>
+      <%= f.submit "Crear Usuario" %>
+    <% else %>
+      <%= f.submit "Actualizar Usuario" %>
+    <% end %>
+    <%= link_to "Cancel", users_admin_index_path, class: 'button' %>
+  </div>
+  </p>
+</fieldset>
