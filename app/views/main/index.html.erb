@@ -1,0 +1,23 @@
+<h3>Última Venta Registrada en Softland <span class="caret"></span></h3>
+
+<div class="row new-customer">
+<blockquote>
+<address>
+  <dl class="dl-horizontal bg-info">
+    <dt>Folio:</dt>
+    <dd><%=@sale.Folio %></dd>
+    <dt>Creación:</dt>
+    <dd><%= @sale.FecHoraCreacionVW.to_formatted_s(:db) %></dd>
+    <dt>Tipo Venta:</dt>
+    <dd><%=@sale.Proceso %></dd>
+    <dt>Usuario:</dt>
+    <dd><%= @sale.Usuario %></dd>
+    <dt>Total Venta:</dt>
+    <dd><%= @sale.Total %></dd>
+  </dl>
+</address>
+</blockquote>
+</div>
+<br>
+<br>
+<button class="btn btn-danger btn-lg" type="submit">...en Desarrollo</button>
