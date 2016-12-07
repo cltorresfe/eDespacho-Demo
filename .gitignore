@@ -11,5 +11,5 @@
 /log/*
 !/log/.keep
 /tmp
-config/database.yml
+config/database.example.yml
 .env
