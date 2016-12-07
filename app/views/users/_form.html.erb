@@ -12,14 +12,14 @@
       <%= f.label :password_confirmation, "Confirm Password" %>
       <%= f.password_field :password_confirmation, size: 40 %>
     </li>
-    <li >
-      <% if current_user.admin? %>
-        <%= f.label :warehouse %><br />
+    <% if current_user.admin? %>
+      <li >
+        <%= f.label :warehouse %>
         <%= f.collection_select(:warehouse_id, Warehouse.all, :id, :name) %><br/>
-      <% else %>
-        <%= f.hidden_field :warehouse_id %>
-      <% end %>
-    </li>
+      </li>
+    <% else %>
+      <%= f.hidden_field :warehouse_id %>
+    <% end %>
     <li class="required">
       <%= f.check_box :admin %>
       <%= f.label :admin, "Administrador?" %>
@@ -32,7 +32,7 @@
     <% else %>
       <%= f.submit "Actualizar Usuario" %>
     <% end %>
-    <%= link_to "Cancel", users_admin_index_path, class: 'button' %>
+    <%= link_to "Cancel", root_path, class: 'button' %>
   </div>
   </p>
 </fieldset>

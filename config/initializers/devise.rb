@@ -14,6 +14,7 @@ Devise.setup do |config|
 
   config.stretches = Rails.env.test? ? 1 : 11
 
+  config.secret_key = '6bf3d42ac5e1e27d76035c3aff83d9c942fd127ab1111542470becaa9bd4242e128fe9c8b7466f666ffaf4bbfed3266e4f755ca69f05e5501c3fac5b994cb1a2' if Rails.env.production?
 
   config.reconfirmable = true
 
