@@ -1,0 +1,12 @@
+es:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "El correo ingresado ya pertenece a un usuario registrado."
+            password_confirmation:
+              confirmation: "Debe agregar contraseña de confirmación válida."
+            password:
+              blank: "Campo vacío"

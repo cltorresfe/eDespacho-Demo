@@ -1,38 +1,39 @@
-<fieldset>
-  <ol>
-    <li class="required">
-      <%= f.label :email %>
-      <%= f.email_field :email, size: 40 %>
-    </li>
-    <li class="required">
-      <%= f.label :password %>
-      <%= f.password_field :password, size: 40 %>
-    </li>
-    <li class="required">
-      <%= f.label :password_confirmation, "Confirm Password" %>
-      <%= f.password_field :password_confirmation, size: 40 %>
-    </li>
-    <% if current_user.admin? %>
-      <li >
-        <%= f.label :warehouse %>
-        <%= f.collection_select(:warehouse_id, Warehouse.all, :id, :name) %><br/>
-      </li>
-    <% else %>
-      <%= f.hidden_field :warehouse_id %>
-    <% end %>
-    <li class="required">
-      <%= f.check_box :admin %>
-      <%= f.label :admin, "Administrador?" %>
-    </li>
-  </ol>
-  <p>
-  <div class="actions">
-    <% if @user.new_record? %>
-      <%= f.submit "Crear Usuario" %>
-    <% else %>
-      <%= f.submit "Actualizar Usuario" %>
-    <% end %>
-    <%= link_to "Cancel", root_path, class: 'button' %>
+<%= devise_error_messages! %>
+<div class="form-group row">
+  <%= f.label :email, class: 'col-xs-4 col-form-label' %>
+  <div class="col-xs-8 required">
+    <%= f.email_field :email, size: 40, class: 'form-control', placeholder: 'Email'  %>
   </div>
-  </p>
-</fieldset>
+</div>
+<div class="form-group row">
+  <%= f.label :password, class: 'col-xs-4 col-form-label' %>
+  <div class="col-xs-8 required">
+    <%= f.password_field :password, size: 40, class: 'form-control', placeholder: 'Contraseña'  %>
+  </div>
+</div>
+<div class="form-group row">
+  <%= f.label :password_confirmation, class: 'col-xs-4 col-form-label' %>
+  <div class="col-xs-8 required">
+    <%= f.password_field :password_confirmation, size: 40, class: 'form-control', placeholder: 'Confirmación Contraseña'  %>
+  </div>
+</div>
+<% if current_user.admin? %>
+  <div class="form-group row">
+    <%= f.label :warehouse, class: 'col-xs-4 col-form-label' %>
+    <div class="col-xs-8">
+      <%= f.collection_select :warehouse_id, Warehouse.all, :id, :name, {prompt: 'Selecciona una Bodega'}, {class: "form-control"} %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.check_box :admin, class: 'col-xs-1' %>      
+    <%= f.label :admin, 'Administrador' %>
+  </div>
+<% end %>
+<div class="form-group col-xs-4">
+  <% if @user.new_record? %>
+    <%= f.submit "Crear Usuario", class: 'btn btn-primary' %>
+  <% else %>
+    <%= f.submit "Actualizar Usuario", class: 'btn btn-primary' %>
+  <% end %>
+  <%= link_to "Cancel", root_path, class: 'button' %>
+</div>

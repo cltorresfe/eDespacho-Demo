@@ -8,7 +8,7 @@ class Sale < ActiveRecord::Base
   belongs_to :store, foreign_key: 'CodBode'
 
   def self.folio_sale(folio)
-		where(Folio: folio).take
+		where(Folio: folio.to_i).take
   end
 
 end
