@@ -6,8 +6,10 @@
   <dl class="dl-horizontal bg-info">
     <dt>Folio:</dt>
     <dd><%=@sale.Folio %></dd>
+    <dt>Tipo Venta:</dt>
+    <dd><%=@sale.Proceso %></dd>
     <dt>Creación:</dt>
-    <dd><%= @sale.FecHoraCreacionVW.to_formatted_s(:db) %></dd>
+    <dd><%= @sale.FecHoraCreacionVW.to_formatted_s(:db) if @sale.FecHoraCreacionVW  %></dd>
     <dt>Tipo Venta:</dt>
     <dd><%=@sale.Proceso %></dd>
     <dt>Usuario:</dt>

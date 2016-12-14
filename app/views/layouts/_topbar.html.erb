@@ -14,7 +14,6 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">Despachar <span class="sr-only">(current)</span></a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consultas <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -23,7 +22,12 @@
         </li>
       </ul>
       <%= form_for :search, url: search_path, html: {class: 'navbar-form navbar-left'}, method: :get do |f| %>
-        <%= f.text_field :q, class: 'form-control', placeholder: 'Buscar Folio' %>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <%= f.check_box :type_sale, {}, "F", "B" %>
+          </span>
+          <%= f.text_field :q, class: 'form-control', placeholder: 'Buscar folio BOLETA' %>
+        </div>
         <%= f.submit "Buscar", class: 'btn btn-default' %>
       <% end %>
       <ul class="nav navbar-nav navbar-right">

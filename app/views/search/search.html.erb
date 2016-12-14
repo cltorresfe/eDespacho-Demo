@@ -6,12 +6,12 @@
           <dl class="dl-horizontal bg-info">
             <dt>Folio:</dt>
             <dd><%=@sale.Folio %></dd>
+            <dt>Tipo Venta:</dt>
+            <dd><%=@sale.Proceso %></dd>
             <dt>Bodega:</dt>
             <dd><%=@sale.store.DesBode %></dd>
             <dt>Creación:</dt>
-            <dd><%= @sale.FecHoraCreacionVW.to_formatted_s(:db) %></dd>
-            <dt>Tipo Venta:</dt>
-            <dd><%=@sale.Proceso %></dd>
+            <dd><%= @sale.FecHoraCreacionVW.to_formatted_s(:db) if @sale.FecHoraCreacionVW %></dd>
             <dt>Usuario:</dt>
             <dd><%= @sale.Usuario %></dd>
             <dt>Total Venta:</dt>
@@ -20,6 +20,25 @@
         </address>
     </blockquote>
 </div>
-<br>
-<br>
+<table class="table table-sm table-hover">
+    <thead>
+      <tr class="bg-danger">
+        <th>#</th>
+        <th>Código</th>
+        <th>Productos Vendidos</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @sale.gmovs.each do |gmov|  %>
+      <tr>
+        <td><%= gmov.Linea %></td>
+        <td><%= gmov.CodProd %></td>
+        <td><%= gmov.DetProd %></td>
+        <td class="bg-danger"><%= gmov.CantFacturada %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 <button class="btn btn-danger btn-lg" type="submit">...en Desarrollo</button>

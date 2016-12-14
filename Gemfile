@@ -18,6 +18,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'thin'
 gem 'tiny_tds'
 gem 'activerecord-sqlserver-adapter'
+gem 'composite_primary_keys'
 gem 'devise'
 
 group :development, :test do

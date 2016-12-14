@@ -49,6 +49,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.11.1)
+    composite_primary_keys (7.0.16)
+      activerecord (~> 4.1.7)
     concurrent-ruby (1.0.2)
     daemons (1.2.4)
     debug_inspector (0.0.2)
@@ -165,6 +167,7 @@ DEPENDENCIES
   bootstrap-sass
   byebug
   coffee-rails
+  composite_primary_keys
   devise
   devise-i18n
   hirb
