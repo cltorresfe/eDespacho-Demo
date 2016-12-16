@@ -4,8 +4,15 @@
     <blockquote>
         <address>
           <dl class="dl-horizontal bg-info">
-            <dt>Folio:</dt>
-            <dd><%=@sale.Folio %></dd>
+            <dt>Folio: </dt>
+            <dd>
+                <%=@sale.Folio %>
+                <% if (@credit_note.present?) %>
+                    <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#credit_note">Nota de Crédito: <%= @credit_note.Folio %>
+                        
+                    </button>
+                <% end %>    
+            </dd>
             <dt>Tipo Venta:</dt>
             <dd><%=@sale.Proceso %></dd>
             <dt>Bodega:</dt>
@@ -22,23 +29,41 @@
 </div>
 <table class="table table-sm table-hover">
     <thead>
-      <tr class="bg-danger">
+      <tr class="bg-success">
         <th>#</th>
         <th>Código</th>
         <th>Productos Vendidos</th>
         <th>Cantidad</th>
+        <th>Pendiente</th>
       </tr>
     </thead>
 
     <tbody>
-      <% @sale.gmovs.each do |gmov|  %>
-      <tr>
-        <td><%= gmov.Linea %></td>
-        <td><%= gmov.CodProd %></td>
-        <td><%= gmov.DetProd %></td>
-        <td class="bg-danger"><%= gmov.CantFacturada %></td>
-      </tr>
+      <% @sale.gmovs.each do |gmov| %>
+        <% @credit_note.gmovs.each do |nc_product| %>
+
+            <% if(gmov.CodProd == nc_product.CodProd) %>
+                <tr class="bg-warning"> 
+                    <td><%= gmov.Linea %></td>
+                    <td><%= gmov.CodProd %> <span class="label label-danger">nc</span></td>
+                    <td><%= gmov.DetProd %></td>
+                    <td ><%= gmov.CantFacturada %></td>      
+                    <td ><%= gmov.CantFacturada + nc_product.CantFacturada %></td>
+                </tr>
+            <% else %>
+                <tr> 
+                    <td><%= gmov.Linea %></td>
+                    <td><%= gmov.CodProd %></td>
+                    <td><%= gmov.DetProd %></td>
+                    <td ><%= gmov.CantFacturada %></td>      
+                    <td ><%= gmov.CantFacturada  %></td>
+                </tr>
+            <% end %>
+        <% end %>
       <% end %>
     </tbody>
-  </table>
-<button class="btn btn-danger btn-lg" type="submit">...en Desarrollo</button>
+</table>
+<div id="credit_note" class="modal fade" role="dialog">
+    <%= render @credit_note %>
+</div>
+<button class="btn btn-danger btn-lg" >...en Desarrollo</button>

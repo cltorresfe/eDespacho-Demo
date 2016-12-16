@@ -1,0 +1,39 @@
+<% if @credit_note.present? %>
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><%= @credit_note.Proceso %></h4>
+      </div>
+      <div class="modal-body">
+          <p>Folio: <%= @credit_note.Folio %></p>
+          <p>Glosa: <%= @credit_note.Glosa %></p>
+          <% if(@credit_note.Tipo == 'N') %>
+            <p>Documento Referencia: <%= @credit_note.TipDocRef %></p>
+          <% end %>
+          <p>Fecha:<%= @credit_note.FecHoraCreacionVW.to_formatted_s(:db) if @credit_note.FecHoraCreacionVW %></p>
+          <table class="table table-sm table-hover">
+            <thead>
+              <tr class="bg-danger">
+                <th>#</th>
+                <th>Código</th>
+                <th>Productos Vendidos</th>
+                <th>Cantidad</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <%= render @credit_note.gmovs %>
+            </tbody>
+          </table>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+<% end %>

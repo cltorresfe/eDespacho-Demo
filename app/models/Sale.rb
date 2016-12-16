@@ -12,4 +12,8 @@ class Sale < ActiveRecord::Base
 		where(Folio: folio.to_i, Tipo: type).take
   end
 
+  def self.credit_note(type, folio, doc_ref)
+    where(AuxDocNum: folio.to_i, Tipo: type, TipDocRef: doc_ref).take
+  end
+
 end

@@ -1,0 +1,23 @@
+<% if @gmovs.present? %>
+  <table class="table table-sm table-hover">
+      <thead>
+        <tr class="bg-danger">
+          <th>#</th>
+          <th>Código</th>
+          <th>Productos Vendidos</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @gmovs.each do |gmov|  %>
+        <tr>
+          <td><%= gmov.Linea %></td>
+          <td><%= gmov.CodProd %></td>
+          <td><%= gmov.DetProd %></td>
+          <td class="bg-danger"><%= gmov.CantFacturada %></td>
+        </tr>
+        <% end %>
+      </tbody>
+  </table>
+<% end %>

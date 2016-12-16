@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get 'main/index'
 
   resources :warehouses
+  resources :sales, only: [:show]
+  resources :gmovs, only: [:index]
   devise_for :users
   resources :users_admin, :controller => 'users'
 
