@@ -27,43 +27,37 @@
         </address>
     </blockquote>
 </div>
+
+
 <table class="table table-sm table-hover">
     <thead>
       <tr class="bg-success">
         <th>#</th>
         <th>Código</th>
         <th>Productos Vendidos</th>
-        <th>Cantidad</th>
-        <th>Pendiente</th>
+        <th>Cantidad Vendida</th>
+        <th>Pendiente por despachar</th>
+        <th>Despachar</th>
       </tr>
     </thead>
 
     <tbody>
-      <% @sale.gmovs.each do |gmov| %>
-        <% @credit_note.gmovs.each do |nc_product| %>
-
-            <% if(gmov.CodProd == nc_product.CodProd) %>
-                <tr class="bg-warning"> 
-                    <td><%= gmov.Linea %></td>
-                    <td><%= gmov.CodProd %> <span class="label label-danger">nc</span></td>
-                    <td><%= gmov.DetProd %></td>
-                    <td ><%= gmov.CantFacturada %></td>      
-                    <td ><%= gmov.CantFacturada + nc_product.CantFacturada %></td>
-                </tr>
-            <% else %>
-                <tr> 
-                    <td><%= gmov.Linea %></td>
-                    <td><%= gmov.CodProd %></td>
-                    <td><%= gmov.DetProd %></td>
-                    <td ><%= gmov.CantFacturada %></td>      
-                    <td ><%= gmov.CantFacturada  %></td>
-                </tr>
-            <% end %>
-        <% end %>
+      <% @distpach.gmov_distpaches.each do |gmov| %>
+            <tr class= <%= "bg-warning" if gmov.has_credit_note %>>
+                <td><%= gmov.id_line_gmov %></td>
+                <td><%= gmov.id_product %> <span class="label label-danger">nc</span></td>
+                <td><%= gmov.name_product %></td>
+                <td ><%= gmov.sale_check_quantity %></td>
+                <td ><%= gmov.pending_distpach %></td>
+                <td ></td>
+            </tr>
       <% end %>
     </tbody>
 </table>
+
 <div id="credit_note" class="modal fade" role="dialog">
-    <%= render @credit_note %>
+    <% if @credit_note.present? %>
+        <%= render @credit_note %>
+    <% end %>
 </div>
 <button class="btn btn-danger btn-lg" >...en Desarrollo</button>

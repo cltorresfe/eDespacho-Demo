@@ -11,7 +11,11 @@
           <p>Folio: <%= @credit_note.Folio %></p>
           <p>Glosa: <%= @credit_note.Glosa %></p>
           <% if(@credit_note.Tipo == 'N') %>
-            <p>Documento Referencia: <%= @credit_note.TipDocRef %></p>
+            <% tipoRef =""
+               tipoRef = "Factura" if @credit_note.TipDocRef == "F"
+               tipoRef = "Boleta" if @credit_note.TipDocRef == "B"
+            %>
+            <p>Documento Referencia: <%= tipoRef %></p>
           <% end %>
           <p>Fecha:<%= @credit_note.FecHoraCreacionVW.to_formatted_s(:db) if @credit_note.FecHoraCreacionVW %></p>
           <table class="table table-sm table-hover">

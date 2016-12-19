@@ -11,7 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206200632) do
+ActiveRecord::Schema.define(version: 20161219022657) do
+
+  create_table "gmov_distpaches", force: true do |t|
+    t.string   "id_product"
+    t.integer  "id_line_gmov"
+    t.integer  "distpached_quantity"
+    t.integer  "pending_distpach"
+    t.integer  "sale_check_quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.boolean  "has_credit_note",     default: false
+    t.integer  "sale_distpach_id"
+    t.string   "name_product"
+  end
+
+  add_index "gmov_distpaches", ["sale_distpach_id"], name: "index_gmov_distpaches_on_sale_distpach_id"
+  add_index "gmov_distpaches", ["user_id"], name: "index_gmov_distpaches_on_user_id"
+
+  create_table "sale_distpaches", force: true do |t|
+    t.string   "id_sale_type"
+    t.integer  "id_sale"
+    t.string   "id_store"
+    t.string   "name_seller"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false

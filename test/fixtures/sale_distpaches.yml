@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_sale_type: MyString
+  id_sale: 1
+  id_store: MyString
+  name_seller: MyString
+
+two:
+  id_sale_type: MyString
+  id_sale: 1
+  id_store: MyString
+  name_seller: MyString

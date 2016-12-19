@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_product: MyString
+  store_name: MyString
+  name_seller: MyString
+  id_line_gmov: 1
+  distpached_quantity: 1
+  pending_distpach: 1
+  sale_check_quantity: 1
+
+two:
+  id_product: MyString
+  store_name: MyString
+  name_seller: MyString
+  id_line_gmov: 1
+  distpached_quantity: 1
+  pending_distpach: 1
+  sale_check_quantity: 1
