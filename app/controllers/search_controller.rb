@@ -22,18 +22,25 @@ class SearchController < ApplicationController
   	@distpach.id_sale = sale.NroInt
   	@distpach.id_store = sale.CodBode
   	@distpach.name_seller = sale.Usuario
+  	@distpach.folio = sale.Folio
   	@distpach.save!
   	sale.gmovs.each do |gmov|
+  		flug_nc = false
+  		@pending = 0
   		@gmovDistpach = GmovDistpach.new
   		if credit_note.present?
   			credit_note.gmovs.each do |nc_product|
   			  if(gmov.CodProd == nc_product.CodProd)
-  			 		@gmovDistpach.has_credit_note = true
-  			 		@gmovDistpach.pending_distpach = gmov.CantFacturada + nc_product.CantFacturada
-  			 	else
-  			 		@gmovDistpach.pending_distpach = gmov.CantFacturada
+  			 		flug_nc = true
+  			 		@pending = gmov.CantFacturada + nc_product.CantFacturada
   			 	end
   			end
+  		end
+  		unless flug_nc
+  			@gmovDistpach.pending_distpach = gmov.CantFacturada
+  		else
+  			@gmovDistpach.pending_distpach = @pending
+  			@gmovDistpach.has_credit_note = true
   		end
   		@gmovDistpach.name_product = gmov.DetProd
   		@gmovDistpach.id_product = gmov.CodProd

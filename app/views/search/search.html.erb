@@ -28,8 +28,9 @@
     </blockquote>
 </div>
 
-
-<table class="table table-sm table-hover">
+<%= form_for(@distpach, url: sale_distpaches_path(@distpach), html: {method: "post"}) do |f| %>
+  <%= f.hidden_field :id %>
+  <table class="table table-sm table-hover">
     <thead>
       <tr class="bg-success">
         <th>#</th>
@@ -37,27 +38,38 @@
         <th>Productos Vendidos</th>
         <th>Cantidad Vendida</th>
         <th>Pendiente por despachar</th>
-        <th>Despachar</th>
+        <th>Cantidad a Despachar</th>
       </tr>
     </thead>
 
     <tbody>
+  
       <% @distpach.gmov_distpaches.each do |gmov| %>
+        <%= f.fields_for  'gmov_distpaches[]', gmov do | g | %>
             <tr class= <%= "bg-warning" if gmov.has_credit_note %>>
                 <td><%= gmov.id_line_gmov %></td>
-                <td><%= gmov.id_product %> <span class="label label-danger">nc</span></td>
+                <td><%= gmov.id_product %> 
+                  <% if gmov.has_credit_note %>
+                    <span class="label label-danger">nc</span>
+                  <% end %>
+                </td>
                 <td><%= gmov.name_product %></td>
                 <td ><%= gmov.sale_check_quantity %></td>
                 <td ><%= gmov.pending_distpach %></td>
-                <td ></td>
+                <td >
+                  <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad' %>
+                  <%= g.hidden_field :id %>
+                </td>
             </tr>
+        <% end %>
       <% end %>
     </tbody>
-</table>
-
+  </table>
+  <%= f.submit 'Despachar', class: 'btn btn-primary' %>
+<% end %>
 <div id="credit_note" class="modal fade" role="dialog">
     <% if @credit_note.present? %>
         <%= render @credit_note %>
     <% end %>
 </div>
-<button class="btn btn-danger btn-lg" >...en Desarrollo</button>
+
