@@ -8,19 +8,26 @@ class SaleDistpachesController < ApplicationController
 		p = params[:sale_distpach][:gmov_distpaches]
 		p.each do |g|
 			@gmov = GmovDistpach.find(g[1][:id])
+			@gmov.status = ""
 			if @gmov.distpached_quantity.present?
 			  if (g[1][:distpached_quantity].to_i <= @gmov.pending_distpach.to_i )
 					@gmov.distpached_quantity += g[1][:distpached_quantity].to_i
 					@gmov.pending_distpach = @gmov.pending_distpach.to_i - g[1][:distpached_quantity].to_i
-					@gmov.save!
+				else
+					@gmov.status = "Error"
 				end
 			else  
 				if (g[1][:distpached_quantity].to_i <= @gmov.pending_distpach.to_i )
 					@gmov.distpached_quantity = g[1][:distpached_quantity].to_i
 					@gmov.pending_distpach = @gmov.pending_distpach.to_i - g[1][:distpached_quantity].to_i
-					@gmov.save!
+				else
+					@gmov.status = "Error"
 				end
 			end
+			if(@gmov.pending_distpach.to_i == 0)
+				@gmov.status = "Completado"
+			end
+			@gmov.save!
 		end
 		params_search = ActionController::Parameters.new({
 			search: {

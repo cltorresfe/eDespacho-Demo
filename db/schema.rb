@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220012049) do
+ActiveRecord::Schema.define(version: 20161220151509) do
 
   create_table "gmov_distpaches", force: true do |t|
     t.string   "id_product"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20161220012049) do
     t.boolean  "has_credit_note",     default: false
     t.integer  "sale_distpach_id"
     t.string   "name_product"
+    t.string   "status"
   end
 
   add_index "gmov_distpaches", ["sale_distpach_id"], name: "index_gmov_distpaches_on_sale_distpach_id"

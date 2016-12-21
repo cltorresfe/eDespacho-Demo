@@ -4,8 +4,9 @@ class SearchController < ApplicationController
   	folio = params[:search][:q].to_i
   	type = params[:search][:type_sale].to_s
   	@sale = Sale.folio_sale(type, folio)
-  	unless @sale
-  	 redirect_to root_path, danger: 'No se encontró una resultado válida para su búsqueda.'
+  	unless @sale.present? && @sale.NroInt.present?
+  	  redirect_to root_path, danger: 'No se encontró una resultado válida para su búsqueda.'
+  	  return
   	end
   	@credit_note = Sale.credit_note('N', folio, type)
   	@distpach = SaleDistpach.find_distpach(type, @sale.NroInt)
@@ -48,6 +49,9 @@ class SearchController < ApplicationController
   		@gmovDistpach.sale_check_quantity = gmov.CantFacturada
   		@gmovDistpach.user = current_user
   		@gmovDistpach.sale_distpach = @distpach
+  		if(@gmovDistpach.pending_distpach.to_i == 0)
+				@gmovDistpach.status = "Completado"
+			end
   		@gmovDistpach.save!
   	end
   	return @distpach
