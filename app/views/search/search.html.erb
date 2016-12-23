@@ -60,10 +60,10 @@
                   <% if gmov.status == 'Completado' %>
                     <span class="label label-info">Completado</span>
                   <% elsif gmov.status == 'Error' %>
-                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad' %>
+                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any %>
                     <%= g.hidden_field :id %><span class="label label-danger">Error</span>
                   <% else %>
-                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad' %>
+                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any %>
                     <%= g.hidden_field :id %>
                   <% end %>   
                 </td>
