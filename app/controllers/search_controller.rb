@@ -31,14 +31,14 @@ class SearchController < ApplicationController
   		@gmovDistpach = GmovDistpach.new
   		if credit_note.present?
   			credit_note.gmovs.each do |nc_product|
-  			  if(gmov.CodProd == nc_product.CodProd)
-  			 		flug_nc = true
-  			 		@pending = gmov.CantFacturada + nc_product.CantFacturada
+				if(gmov.CodProd == nc_product.CodProd)
+						flug_nc = true
+ 				 		@pending = gmov.CantDespachada + nc_product.CantDespachada
   			 	end
   			end
   		end
   		unless flug_nc
-  			@gmovDistpach.pending_distpach = gmov.CantFacturada
+				@gmovDistpach.pending_distpach = gmov.CantDespachada
   		else
   			@gmovDistpach.pending_distpach = @pending
   			@gmovDistpach.has_credit_note = true
@@ -46,10 +46,10 @@ class SearchController < ApplicationController
   		@gmovDistpach.name_product = gmov.DetProd
   		@gmovDistpach.id_product = gmov.CodProd
   		@gmovDistpach.id_line_gmov = gmov.Linea
-  		@gmovDistpach.sale_check_quantity = gmov.CantFacturada
+			@gmovDistpach.sale_check_quantity = gmov.CantDespachada
   		@gmovDistpach.user = current_user
   		@gmovDistpach.sale_distpach = @distpach
-  		if(@gmovDistpach.pending_distpach.to_i == 0)
+			if(@gmovDistpach.pending_distpach == 0)
 				@gmovDistpach.status = "Completado"
 			end
   		@gmovDistpach.save!

@@ -11,7 +11,7 @@
     <dt>Creación:</dt>
     <dd><%= @sale.FecHoraCreacionVW.to_formatted_s(:db) if @sale.FecHoraCreacionVW  %></dd>
     <dt>Tipo Venta:</dt>
-    <dd><%=@sale.Proceso %></dd>
+    <dd><%=@sale.Proceso %>( <%=@sale.Tipo %> )</dd>
     <dt>Usuario:</dt>
     <dd><%= @sale.Usuario %></dd>
     <dt>Total Venta:</dt>
@@ -23,3 +23,4 @@
 <br>
 <br>
 <button class="btn btn-danger btn-lg" type="submit">...en Desarrollo</button>
+
