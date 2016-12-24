@@ -20,7 +20,6 @@ gem 'tiny_tds'
 gem 'activerecord-sqlserver-adapter'
 gem 'composite_primary_keys'
 gem 'devise'
-gem 'activeadmin', github: 'activeadmin'
 
 group :development, :test do
   gem 'byebug'

@@ -54,16 +54,16 @@
                   <% end %>
                 </td>
                 <td><%= gmov.name_product %></td>
-                <td ><%= gmov.sale_check_quantity %></td>
-                <td ><%= gmov.pending_distpach %></td>
+                <td ><%= gmov.sale_check_quantity.to_f %></td>
+                <td ><%= gmov.pending_distpach.to_f %></td>
                 <td >
                   <% if gmov.status == 'Completado' %>
                     <span class="label label-info">Completado</span>
                   <% elsif gmov.status == 'Error' %>
-                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any %>
+                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any, value: "" %>
                     <%= g.hidden_field :id %><span class="label label-danger">Error</span>
                   <% else %>
-                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any %>
+                    <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any, Value: "" %>
                     <%= g.hidden_field :id %>
                   <% end %>   
                 </td>

@@ -13,6 +13,7 @@ class SearchController < ApplicationController
   	unless @distpach.present?
   		@distpach = new_sale_distpach(@sale, @credit_note )
   	end
+  	
   end
 
   private
@@ -27,7 +28,7 @@ class SearchController < ApplicationController
   	@distpach.save!
   	sale.gmovs.each do |gmov|
   		flug_nc = false
-  		@pending = 0
+  		@pending = 0.0
   		@gmovDistpach = GmovDistpach.new
   		if credit_note.present?
   			credit_note.gmovs.each do |nc_product|
@@ -49,7 +50,7 @@ class SearchController < ApplicationController
 			@gmovDistpach.sale_check_quantity = gmov.CantDespachada
   		@gmovDistpach.user = current_user
   		@gmovDistpach.sale_distpach = @distpach
-			if(@gmovDistpach.pending_distpach == 0)
+			if(@gmovDistpach.pending_distpach == 0.0)
 				@gmovDistpach.status = "Completado"
 			end
   		@gmovDistpach.save!
