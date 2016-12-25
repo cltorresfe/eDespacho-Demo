@@ -13,9 +13,9 @@ $(document).ready(function(){
 			  $('#search_q').attr("placeholder", "Buscar por Nº Factura").val("").focus().blur();
 			  $('#search_q').attr("readonly", false);
 			}
-			if ($.trim($(this).text()) == 'Guía de Despacho'){
+			if ($.trim($(this).text()) == 'Salida'){
 				$("#search_type_sale").val('S');
-			  $('#search_q').attr("readonly", "Buscar por Nº Guía de Despacho").val("").focus().blur();
+			  $('#search_q').attr("placeholder", "Buscar por Nº Guía de Salida").val("").focus().blur();
 			  $('#search_q').attr("readonly", false);
 			}
 		}

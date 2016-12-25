@@ -25,18 +25,18 @@
         <div class="input-group">
           <span class="input-group-btn">
             <div class="btn-group">
-                <input type="button" class="btn dropdown-toggle" data-toggle="dropdown" id="button-drpdown-toggle" value="selecciona doc..." style="width: 140px;"/>
+                <input type="button" class="btn dropdown-toggle" data-toggle="dropdown" id="button-drpdown-toggle" value="selecciona..." style="width: 100px;"/>
                 <%= f.hidden_field :type_sale %>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                <li><a tabindex="-1" id="d_ticket" >Boleta</a></li>
                <li><a tabindex="-1" id="d_sale">Factura</a></li>
-               <li><a tabindex="-1" id="d_guide">Guía de Despacho</a></li>
+               <li><a tabindex="-1" id="d_guide">Salida</a></li>
             </ul>
             </div>
           </span>
           <%= f.text_field :q, class: 'form-control', style: "width: 260px;", readonly: true %>
+          <%= f.submit "Buscar", class: 'btn btn-default' %>
         </div>
-        <%= f.submit "Buscar", class: 'btn btn-default' %>
       <% end %>
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>

@@ -16,7 +16,7 @@ gem 'devise-i18n'
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'thin'
-gem 'tiny_tds', '~> 1.0', '>= 1.0.5'
+gem 'tiny_tds', '~> 1.0', '<= 1.0.5'
 gem 'activerecord-sqlserver-adapter'
 gem 'composite_primary_keys'
 gem 'devise'

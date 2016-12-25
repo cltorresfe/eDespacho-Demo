@@ -180,7 +180,7 @@ DEPENDENCIES
   spring
   sqlite3
   thin
-  tiny_tds (~> 1.0, >= 1.0.5)
+  tiny_tds (~> 1.0, <= 1.0.5)
   turbolinks
   tzinfo-data
   uglifier
