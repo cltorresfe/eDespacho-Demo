@@ -72,7 +72,26 @@
       <% end %>
     </tbody>
   </table>
-  <%= f.submit 'Despachar', class: 'btn btn-primary' %>
+  <% if(@distpach.status == 'pendiente') %>
+    <%= f.submit 'Despachar', class: 'btn btn-primary' %>
+    <input class="btn btn-warning" type="button" value="Despacho Total" data-toggle="modal" data-target="#confirm-distpach"/>
+  <% end %>
+  <div class="modal fade" id="confirm-distpach" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            Despacho Total
+        </div>
+        <div class="modal-body">
+            <strong>¿Está seguro que quiere hacer un Despacho a todos los productos vendidos?</strong>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <%= f.submit 'Despachar Total', class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>
 <div id="credit_note" class="modal fade" role="dialog">
     <% if @credit_note.present? %>

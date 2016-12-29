@@ -25,7 +25,7 @@ class SearchController < ApplicationController
   	@distpach.id_store = sale.CodBode
   	@distpach.name_seller = sale.Usuario
   	@distpach.folio = sale.Folio
-  	@distpach.save!
+  	@flug_sale_distpached = true
   	sale.gmovs.each do |gmov|
   		flug_nc = false
   		@pending = 0.0
@@ -52,9 +52,13 @@ class SearchController < ApplicationController
   		@gmovDistpach.sale_distpach = @distpach
 			if(@gmovDistpach.pending_distpach == 0.0)
 				@gmovDistpach.status = "Completado"
+			else
+				@flug_sale_distpached = false
 			end
-  		@gmovDistpach.save!
+  		@distpach.gmov_distpaches << @gmovDistpach
   	end
+  	@distpach.status = @flug_sale_distpached ? "Despachado"  : "pendiente"
+  	@distpach.save!
   	return @distpach
   end
 end

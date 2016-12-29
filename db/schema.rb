@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161224163427) do
+ActiveRecord::Schema.define(version: 20161227022710) do
 
   create_table "gmov_distpaches", force: true do |t|
     t.string   "id_product"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20161224163427) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "folio"
+    t.string   "status"
   end
 
   create_table "users", force: true do |t|

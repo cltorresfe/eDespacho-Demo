@@ -7,7 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= render "layouts/topbar"%>
+<% if current_user.present? %>
+	<%= render "layouts/topbar"%>
+<% end %>
 <div class= "container">
 
   <%= render 'layouts/flash_messages' %>
