@@ -7,8 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<% if current_user.present? %>
+<% if user_signed_in? %>
 	<%= render "layouts/topbar"%>
+<% else %> <br><br><br>
 <% end %>
 <div class= "container">
 

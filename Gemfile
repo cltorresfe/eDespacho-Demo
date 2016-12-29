@@ -20,13 +20,16 @@ gem 'tiny_tds', '~> 1.0', '<= 1.0.5'
 gem 'activerecord-sqlserver-adapter'
 gem 'composite_primary_keys'
 gem 'devise'
+gem 'will_paginate', '~> 3.1.0'
+gem 'bootstrap-will_paginate'
+gem 'pry-byebug'
+gem 'hirb'
 
 group :development, :test do
   gem 'byebug'
   gem 'web-console'
   gem 'spring'
-  gem 'pry-byebug'
-  gem 'hirb'
+
 end
 
 

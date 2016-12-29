@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :users_admin, :controller => 'users'
 
   get "search" => "search#search", as: :search
+  get "search_distpaches" => "search#search_distpaches", as: :search_distpaches
   
 
   root 'main#index'

@@ -16,6 +16,11 @@ class SearchController < ApplicationController
   	
   end
 
+  def search_distpaches
+    @gmov_distpaches = GmovDistpach.paginate(:page => params[:page], :per_page => 10)
+    
+  end
+
   private
 
   def new_sale_distpach(sale, credit_note)
@@ -34,12 +39,12 @@ class SearchController < ApplicationController
   			credit_note.gmovs.each do |nc_product|
 				if(gmov.CodProd == nc_product.CodProd)
 						flug_nc = true
- 				 		@pending = gmov.CantDespachada + nc_product.CantDespachada
+ 				 		@pending = gmov.CantFacturada + nc_product.CantFacturada
   			 	end
   			end
   		end
   		unless flug_nc
-				@gmovDistpach.pending_distpach = gmov.CantDespachada
+				@gmovDistpach.pending_distpach = gmov.CantFacturada
   		else
   			@gmovDistpach.pending_distpach = @pending
   			@gmovDistpach.has_credit_note = true
@@ -47,7 +52,7 @@ class SearchController < ApplicationController
   		@gmovDistpach.name_product = gmov.DetProd
   		@gmovDistpach.id_product = gmov.CodProd
   		@gmovDistpach.id_line_gmov = gmov.Linea
-			@gmovDistpach.sale_check_quantity = gmov.CantDespachada
+			@gmovDistpach.sale_check_quantity = gmov.CantFacturada
   		@gmovDistpach.user = current_user
   		@gmovDistpach.sale_distpach = @distpach
 			if(@gmovDistpach.pending_distpach == 0.0)

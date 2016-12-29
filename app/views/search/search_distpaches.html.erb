@@ -1,0 +1,35 @@
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr class="bg-success">
+        <th>Folio</th>
+        <th>Fecha</th>
+        <th>Código</th>
+        <th>Producto Despachado</th>
+        <th>Cantidad Despachada</th>
+        <th>Pendiente por despachar</th>
+        <th>Estado</th>
+        <% if current_user.admin? %>
+          <th>Usuario</th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+  
+      <% @gmov_distpaches.each do |gmov| %>
+        <tr>
+          <td><%= gmov.sale_distpach.folio %></td>
+          <td><%= gmov.created_at.to_formatted_s(:db) %> </td>
+          <td><%= gmov.id_product %></td>
+          <td ><%= gmov.name_product %></td>
+          <td ><%= gmov.distpached_quantity.present? ? gmov.distpached_quantity : "0.0"  %></td>
+          <td ><%= gmov.pending_distpach %></td>
+          <td ><%= gmov.status %></td>
+          <% if current_user.admin? %>
+            <td><%= gmov.user.email %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @gmov_distpaches %>
