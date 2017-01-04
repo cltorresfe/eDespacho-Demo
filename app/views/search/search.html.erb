@@ -73,8 +73,12 @@
     </tbody>
   </table>
   <% if(@distpach.status == 'pendiente') %>
-    <%= f.submit 'Despachar', class: 'btn btn-primary' %>
-    <input class="btn btn-warning" type="button" value="Despacho Total" data-toggle="modal" data-target="#confirm-distpach"/>
+    <div class="col-xs-6">
+      <%= f.submit 'Despachar', class: 'btn btn-primary pull-right' %>
+    </div>
+    <div class="col-xs-6">
+      <input class="btn btn-warning pull-right" type="button" value="Despacho Total" data-toggle="modal" data-target="#confirm-distpach"/>
+    </div>
   <% end %>
   <div class="modal fade" id="confirm-distpach" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

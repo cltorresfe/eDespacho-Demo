@@ -1,6 +1,10 @@
-<header id="content-header">
-  <h1>Crear cuenta de Usuario.</h1>
-</header>
-<%= form_for @user, url: users_admin_index_path(@user)  do |f| %>
-  <% render partial: 'form', locals: {f: f} %>
-<% end %>
+<div class="col-md-6 col-md-offset-1">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Crear nueva cuenta de Usuario</div>
+    <div class="panel-body">
+			<%= form_for @user, url: users_admin_index_path(@user)  do |f| %>
+  			<% render partial: 'form', locals: {f: f} %>
+			<% end %>
+   </div>
+ </div>
+</div>

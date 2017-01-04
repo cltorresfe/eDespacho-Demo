@@ -1,0 +1,76 @@
+Pasos para instalar eDespacho Software
+ 
+- Ejecutar archivo bitnami-rubystack-2.2.6-0-windows-installer
+- Ejecutar archivo Win64OpenSSL para crear un certificado de seguridad para internet.
+	- ir a consola DOS a C:\OpenSSL-Win64\bin>
+	- ingresamos la sgte línea de comandos: openssl genrsa -des3 -out LlaveRSA.key 2048
+	- Debe agregar una clave
+	- escribir dentro de bin: openssl req -new -key LlaveRSA.key -out server.certificado.csr -config openssl.cfg -extensions v3_req
+	- escribir: openssl req -text -noout -in server.certificado.csr
+	- Escribir: openssl x509 -req -days 365 -in server.certificado.csr -signkey LlaveRSA.key -out server.certificado.crt
+	- Escribir: openssl rsa -in LlaveRSA.key -out server.certificado.key
+	- Copiar los siguientes archivos:
+		. server.certificado.key
+		. server.certificado.crt
+	- Estos archivos se deben pegar en la carpeta: C:\Bitnami\rubystack\apache2\conf
+- Editar el archivo hosts.conf de la carpeta: C:\Windows\System32\drivers\etc
+	- agregar lo siguiente en la última línea: 
+		127.0.0.1       acoma.despacho.com
+		::1             acoma.despacho.com
+
+- Editar archivo httpd.conf de la carpeta: C:\Bitnami\rubystack\apache2\conf
+	- Editar la línea y agregar: ServerName acoma.despacho.com:81
+
+- Editar el archivo bitnami.conf de la carpeta C:\Bitnami\rubystack\apache2\conf\bitnami
+	- Editar las líneas y agregar: 
+		. SSLCertificateFile "C:/Bitnami/rubystack/apache2/conf/server.certificado.crt"
+		. SSLCertificateKeyFile "C:/Bitnami/rubystack/apache2/conf/server.certificado.key"
+
+- crea una nueva aplicación rails
+	- Abrir en archivos de programa Bitname Ruby stack para iniciar consola de bitnami ruby stack
+	- 
+- Descargar Kit de Windows Server 2003
+	- Copiar srvany.exe a la carpeta c:/bitnami/rubystack/ruby/bin/
+	- Ejecutar en consola: 
+		C:\>SC create ThinServerFirst binPath= "C:/Bitnami/rubystack/ruby/bin/srvany.exe" DisplayName= "Start Thin Server 1"
+		[SC] CreateService CORRECTO
+
+		C:\>SC create ThinServerSecond binPath= "C:/Bitnami/rubystack/ruby/bin/srvany.exe" DisplayName= "Start Thin Server 2"
+
+	- Crear dos servicios (ThinServerFirst, ThinServerSecond) con regedit en: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\
+		- agregar una llave de nombre Parametersa cada uno de los servicios creados (en el puerto para production cambiar al segundo por 3002)
+		- agregar string como:
+			STRING: AppDirectory
+			DATA: C:\Bitnami\rubystack-2.0.0-23\projects\micro_crm-master
+
+			STRING: Application
+			DATA: C:\Bitnami\rubystack-2.0.0-23\ruby\bin\ruby.exe
+
+			STRING: AppParameters
+			DATA: C:\Bitnami\rubystack-2.0.0-23\ruby\bin\thin start -e production -p 3001
+- En servicios, dejar estos dos servicios creados para iniciar en forma automática
+- En apache config file agregar los siguientes módulos
+	LoadModule expires_module modules/mod_expires.so
+	LoadModule proxy_module modules/mod_proxy.so
+	LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+	LoadModule proxy_http_module modules/mod_proxy_http.so
+	LoadModule rewrite_module modules/mod_rewrite.so
+	LoadModule lbmethod_bybusyness_module modules/mod_lbmethod_bybusyness.so
+	LoadModule lbmethod_byrequests_module modules/mod_lbmethod_byrequests.so
+	LoadModule lbmethod_bytraffic_module modules/mod_lbmethod_bytraffic.so
+	LoadModule lbmethod_heartbeat_module modules/mod_lbmethod_heartbeat.so
+	LoadModule heartbeat_module modules/mod_heartbeat.so
+- Si da error de bundle tienes que instalar nuevamente rails en tu PC -> gem install rails
+- Para saber rama de git en consola: GitShowBranch /i
+- Para Correr en producción
+	- rake db:migrate RAILS_ENV="production"
+	- rake assets:precompile RAILS_ENV="production"
+	- gem uninstall rack -v 2.0.1
+	- thin start -e production
+	- si hay un problema en produccion de error 503 o 504 revisar la gema tiny_tds tiene 
+	  que corresponder a la version 1.0.5, esa es la correcta, de otra forma se cae
+- Para correr en Desarrollo
+	- gem install rack -v 2.0.1
+	- rails s
+	^
+

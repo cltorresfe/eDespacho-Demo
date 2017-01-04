@@ -21,7 +21,7 @@
   <div class="form-group row">
     <%= f.label :warehouse, class: 'col-xs-4 col-form-label' %>
     <div class="col-xs-8">
-      <%= f.collection_select :warehouse_id, Warehouse.all, :id, :name, {prompt: 'Selecciona una Bodega'}, {class: "form-control"} %>
+      <%= f.collection_select :warehouse_id, Store.all, :CodBode, :DesBode, {prompt: 'Selecciona una Bodega'}, {class: "form-control"} %>
     </div>
   </div>
   <div class="form-group row">
