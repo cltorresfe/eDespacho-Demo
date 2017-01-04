@@ -44,7 +44,7 @@ class SearchController < ApplicationController
   			end
   		end
   		unless flug_nc
-				@gmovDistpach.pending_distpach = gmov.CantFacturada
+				@gmovDistpach.pending_distpach = gmov.CantDespachada
   		else
   			@gmovDistpach.pending_distpach = @pending
   			@gmovDistpach.has_credit_note = true
@@ -52,7 +52,7 @@ class SearchController < ApplicationController
   		@gmovDistpach.name_product = gmov.DetProd
   		@gmovDistpach.id_product = gmov.CodProd
   		@gmovDistpach.id_line_gmov = gmov.Linea
-			@gmovDistpach.sale_check_quantity = gmov.CantFacturada
+			@gmovDistpach.sale_check_quantity = gmov.CantDespachada
   		@gmovDistpach.user = current_user
   		@gmovDistpach.sale_distpach = @distpach
 			if(@gmovDistpach.pending_distpach == 0.0)
