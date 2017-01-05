@@ -56,6 +56,14 @@ class SaleDistpachesController < ApplicationController
 		redirect_to search_path(params_search), action: "search", success: 'Productos Despachados satisfactoriamente.'
 	end
 
+	def index
+		if params[:start_date]
+			start_date = params[:start_date].to_date.beginning_of_day
+			end_date = params[:end_date].to_date.end_of_day
+			@gmov_distpaches = GmovDistpach.where(:created_at => start_date..end_date).paginate(:page => params[:page], :per_page => 10)
+		end
+	end
+
 	private
 	def sale_distpach_params
     params.require(:sale_distpach).permit(:id)

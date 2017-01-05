@@ -17,7 +17,7 @@ class SearchController < ApplicationController
   end
 
   def search_distpaches
-    @gmov_distpaches = GmovDistpach.paginate(:page => params[:page], :per_page => 10)
+    
     
   end
 
@@ -37,7 +37,7 @@ class SearchController < ApplicationController
   		@gmovDistpach = GmovDistpach.new
   		if credit_note.present?
   			credit_note.gmovs.each do |nc_product|
-				if(gmov.CodProd == nc_product.CodProd)
+				  if(gmov.CodProd == nc_product.CodProd)
 						flug_nc = true
  				 		@pending = gmov.CantFacturada + nc_product.CantFacturada
   			 	end
@@ -59,10 +59,11 @@ class SearchController < ApplicationController
 				@gmovDistpach.status = "Completado"
 			else
 				@flug_sale_distpached = false
+        @gmovDistpach.status = "Pendiente"
 			end
   		@distpach.gmov_distpaches << @gmovDistpach
   	end
-  	@distpach.status = @flug_sale_distpached ? "Despachado"  : "pendiente"
+  	@distpach.status = @flug_sale_distpached ? "Despachado"  : "Pendiente"
   	@distpach.save!
   	return @distpach
   end
