@@ -60,7 +60,11 @@ class SaleDistpachesController < ApplicationController
 		if params[:start_date]
 			start_date = params[:start_date].to_date.beginning_of_day
 			end_date = params[:end_date].to_date.end_of_day
-			@gmov_distpaches = GmovDistpach.where(:created_at => start_date..end_date).paginate(:page => params[:page], :per_page => 10)
+			if current_user.admin?
+				@gmov_distpaches = GmovDistpach.where(created_at: start_date..end_date).paginate(:page => params[:page], :per_page => 20)
+			else
+				@gmov_distpaches = GmovDistpach.all_by_warehouse(current_user.warehouse, start_date, end_date).paginate(:page => params[:page], :per_page => 20)
+			end
 		end
 	end
 

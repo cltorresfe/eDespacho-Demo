@@ -27,7 +27,7 @@
             </div>
           </span>
           <%= f.text_field :q, class: 'form-control', style: "width: 260px;", readonly: true %>
-          <%= f.submit "Buscar", class: 'btn btn-default' %>
+          <%= f.submit "Buscar", class: 'botton btn btn-default' %>
         </div>
       <% end %>
       <ul class="nav navbar-nav navbar-right">
@@ -86,8 +86,7 @@
 
 $(function(){
   $(".dropdown-menu li a").click(function(){
-    $(".btn.btn-default:first-child").text($(this).text());
-    $(".btn.btn-default:first-child").val($(this).text());
+    $('#button-drpdown-toggle').attr("value", $(this).text());
   });
 });
 </script>

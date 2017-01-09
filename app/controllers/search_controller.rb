@@ -27,7 +27,7 @@ class SearchController < ApplicationController
   	@distpach = SaleDistpach.new
   	@distpach.id_sale_type = sale.Tipo
   	@distpach.id_sale = sale.NroInt
-  	@distpach.id_store = sale.CodBode
+  	@distpach.id_store = sale.CodBode.to_i
   	@distpach.name_seller = sale.Usuario
   	@distpach.folio = sale.Folio
   	@flug_sale_distpached = true

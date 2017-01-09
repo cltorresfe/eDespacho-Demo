@@ -28,6 +28,7 @@
           <th>Pendiente por despachar</th>
           <th>Estado</th>
           <% if current_user.admin? %>
+            <th>Bodega</th>
             <th>Usuario</th>
           <% end %>
         </tr>
@@ -43,8 +44,9 @@
             <td ><%= gmov.name_product %></td>
             <td ><%= gmov.distpached_quantity.present? ? gmov.distpached_quantity : "0.0"  %></td>
             <td ><%= gmov.pending_distpach %></td>
-            <td ><%= gmov.status %></td>
+            <td ><%= gmov.status if gmov.status.present?  %></td>
             <% if current_user.admin? %>
+              <td><%= gmov.user.warehouse.name if gmov.user.warehouse.present? %></td>
               <td><%= gmov.user.email %></td>
             <% end %>
           </tr>

@@ -72,7 +72,7 @@
       <% end %>
     </tbody>
   </table>
-  <% if(@distpach.status == 'pendiente') %>
+  <% if(@distpach.status != 'Despachado') %>
     <div class="col-xs-6">
       <%= f.submit 'Despachar', class: 'btn btn-primary pull-right' %>
     </div>
