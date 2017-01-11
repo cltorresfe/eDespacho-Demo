@@ -57,15 +57,20 @@ class SaleDistpachesController < ApplicationController
 	end
 
 	def index
-		if params[:start_date]
-			start_date = params[:start_date].to_date.beginning_of_day
-			end_date = params[:end_date].to_date.end_of_day
-			if current_user.admin?
-				@gmov_distpaches = GmovDistpach.where(created_at: start_date..end_date).paginate(:page => params[:page], :per_page => 20)
-			else
-				@gmov_distpaches = GmovDistpach.all_by_warehouse(current_user.warehouse, start_date, end_date).paginate(:page => params[:page], :per_page => 20)
-			end
-		end
+		if  params[:start_date].blank? ||  params[:end_date].blank?
+			flash[:warning] = "Debe ingresar una fecha de Inicio y Termino"
+		else
+			array_data = Array.new
+			array_data << params[:start_date]
+			array_data << params[:end_date]
+			array_data << params[:id_product]
+			current_user.admin? ? array_data << params[:warehouse_id][:id] : array_data << current_user.warehouse.id
+			array_data << params[:status_type]
+			@gmov_distpaches = GmovDistpach.by_query(array_data)
+			@gmov_distpaches = @gmov_distpaches.paginate(:page => params[:page], :per_page => 20) if @gmov_distpaches.present?
+			flash[:warning] = "No se encontraron resultados para su búsqueda" unless @gmov_distpaches.present?
+	  end
+
 	end
 
 	private
