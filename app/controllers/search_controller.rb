@@ -4,8 +4,8 @@ class SearchController < ApplicationController
   	folio = params[:search][:q].to_i
   	type = params[:search][:type_sale].to_s
   	@sale = Sale.folio_sale(type, folio)
-  	unless @sale.present? && @sale.NroInt.present?
-  	  redirect_to root_path, danger: 'No se encontró una resultado válida para su búsqueda.'
+  	unless @sale.present? && @sale.NroInt.present? && (current_user.warehouse.id == @sale.CodBode.to_i || current_user.admin?)
+  	  redirect_to root_path, danger: 'No se encontró un resultado válida para su búsqueda.'
   	  return
   	end
   	@credit_note = Sale.credit_note('N', folio, type)
