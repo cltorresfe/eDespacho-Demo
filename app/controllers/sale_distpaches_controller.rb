@@ -40,10 +40,11 @@ class SaleDistpachesController < ApplicationController
 					@gmov.status = "Completado"
 				else
 					@sale_distpach_complete = false
+					@gmov.status = "Parcial"
 				end
 				@gmov.save!
 			end
-			@sale.status = @sale_distpach_complete ? "Despachado"  : "pendiente"
+			@sale.status = @sale_distpach_complete ? "Despachado"  : "Pendiente"
 			@sale.save!
 		end
 		params_search = ActionController::Parameters.new({

@@ -11,15 +11,15 @@
         <%= text_field_tag :end_date, params[:end_date], class: "form-control datepicker", placeholder: "Fecha Término" %>
       </div>
       <div class="  col-xs-5 col-md-2">
-        <%= text_field_tag :id_product, params[:id_product], class: "form-control", placeholder: "ID Producto"%>
+        <%= text_field_tag :id_product, params[:id_product], class: "form-control", placeholder: "CODIGO Producto"%>
       </div>
         <% if current_user.admin? %>
         <div class="  col-xs-5 col-md-2">
-          <%= collection_select :warehouse_id, :id, Store.all, :CodBode, :DesBode, {prompt: 'Selecciona una Bodega'}, {class: "form-control"} %>
+          <%= collection_select :warehouse_id, :id, Warehouse.all, :id, :name, {prompt: 'Selecciona una Bodega'}, {class: "form-control"} %>
         </div>
       <% end %>
       <div class="  col-xs-5 col-md-2">
-        <%= select_tag :status_type, options_for_select([["Selecciona estado...", ""], "Pendiente", "Completado"]), class: 'form-control' %>
+        <%= select_tag :status_type, options_for_select([["Selecciona estado...", ""], "Pendiente", "Completado", "Parcial"]), class: 'form-control' %>
       </div>
       <div class="  col-xs-2 col-md-1">
         <%= submit_tag "Buscar Despachos", name: nil, class: "btn btn-primary btn-md" %>
