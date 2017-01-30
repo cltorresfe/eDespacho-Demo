@@ -28,11 +28,16 @@
   <% end %>
   <br>
   <% if @gmov_distpaches.present? %>
+    <p>
+      Descargar: 
+      <%= link_to "Excel", sale_distpaches_path(format: "xls", start_date: params[:start_date], 
+                  end_date: params[:end_date],  id_product: params[:id_product], warehouse_id: { id: params[:warehouse_id][:id] }, status_type: params[:status_type]  ) %>
+    </p>
     <table class="table table-sm table-hover">
       <thead>
         <tr class="bg-success">
           <th>Folio</th>
-          <th>Fecha</th>
+          <th>Fecha Ingreso Despacho</th>
           <th>Código</th>
           <th>Producto Despachado</th>
           <th>Cantidad Despachada</th>

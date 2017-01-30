@@ -25,11 +25,12 @@ class SaleDistpachesController < ApplicationController
 				  if (g[1][:distpached_quantity].to_f <= @gmov.pending_distpach.to_f )
 						@gmov.distpached_quantity += g[1][:distpached_quantity].to_f
 						@gmov.pending_distpach = @gmov.pending_distpach.to_f - g[1][:distpached_quantity].to_f
+						@gmov.pending_distpach = eval(sprintf("%8.4f",@gmov.pending_distpach))
 					else
 						@gmov.status = "Error"
 					end
 				else  
-					if (g[1][:distpached_quantity].to_i <= @gmov.pending_distpach.to_f )
+					if (g[1][:distpached_quantity].to_f <= @gmov.pending_distpach.to_f )
 						@gmov.distpached_quantity = g[1][:distpached_quantity].to_f
 						@gmov.pending_distpach = @gmov.pending_distpach.to_f - g[1][:distpached_quantity].to_f
 					else
@@ -37,10 +38,12 @@ class SaleDistpachesController < ApplicationController
 					end
 				end
 				if(@gmov.pending_distpach.to_f == 0)
+					@gmov.user = current_user
 					@gmov.status = "Completado"
 				else
 					@sale_distpach_complete = false
 					@gmov.status = "Parcial"
+					@gmov.user = current_user
 				end
 				@gmov.save!
 			end
@@ -61,15 +64,20 @@ class SaleDistpachesController < ApplicationController
 		if  params[:start_date].blank? ||  params[:end_date].blank?
 			flash[:warning] = "Debe ingresar una fecha de Inicio y Termino"
 		else
-			array_data = Array.new
-			array_data << params[:start_date]
-			array_data << params[:end_date]
-			array_data << params[:id_product]
-			current_user.admin? ? array_data << params[:warehouse_id][:id] : array_data << current_user.warehouse.id
-			array_data << params[:status_type]
-			@gmov_distpaches = GmovDistpach.by_query(array_data)
-			@gmov_distpaches = @gmov_distpaches.paginate(:page => params[:page], :per_page => 20) if @gmov_distpaches.present?
+			@array_data = Array.new
+			@array_data << params[:start_date]
+			@array_data << params[:end_date]
+			@array_data << params[:id_product]
+			current_user.admin? ? @array_data << params[:warehouse_id][:id] : @array_data << current_user.warehouse.id
+			@array_data << params[:status_type]
+			@gmov_distpaches_all = GmovDistpach.by_query(@array_data)
+			@gmov_distpaches = @gmov_distpaches_all.paginate(:page => params[:page], :per_page => 20) if @gmov_distpaches_all.present?
 			flash[:warning] = "No se encontraron resultados para su búsqueda" unless @gmov_distpaches.present?
+	  end
+	  respond_to do |format|
+	  	format.html
+	  	format.csv { send_data @prueba.to_csv }
+	  	format.xls # { send_data @prueba.to_csv(col_sep: "\t") }
 	  end
 
 	end

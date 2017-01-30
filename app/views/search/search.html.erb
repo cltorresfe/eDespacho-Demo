@@ -36,6 +36,7 @@
         <th>#</th>
         <th>Código</th>
         <th>Productos Vendidos</th>
+        <th>Medida</th>
         <th>Cantidad Vendida</th>
         <th>Pendiente por despachar</th>
         <th>Cantidad a Despachar</th>
@@ -54,8 +55,9 @@
                   <% end %>
                 </td>
                 <td><%= gmov.name_product %></td>
-                <td ><%= gmov.sale_check_quantity.to_f %></td>
-                <td ><%= gmov.pending_distpach.to_f %></td>
+                <td><%= gmov.measure %></td>
+                <td ><%= eval(sprintf("%8.3f", gmov.sale_check_quantity)) %></td>
+                <td ><%= eval(sprintf("%8.3f", gmov.pending_distpach)) %></td>
                 <td >
                   <% if gmov.status == 'Completado' %>
                     <span class="label label-info">Completado</span>

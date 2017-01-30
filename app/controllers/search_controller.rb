@@ -4,7 +4,7 @@ class SearchController < ApplicationController
   	folio = params[:search][:q].to_i
   	type = params[:search][:type_sale].to_s
   	@sale = Sale.folio_sale(type, folio)
-  	unless @sale.present? && @sale.NroInt.present? && (current_user.warehouse.id == @sale.CodBode.to_i || current_user.admin?)
+  	unless @sale.present? && @sale.NroInt.present? && ( current_user.admin? || ( current_user.warehouse.present? && current_user.warehouse.id == @sale.CodBode.to_i) )
   	  redirect_to root_path, danger: 'No se encontró un resultado válida para su búsqueda.'
   	  return
   	end
@@ -39,20 +39,21 @@ class SearchController < ApplicationController
   			credit_note.gmovs.each do |nc_product|
 				  if(gmov.CodProd == nc_product.CodProd)
 						flug_nc = true
- 				 		@pending = gmov.CantFacturada + nc_product.CantFacturada
+ 				 		@pending = gmov.CantFactUVta + nc_product.CantFactUVta
   			 	end
   			end
   		end
   		unless flug_nc
-				@gmovDistpach.pending_distpach = gmov.CantDespachada
+				@gmovDistpach.pending_distpach = gmov.CantDespUVta
   		else
   			@gmovDistpach.pending_distpach = @pending
   			@gmovDistpach.has_credit_note = true
   		end
   		@gmovDistpach.name_product = gmov.DetProd
+      @gmovDistpach.measure = gmov.CodUMed
   		@gmovDistpach.id_product = gmov.CodProd
   		@gmovDistpach.id_line_gmov = gmov.Linea
-			@gmovDistpach.sale_check_quantity = gmov.CantDespachada
+			@gmovDistpach.sale_check_quantity = gmov.CantDespUVta
   		@gmovDistpach.user = current_user
   		@gmovDistpach.sale_distpach = @distpach
 			if(@gmovDistpach.pending_distpach == 0.0)

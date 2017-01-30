@@ -10,5 +10,13 @@ class GmovDistpach < ActiveRecord::Base
 		distpach = distpach.joins(:sale_distpach).where(sale_distpaches: { id_store: data[3]} ) unless data[3].blank?
 		distpach
 	end
+	def self.to_csv(options = {})
+  	CSV.generate(options) do |csv|
+  		csv << column_names
+  		all.each do |distpach|
+  			csv << distpach.attributes.values_at(*column_names)
+  		end
+  	end
+  end
 
 end
