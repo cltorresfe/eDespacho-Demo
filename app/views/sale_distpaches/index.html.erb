@@ -13,6 +13,9 @@
       <div class="  col-xs-5 col-md-2">
         <%= text_field_tag :id_product, params[:id_product], class: "form-control", placeholder: "CODIGO Producto"%>
       </div>
+      <div class="  col-xs-5 col-md-2">
+        <%= text_field_tag :folio, params[:folio], class: "form-control", placeholder: "Folio"%>
+      </div>
         <% if current_user.admin? %>
         <div class="  col-xs-5 col-md-2">
           <%= collection_select :warehouse_id, :id, Warehouse.all, :id, :name, {prompt: 'Selecciona una Bodega'}, {class: "form-control"} %>
@@ -21,7 +24,9 @@
       <div class="  col-xs-5 col-md-2">
         <%= select_tag :status_type, options_for_select([["Selecciona estado...", ""], "Pendiente", "Completado", "Parcial"]), class: 'form-control' %>
       </div>
-      <div class="  col-xs-2 col-md-1">
+      </div><br>
+      <div class=" row">
+      <div class="  col-xs-2 col-md-12">
         <%= submit_tag "Buscar Despachos", name: nil, class: "btn btn-primary btn-md" %>
       </div>
     </div>
@@ -31,7 +36,9 @@
     <p>
       Descargar: 
       <%= link_to "Excel", sale_distpaches_path(format: "xls", start_date: params[:start_date], 
-                  end_date: params[:end_date],  id_product: params[:id_product], warehouse_id: { id: params[:warehouse_id][:id] }, status_type: params[:status_type]  ) %>
+                  end_date: params[:end_date],  id_product: params[:id_product],  id_product: params[:id_product], warehouse_id: { id: params[:warehouse_id][:id] }, status_type: params[:status_type], folio: params[:folio]) if current_user.admin? %>
+      <%= link_to "Excel", sale_distpaches_path(format: "xls", start_date: params[:start_date], 
+                  end_date: params[:end_date],  id_product: params[:id_product], warehouse_id: { id: current_user.warehouse.id }, status_type: params[:status_type], folio: params[:folio]) unless current_user.admin? %>
     </p>
     <table class="table table-sm table-hover">
       <thead>
@@ -49,12 +56,13 @@
           <% end %>
         </tr>
       </thead>
-
       <tbody>
     
         <% @gmov_distpaches.each do |gmov| %>
           <tr>
-            <td><%= gmov.sale_distpach.folio %></td>
+            <td>
+              <%= link_to gmov.sale_distpach.folio, search_path(search: {type_sale: gmov.sale_distpach.id_sale_type, q: gmov.sale_distpach.folio}, commit: "Buscar") %>
+            </td>
             <td><%= gmov.created_at.to_formatted_s(:db) %> </td>
             <td><%= gmov.id_product %></td>
             <td ><%= gmov.name_product %></td>
@@ -62,7 +70,7 @@
             <td ><%= gmov.pending_distpach %></td>
             <td ><%= gmov.status if gmov.status.present?  %></td>
             <% if current_user.admin? %>
-              <td><%= gmov.user.warehouse.name if gmov.user.warehouse.present? %></td>
+              <td><%= Warehouse.find(gmov.sale_distpach.id_store).name if gmov.sale_distpach.id_store.present?%></td>
               <td><%= gmov.user.email %></td>
             <% end %>
           </tr>

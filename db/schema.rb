@@ -71,4 +71,5 @@ ActiveRecord::Schema.define(version: 20170117234227) do
     t.datetime "updated_at"
   end
 
+  Foreigner.load
 end

@@ -1,0 +1,32 @@
+<table class="table table-sm table-hover">
+      <thead>
+        <tr class="bg-success">
+          <th>ID</th>
+          <th>Email</th>
+          <th>Bodega</th>
+          <th>Fecha Crea</th>
+          <th>Perfil</th>
+          <% if current_user.admin? %>
+            <th>Acción</th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+    
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td><%= user.email %> </td>
+            <td><%= user.warehouse.name if user.warehouse.present?  %></td>
+            <td><%= user.created_at.to_formatted_s(:db) %> </td>
+            <td><%= user.admin? ? "Administrador" : "Despachador"  %></td>
+            <% if current_user.admin? %>
+              <td>
+                <%= link_to "Editar",  edit_users_admin_path(user.id), class: 'btn btn-primary btn-xs' %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>

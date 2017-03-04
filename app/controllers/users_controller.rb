@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         end
         @user = User.find(params[:id])
         if @user.update_attributes(user_params)
-          bypass_sign_in(@user)
+          bypass_sign_in(current_user)
           redirect_to root_path, success: "Usuario actualizado satisfactoriamente."
         else
             render :edit, danger: "Ha ocurrido un error al ingresar los datos." 

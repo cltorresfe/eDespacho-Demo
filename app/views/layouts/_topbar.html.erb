@@ -46,6 +46,7 @@
               <li><%= link_to 'Editar mi Perfil', edit_users_admin_path(current_user.id) %></li>
               <% if current_user.admin? %>
                 <li><%= link_to "Crear Usuario", new_users_admin_path, class: 'button' %></li>
+                <li><%= link_to "Usuarios del Sistema", users_admin_index_path, class: 'button' %></li>
               <% end %>
               <li><%= link_to "Cerrar Sesión", destroy_user_session_path, method: :delete %></li>
             </ul>

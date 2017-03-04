@@ -68,6 +68,7 @@ class SaleDistpachesController < ApplicationController
 			@array_data << params[:start_date]
 			@array_data << params[:end_date]
 			@array_data << params[:id_product]
+			@array_data << params[:folio]
 			current_user.admin? ? @array_data << params[:warehouse_id][:id] : @array_data << current_user.warehouse.id
 			@array_data << params[:status_type]
 			@gmov_distpaches_all = GmovDistpach.by_query(@array_data)
