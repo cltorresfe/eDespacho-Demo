@@ -87,6 +87,12 @@ GEM
     minitest (5.10.1)
     multi_json (1.12.1)
     orm_adapter (0.5.0)
+    pdf-core (0.6.1)
+    prawn (2.1.0)
+      pdf-core (~> 0.6.1)
+      ttfunk (~> 1.4.0)
+    prawn-labels (1.2.6)
+      prawn (>= 1.0.0, < 3.0.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -145,6 +151,7 @@ GEM
     tilt (2.0.5)
     tiny_tds (1.0.5-x86-mingw32)
       mini_portile2 (~> 2.0)
+    ttfunk (1.4.0)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -180,6 +187,8 @@ DEPENDENCIES
   hirb
   jbuilder
   jquery-rails
+  prawn (~> 2.1)
+  prawn-labels
   pry-byebug
   rails (= 4.1.16)
   sass-rails
