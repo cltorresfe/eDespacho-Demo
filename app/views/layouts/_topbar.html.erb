@@ -23,6 +23,7 @@
                <li><a tabindex="-1" id="d_ticket" >Boleta</a></li>
                <li><a tabindex="-1" id="d_sale">Factura</a></li>
                <li><a tabindex="-1" id="d_guide">Salida</a></li>
+               <li><a tabindex="-1" id="d_gap">Gaps</a></li>
             </ul>
             </div>
           </span>
@@ -79,6 +80,11 @@
       if ($.trim($(this).text()) == 'Salida'){
         $("#search_type_sale").val('S');
         $('#search_q').attr("placeholder", "Buscar por Nº Guía de Salida").val("").focus().blur();
+        $('#search_q').attr("readonly", false);
+      }
+      if ($.trim($(this).text()) == 'Gaps'){
+        $("#search_type_sale").val('Gap');
+        $('#search_q').attr("placeholder", "Buscar Saltos de Folios ").val("").focus().blur();
         $('#search_q').attr("readonly", false);
       }
     }

@@ -5,4 +5,6 @@ class Gmov < ActiveRecord::Base
   self.primary_keys = :Tipo, :NroInt, :Linea
   belongs_to :sale, foreign_key: [:Tipo, :NroInt]
 
+  
+
 end

@@ -4,8 +4,9 @@ class Sale < ActiveRecord::Base
   self.table_name =  "acoma.softland.iw_gsaen"
   self.primary_keys = :Tipo, :NroInt
 
-  scope :last_sale, -> { where("acoma.softland.iw_gsaen.Total > ?",0).last }
+  scope :last_sale, -> { where("acoma.softland.iw_gsaen.Total > ?",0).last  }
   belongs_to :store, foreign_key: 'CodBode'
+  belongs_to :seller, foreign_key: 'CodVendedor'
   has_many :gmovs, class_name: "Gmov", foreign_key: [:Tipo, :NroInt]
 
   def self.folio_sale(type, folio)
@@ -13,7 +14,27 @@ class Sale < ActiveRecord::Base
   end
 
   def self.credit_note(type, folio, doc_ref)
-    where(AuxDocNum: folio.to_i, Tipo: type, TipDocRef: doc_ref).take
+    where(AuxDocNum: folio.to_i, Tipo: type, TipDocRef: doc_ref)
   end
+
+  def self.last_products(hora_i, hora_f)
+    where("acoma.softland.iw_gsaen.FecHoraCreacion >= ? AND acoma.softland.iw_gsaen.FecHoraCreacion <= ?",hora_i,hora_f)
+  end
+
+  def self.folios_gaps(cantidad)
+    select("(Folio + 1) as Folio").
+    where("Tipo = 'E' and NOT EXISTS
+        (
+        SELECT  NULL
+        FROM    acoma.softland.iw_gsaen mi 
+        WHERE   mi.Tipo = 'E' and mi.Folio = acoma.softland.iw_gsaen.Folio + 1
+        )").first(cantidad)
+  end
+
+  def self.folios_guia_entrada(cantidad, last_folio, bodega)
+    select("Folio").
+    where("acoma.softland.iw_gsaen.Folio > ? and acoma.softland.iw_gsaen.CodBode = ? and acoma.softland.iw_gsaen.Tipo = 'E'", last_folio, bodega)
+  end
+
 
 end

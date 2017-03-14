@@ -1,3 +1,11 @@
+<% if @gaps.present? %>
+  <h3>Resultado de la búsqueda de saltos de Folios en Softland <span class="caret"></span></h3><br>
+  <ul class="list-group list-inline">
+  <% @gaps.each do |gap| %>
+    <li class="list-group-item text-warning"> <%= gap.Folio %></li>
+  <% end %>
+<% else %>
+
 <h3>Resultado de la búsqueda Folio: <%= @sale.Folio%> en Softland <span class="caret"></span></h3>
 
 <div class="row new-customer">
@@ -104,4 +112,4 @@
         <%= render @credit_note %>
     <% end %>
 </div>
-
+<% end %>

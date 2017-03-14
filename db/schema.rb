@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117234227) do
+ActiveRecord::Schema.define(version: 20170313225757) do
 
   create_table "gmov_distpaches", force: true do |t|
     t.string   "id_product"
@@ -27,10 +27,17 @@ ActiveRecord::Schema.define(version: 20170117234227) do
     t.float    "pending_distpach",    limit: 24
     t.float    "sale_check_quantity", limit: 24
     t.string   "measure",                        default: ""
+    t.string   "credit_notes"
   end
 
   add_index "gmov_distpaches", ["sale_distpach_id"], name: "index_gmov_distpaches_on_sale_distpach_id"
   add_index "gmov_distpaches", ["user_id"], name: "index_gmov_distpaches_on_user_id"
+
+  create_table "open_guides", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "folio"
+  end
 
   create_table "sale_distpaches", force: true do |t|
     t.string   "id_sale_type"
@@ -71,5 +78,4 @@ ActiveRecord::Schema.define(version: 20170117234227) do
     t.datetime "updated_at"
   end
 
-  Foreigner.load
 end
