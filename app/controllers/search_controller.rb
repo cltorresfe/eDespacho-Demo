@@ -7,18 +7,19 @@ class SearchController < ApplicationController
       $last_folio =0
       str = folio.split("#")
       if(str[1].present?)
-
-        OpenGuide.destroy_all
-        @sales_guia_entradas = Sale.folios_guia_entrada(str[0], $last_folio, str[1])
-        @sales_guia_entradas.each do |guide|
-          openGuide = OpenGuide.new
-          openGuide.folio = guide.Folio
-          openGuide.save!
-        end
-        $last_folio = @sales_guia_entradas.last.Folio if (@sales_guia_entradas.present?)
-
         if(is_numerico?(str[0]) && str[0].to_i <101 && str[0].to_i >0 )
-          @gaps = OpenGuide.folios_gaps(str[0])
+          @sales_guia_entradas = Sale.folios_guia_entrada(str[0], $last_folio, str[1])
+          @sales_guia_entradas.each do |guide|
+            openGuide = OpenGuide.where("folio = ? and bodega = ?", guide.Folio, guide.CodBode )
+            unless openGuide.present?
+              openGuide = OpenGuide.new 
+              openGuide.folio = guide.Folio
+              openGuide.bodega = guide.CodBode
+              openGuide.save!
+            end
+          end
+          $last_folio = @sales_guia_entradas.last.Folio if (@sales_guia_entradas.present?)    
+          @gaps = OpenGuide.where(bodega: str[1].to_i ).folios_gaps(str[0])
         else
           redirect_to root_path, danger: 'La cantidad de resultados de saltos de folio que quiere buscar es incorrecto o muy elevado. Busque un rango de 1 a 100.'
         end

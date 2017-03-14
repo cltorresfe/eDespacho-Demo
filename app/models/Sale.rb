@@ -32,7 +32,7 @@ class Sale < ActiveRecord::Base
   end
 
   def self.folios_guia_entrada(cantidad, last_folio, bodega)
-    select("Folio").
+    select("Folio, CodBode").
     where("acoma.softland.iw_gsaen.Folio > ? and acoma.softland.iw_gsaen.CodBode = ? and acoma.softland.iw_gsaen.Tipo = 'E'", last_folio, bodega)
   end
 

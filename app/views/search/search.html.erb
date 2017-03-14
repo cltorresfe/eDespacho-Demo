@@ -4,7 +4,7 @@
   <% @gaps.each do |gap| %>
     <li class="list-group-item text-warning"> <%= gap.Folio %></li>
   <% end %>
-<% else %>
+<% elsif @sale.present? %>
 
 <h3>Resultado de la búsqueda Folio: <%= @sale.Folio%> en Softland <span class="caret"></span></h3>
 
@@ -112,4 +112,7 @@
         <%= render @credit_note %>
     <% end %>
 </div>
+<% else %>
+  <h3>No se encontraron resultados</h3>
 <% end %>
+
