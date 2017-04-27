@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314011506) do
+ActiveRecord::Schema.define(version: 20170410231911) do
 
   create_table "gmov_distpaches", force: true do |t|
     t.string   "id_product"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 20170314011506) do
     t.datetime "updated_at"
     t.integer  "folio"
     t.integer  "bodega"
+  end
+
+  create_table "printers", force: true do |t|
+    t.integer  "folio"
+    t.datetime "imprime_at"
+    t.integer  "id_gsaen"
+    t.string   "type_doc"
+    t.integer  "codigo_bodega"
   end
 
   create_table "sale_distpaches", force: true do |t|

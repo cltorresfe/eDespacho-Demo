@@ -25,6 +25,7 @@ gem 'bootstrap-will_paginate'
 gem 'bootstrap-datepicker-rails'
 gem 'prawn', '~> 2.1'
 gem "prawn-labels"
+gem 'prawn-table'
 
 gem 'pry-byebug'
 gem 'hirb'

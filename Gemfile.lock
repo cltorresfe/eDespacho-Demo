@@ -93,6 +93,8 @@ GEM
       ttfunk (~> 1.4.0)
     prawn-labels (1.2.6)
       prawn (>= 1.0.0, < 3.0.0)
+    prawn-table (0.2.2)
+      prawn (>= 1.3.0, < 3.0.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -189,6 +191,7 @@ DEPENDENCIES
   jquery-rails
   prawn (~> 2.1)
   prawn-labels
+  prawn-table
   pry-byebug
   rails (= 4.1.16)
   sass-rails

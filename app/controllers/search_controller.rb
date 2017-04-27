@@ -68,7 +68,7 @@ class SearchController < ApplicationController
   		@gmovDistpach = GmovDistpach.new
   		if credit_note.present?
         credit_note.each do |credit|
-    			credit_note.gmovs.each do |nc_product|
+    			credit.gmovs.each do |nc_product|
   				  if(gmov.CodProd == nc_product.CodProd)
   						flug_nc = true
    				 		@pending = gmov.CantFactUVta + nc_product.CantFactUVta

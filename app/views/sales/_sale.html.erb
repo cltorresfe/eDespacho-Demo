@@ -1,23 +1,23 @@
 <% if @credit_note.present? %>
   <div class="modal-dialog">
-
+  <% @credit_note.each do |credit| %>
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><%= @credit_note.Proceso %></h4>
+        <h4 class="modal-title"><%= credit.Proceso %></h4>
       </div>
       <div class="modal-body">
-          <p>Folio: <%= @credit_note.Folio %></p>
-          <p>Glosa: <%= @credit_note.Glosa %></p>
-          <% if(@credit_note.Tipo == 'N') %>
+          <p>Folio: <%= credit.Folio %></p>
+          <p>Glosa: <%= credit.Glosa %></p>
+          <% if(credit.Tipo == 'N') %>
             <% tipoRef =""
-               tipoRef = "Factura" if @credit_note.TipDocRef == "F"
-               tipoRef = "Boleta" if @credit_note.TipDocRef == "B"
+               tipoRef = "Factura" if credit.TipDocRef == "F"
+               tipoRef = "Boleta" if credit.TipDocRef == "B"
             %>
             <p>Documento Referencia: <%= tipoRef %></p>
           <% end %>
-          <p>Fecha:<%= @credit_note.FecHoraCreacionVW.to_formatted_s(:db) if @credit_note.FecHoraCreacionVW %></p>
+          <p>Fecha:<%= credit.FecHoraCreacionVW.to_formatted_s(:db) if credit.FecHoraCreacionVW %></p>
           <table class="table table-sm table-hover">
             <thead>
               <tr class="bg-danger">
@@ -29,7 +29,7 @@
             </thead>
 
             <tbody>
-              <%= render @credit_note.gmovs %>
+              <%= render credit.gmovs %>
             </tbody>
           </table>
         
@@ -38,6 +38,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
+    <% end %>
 
   </div>
 <% end %>

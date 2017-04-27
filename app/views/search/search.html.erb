@@ -1,9 +1,10 @@
 <% if @gaps.present? %>
-  <h3>Resultado de la búsqueda de saltos de Folios en Softland <span class="caret"></span></h3><br>
+<!--   <h3>Resultado de la búsqueda de saltos de Folios en Softland <span class="caret"></span></h3><br>
   <ul class="list-group list-inline">
   <% @gaps.each do |gap| %>
     <li class="list-group-item text-warning"> <%= gap.Folio %></li>
-  <% end %>
+  <% end %> -->
+  <h3>En Construcción...</h3>
 <% elsif @sale.present? %>
 
 <h3>Resultado de la búsqueda Folio: <%= @sale.Folio%> en Softland <span class="caret"></span></h3>
@@ -15,11 +16,13 @@
             <dt>Folio: </dt>
             <dd>
                 <%=@sale.Folio %>
-                <% if (@credit_note.present?) %>
-                    <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#credit_note">Nota de Crédito: <%= @credit_note.Folio %>
+                <% if (@credit_note.present?) 
+                     @credit_note.each do |credit|%>
+                    <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#credit_note">Nota de Crédito: <%= credit.Folio %>
                         
                     </button>
-                <% end %>    
+                <% end 
+                end %>    
             </dd>
             <dt>Tipo Venta:</dt>
             <dd><%=@sale.Proceso %></dd>
