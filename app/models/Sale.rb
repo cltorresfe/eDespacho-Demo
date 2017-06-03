@@ -20,7 +20,7 @@ class Sale < ActiveRecord::Base
   def self.last_products(hora_i, hora_f)
     where("acoma.softland.iw_gsaen.FecHoraCreacion >= ? AND acoma.softland.iw_gsaen.FecHoraCreacion <= ? 
       AND (acoma.softland.iw_gsaen.CodBode = ? 
-      AND (acoma.softland.iw_gsaen.Tipo = 'F' OR acoma.softland.iw_gsaen.Tipo = 'B' ) )",hora_i,hora_f, 51)
+      AND (acoma.softland.iw_gsaen.Tipo = 'F' OR acoma.softland.iw_gsaen.Tipo = 'B' ) AND acoma.softland.iw_gsaen.Folio > 0 )",hora_i,hora_f, 51)
   end
 
   def self.folios_gaps(cantidad)
