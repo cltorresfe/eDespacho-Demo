@@ -4,25 +4,30 @@ require 'prawn/table'
 namespace :imprime do
   desc "Envía a imprimir un documento facturado o boleta"
   task :productos => :environment do
-  	515.times do  		
+  	my_logger ||= Logger.new("#{Rails.root}/log/my_products_print.log")
+  	7715.times do  		
 		  #... content of the loop
 		  min = Time.now - 4.hours - 3.minutes
 		  puts "Rango Consulta: #{Time.now - 2.minutes} - #{Time.now} "
+		  my_logger.info( "Rango Consulta: #{Time.now - 2.minutes} - #{Time.now} ")
 		  puts "Consultando a BD Softland..."
 		  products = Sale.last_products(min, Time.now )
 		  t = Time.now
 		  products_within_print = []
 		  puts "Cantidad de Productos encontrados: #{products.length}"
+		  my_logger.info( "Cantidad de Productos encontrados: #{products.length}")
 		  if(products.length > 0)
 			  puts "Consultando folios existentes en BD eDespacho..."
 	    	page_size = 0
-	    	products.each do |sale|	    		
+	    	products.each do |sale|
+	    	  my_logger.info( "Producto Softland: #{sale.Folio} - Tipo: #{sale.Tipo} ")	
 	    		printer = Printer.where(folio: sale.Folio, id_gsaen: sale.NroInt).take
 	    		if( printer.present?)	    				    			
 	    			if(printer.imprime_at < (Time.now - 25))
 	    			   # printer.destroy	    			   
 	    			end
-	    		else	    			
+	    		else
+	    		  my_logger.info( "Ingresando Producto Softland a Impresora: #{sale.Folio} - Tipo: #{sale.Tipo} ")		    			
 	  	  		printer = Printer.new
 	  	  		printer.folio = sale.Folio
 	  	  		printer.id_gsaen = sale.NroInt
@@ -52,6 +57,7 @@ namespace :imprime do
 				 		pdf = Prawn::Document.new(:page_size => [200, page_size], :margin => [5,5,5,5])
 				 	end
 				 	products_within_print.each do |sale|
+				 		my_logger.info( "Preparando producto para imprimir... Folio: #{sale.Folio} - Tipo: #{sale.Tipo} ")	
 				 	  pdf.font "Times-Roman"
 			 	    pdf.font_size 7
 			 	    pdf.text "eDespacho Software - Productos Acoma Ltda.", align: :center
@@ -96,17 +102,21 @@ namespace :imprime do
 				 	puts "Guardando PDF..."
 				 	pdf.render_file "C:/eDespacho/output.pdf"
 				 	puts "Enviando a imprimir PDF..."
+				 	my_logger.info( "Enviando a imprimir productos... ")	
 					printer = '\\Bodega_51/BIXOLON SRP-350II (Copiar 1)'
 				 	shell = WIN32OLE.new('Shell.Application')
 				 	foxit= "C:/Program Files (x86)/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe"
 				 	shell.ShellExecute(foxit,"/t \"C:/eDespacho/output.pdf\"")
-				 	puts "Documento enviado a impresora"				 	
+				 	puts "Documento enviado a impresora"
+				 	my_logger.info( "Documentos enviados a la impresora.")				 	
 				end
 		 end
 		 puts "Esperando para siguiente consulta..."
+		 my_logger.info( "Esperando para siguiente consulta...")
 		 #sleep(t + 8 - Time.now)
 		 sleep(7)
 	  end
 	  puts "#{Time.now} - Tarea Terminada Satisfactoriamente!"	  
+	  my_logger.info( "#{Time.now} - Tarea Terminada Satisfactoriamente!") 
 	end
 end
