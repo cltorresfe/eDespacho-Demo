@@ -29,7 +29,7 @@
             <dt>Bodega:</dt>
             <dd><%=@sale.store.DesBode %></dd>
             <dt>Creación:</dt>
-            <dd><%= @sale.FecHoraCreacionVW.to_formatted_s(:db) if @sale.FecHoraCreacionVW %></dd>
+            <dd><%= @sale.FecHoraCreacion.to_formatted_s(:db) if @sale.FecHoraCreacion %></dd>
             <dt>Usuario:</dt>
             <dd><%= @sale.Usuario %></dd>
             <dt>Total Venta:</dt>

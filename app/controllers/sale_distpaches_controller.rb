@@ -10,11 +10,15 @@ class SaleDistpachesController < ApplicationController
 			@sale.status = "Despachado"
 			p.each do |g|
 				@gmov = GmovDistpach.find(g[1][:id])
-				@gmov.distpached_quantity = @gmov.pending_distpach.to_f
+				@gmov.distpached_quantity = @gmov.pending_distpach.to_f + @gmov.distpached_quantity.to_f
 				@gmov.pending_distpach = 0
 				@gmov.status = "Completado"
+				@gmov.fecha_inicia_despacho = Time.now - 3.hours if @gmov.fecha_inicia_despacho == nil
+				@gmov.fecha_ultimo_despacho = Time.now - 3.hours
+				@gmov.updated_at = Time.now - 3.hours
 				@gmov.save!
 			end
+			@sale.updated_at = Time.now - 3.hours
 			@sale.save!
 		else
 			@sale_distpach_complete = true
@@ -37,17 +41,34 @@ class SaleDistpachesController < ApplicationController
 						@gmov.status = "Error"
 					end
 				end
-				if(@gmov.pending_distpach.to_f == 0)
+				if(@gmov.pending_distpach.to_f < 0)
+					@gmov.pending_distpach = 0
+				end
+				if(@gmov.pending_distpach.to_f <= 0)
 					@gmov.user = current_user
+					@gmov.fecha_inicia_despacho = Time.now - 3.hours if @gmov.fecha_inicia_despacho == nil
+					@gmov.updated_at = Time.now - 3.hours
+					@gmov.fecha_ultimo_despacho = Time.now - 3.hours
 					@gmov.status = "Completado"
 				else
-					@sale_distpach_complete = false
-					@gmov.status = "Parcial"
-					@gmov.user = current_user
+					if(@gmov.pending_distpach.to_f == @gmov.sale_check_quantity.to_f)
+						@sale_distpach_complete = false
+						@gmov.updated_at = Time.now - 3.hours
+					  @gmov.status = "Pendiente"
+					  @gmov.user = current_user
+					else
+					  @sale_distpach_complete = false
+					  @gmov.fecha_inicia_despacho = Time.now - 3.hours if @gmov.fecha_inicia_despacho == nil
+					  @gmov.updated_at = Time.now - 3.hours
+					  @gmov.fecha_ultimo_despacho = Time.now - 3.hours
+					  @gmov.status = "Parcial"
+					  @gmov.user = current_user
+				  end
 				end
 				@gmov.save!
 			end
 			@sale.status = @sale_distpach_complete ? "Despachado"  : "Pendiente"
+			@sale.updated_at = Time.now - 3.hours
 			@sale.save!
 		end
 		params_search = ActionController::Parameters.new({

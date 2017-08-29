@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410231911) do
+ActiveRecord::Schema.define(version: 20170825180323) do
+
+  create_table "credit_notes", force: true do |t|
+    t.integer  "folio"
+    t.string   "type_doc"
+    t.string   "cod_product"
+    t.decimal  "quantity",            precision: 18, scale: 0
+    t.datetime "fecha_crea_softland"
+  end
 
   create_table "gmov_distpaches", force: true do |t|
     t.string   "id_product"
@@ -19,15 +27,17 @@ ActiveRecord::Schema.define(version: 20170410231911) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.boolean  "has_credit_note",                default: false
+    t.boolean  "has_credit_note",                  default: false
     t.integer  "sale_distpach_id"
     t.string   "name_product"
     t.string   "status"
-    t.float    "distpached_quantity", limit: 24
-    t.float    "pending_distpach",    limit: 24
-    t.float    "sale_check_quantity", limit: 24
-    t.string   "measure",                        default: ""
+    t.float    "distpached_quantity",   limit: 24
+    t.float    "pending_distpach",      limit: 24
+    t.float    "sale_check_quantity",   limit: 24
+    t.string   "measure",                          default: ""
     t.string   "credit_notes"
+    t.datetime "fecha_inicia_despacho"
+    t.datetime "fecha_ultimo_despacho"
   end
 
   add_index "gmov_distpaches", ["sale_distpach_id"], name: "index_gmov_distpaches_on_sale_distpach_id"
@@ -54,9 +64,11 @@ ActiveRecord::Schema.define(version: 20170410231911) do
     t.string   "name_seller"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "folio",        limit: 8
+    t.integer  "folio",               limit: 8
     t.string   "status"
-    t.integer  "id_store",               default: 51
+    t.integer  "id_store",                      default: 51
+    t.string   "tipo_ingreso",                  default: "IM"
+    t.datetime "fecha_crea_softland"
   end
 
   create_table "users", force: true do |t|

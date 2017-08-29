@@ -5,10 +5,10 @@
     <%= form_tag sale_distpaches_path, method: :get do %>
     <div class=" row">
       <div class="  col-xs-5 col-md-2">
-        <%= text_field_tag :start_date, params[:start_date], class: "form-control datepicker", placeholder: "Fecha Inicio"%>
+        <%= text_field_tag :start_date, params[:start_date], class: "form-control datepicker", placeholder: "F. Despacho Desde", title: "Fecha de Despacho Desde"%>
       </div>
       <div class="  col-xs-5 col-md-2">
-        <%= text_field_tag :end_date, params[:end_date], class: "form-control datepicker", placeholder: "Fecha Término" %>
+        <%= text_field_tag :end_date, params[:end_date], class: "form-control datepicker", placeholder: "F. Despacho Hasta", title: "Fecha de Despacho Hasta" %>
       </div>
       <div class="  col-xs-5 col-md-2">
         <%= text_field_tag :id_product, params[:id_product], class: "form-control", placeholder: "CODIGO Producto"%>
@@ -22,7 +22,7 @@
         </div>
       <% end %>
       <div class="  col-xs-5 col-md-2">
-        <%= select_tag :status_type, options_for_select([["Selecciona estado...", ""], "Pendiente", "Completado", "Parcial"]), class: 'form-control' %>
+        <%= select_tag :status_type, options_for_select([["Selecciona estado...", ""], "Pendiente", "Completado", "Parcial", "Pendiente Automatico"]), class: 'form-control' %>
       </div>
       </div><br>
       <div class=" row">
@@ -44,13 +44,18 @@
       <thead>
         <tr class="bg-success">
           <th>Folio</th>
-          <th>Fecha Ingreso Despacho</th>
+          <th>Fecha Crea eDespacho</th>
+          <th>Fecha Crea Softland</th>
+          <th>Fecha Inicia Despacho</th>
+          <th>Fecha último Despacho</th>
           <th>Código</th>
           <th>Producto Despachado</th>
+          <th>Cantidad Vendida</th>
           <th>Cantidad Despachada</th>
           <th>Pendiente por despachar</th>
           <th>Estado</th>
           <% if current_user.admin? %>
+            <th>Tipo Ingreso</th>
             <th>Bodega</th>
             <th>Usuario</th>
           <% end %>
@@ -63,15 +68,20 @@
             <td>
               <%= link_to gmov.sale_distpach.folio, search_path(search: {type_sale: gmov.sale_distpach.id_sale_type, q: gmov.sale_distpach.folio}, commit: "Buscar") %>
             </td>
-            <td><%= gmov.created_at.to_formatted_s(:db) %> </td>
+            <td><%= gmov.sale_distpach.created_at.to_formatted_s(:db) %> </td>
+            <td><%= gmov.sale_distpach.fecha_crea_softland.to_formatted_s(:db) if gmov.sale_distpach.fecha_crea_softland.present? %> </td>
+            <td><%= gmov.fecha_inicia_despacho.to_formatted_s(:db) if gmov.fecha_inicia_despacho.present? %> </td>
+            <td><%= gmov.fecha_ultimo_despacho.to_formatted_s(:db) if gmov.fecha_ultimo_despacho.present? %> </td>
             <td><%= gmov.id_product %></td>
             <td ><%= gmov.name_product %></td>
+            <td ><%= gmov.distpached_quantity.present? ? gmov.sale_check_quantity : "0.0"  %></td>
             <td ><%= gmov.distpached_quantity.present? ? gmov.distpached_quantity : "0.0"  %></td>
             <td ><%= gmov.pending_distpach %></td>
             <td ><%= gmov.status if gmov.status.present?  %></td>
             <% if current_user.admin? %>
+              <td ><%= gmov.sale_distpach.tipo_ingreso if gmov.sale_distpach.tipo_ingreso.present?  %></td>
               <td><%= Warehouse.find(gmov.sale_distpach.id_store).name if gmov.sale_distpach.id_store.present?%></td>
-              <td><%= gmov.user.email %></td>
+              <td><%= gmov.user.email if gmov.user.present?%></td>
             <% end %>
           </tr>
         <% end %>

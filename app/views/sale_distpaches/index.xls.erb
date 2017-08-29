@@ -64,7 +64,10 @@
         </Row>
         <Row ss:StyleID="1">
           <Cell><Data ss:Type="String">Folio</Data></Cell>
-          <Cell><Data ss:Type="String">Fecha Ingreso Despacho</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Crea eDespacho</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Crea Softland</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Inicia Despacho</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Ultimo Despacho</Data></Cell>
           <% unless @array_data[2].present?%>
             <Cell><Data ss:Type="String">Codigo</Data></Cell>
             <Cell><Data ss:Type="String">Producto Despachado</Data></Cell>
@@ -76,6 +79,7 @@
           <% end %>
           <% if current_user.admin? %>
             <% unless @array_data[4].present?%>
+              <Cell><Data ss:Type="String">Tipo Ingreso</Data></Cell>
               <Cell><Data ss:Type="String">Bodega</Data></Cell>
             <% end %>
             <Cell><Data ss:Type="String">Usuario</Data></Cell>
@@ -85,6 +89,9 @@
         <Row>
           <Cell><Data ss:Type="Number"><%= gmov.sale_distpach.folio %></Data></Cell>
           <Cell><Data ss:Type="String"><%= gmov.created_at.to_formatted_s(:db) %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.sale_distpach.fecha_crea_softland.to_formatted_s(:db) if gmov.sale_distpach.fecha_crea_softland.present? %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.fecha_inicia_despacho.to_formatted_s(:db) if gmov.fecha_inicia_despacho.present? %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.fecha_ultimo_despacho.to_formatted_s(:db) if gmov.fecha_ultimo_despacho.present? %></Data></Cell>
           <% unless @array_data[2].present?%>
             <Cell><Data ss:Type="String"><%= gmov.id_product  %></Data></Cell>
             <Cell><Data ss:Type="String"><%= gmov.name_product  %></Data></Cell>
@@ -95,10 +102,11 @@
            <Cell><Data ss:Type="String"><%= gmov.status if gmov.status.present? %></Data></Cell>
          <% end %>
          <% if current_user.admin? %>
+          <Cell><Data ss:Type="String"><%= gmov.sale_distpach.tipo_ingreso if gmov.sale_distpach.tipo_ingreso.present? %></Data></Cell>
           <% unless @array_data[4].present?%>
             <Cell><Data ss:Type="String"><%= Warehouse.find(gmov.sale_distpach.id_store).name if gmov.sale_distpach.id_store.present?%></Data></Cell>
           <% end %>
-          <Cell><Data ss:Type="String"><%= gmov.user.email %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.user.email if gmov.user.present? %></Data></Cell>
         <% end %>
         </Row>
       <% end %>

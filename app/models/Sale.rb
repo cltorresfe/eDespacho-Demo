@@ -23,6 +23,11 @@ class Sale < ActiveRecord::Base
       AND (acoma.softland.iw_gsaen.Tipo = 'F' OR acoma.softland.iw_gsaen.Tipo = 'B' ) AND acoma.softland.iw_gsaen.Folio > 0 )",hora_i,hora_f, 51)
   end
 
+  def self.all_last_sales_softland(hora_i, hora_f)
+    where("acoma.softland.iw_gsaen.FecHoraCreacion >= ? AND acoma.softland.iw_gsaen.FecHoraCreacion <= ? 
+      AND (acoma.softland.iw_gsaen.Tipo = 'F' OR acoma.softland.iw_gsaen.Tipo = 'B'  OR acoma.softland.iw_gsaen.Tipo = 'N') AND acoma.softland.iw_gsaen.Folio > 0 ",hora_i,hora_f)
+  end
+
   def self.folios_gaps(cantidad)
     select("(Folio + 1) as Folio").
     where("Tipo = 'E' and NOT EXISTS
