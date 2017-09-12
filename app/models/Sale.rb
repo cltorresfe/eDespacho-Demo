@@ -17,10 +17,10 @@ class Sale < ActiveRecord::Base
     where(AuxDocNum: folio.to_i, Tipo: type, TipDocRef: doc_ref)
   end
 
-  def self.last_products(hora_i, hora_f)
+  def self.last_products(hora_i, hora_f, bodega)
     where("acoma.softland.iw_gsaen.FecHoraCreacion >= ? AND acoma.softland.iw_gsaen.FecHoraCreacion <= ? 
       AND (acoma.softland.iw_gsaen.CodBode = ? 
-      AND (acoma.softland.iw_gsaen.Tipo = 'F' OR acoma.softland.iw_gsaen.Tipo = 'B' ) AND acoma.softland.iw_gsaen.Folio > 0 )",hora_i,hora_f, 51)
+      AND (acoma.softland.iw_gsaen.Tipo = 'F' OR acoma.softland.iw_gsaen.Tipo = 'B' ) AND acoma.softland.iw_gsaen.Folio > 0 )",hora_i,hora_f, bodega)
   end
 
   def self.all_last_sales_softland(hora_i, hora_f)

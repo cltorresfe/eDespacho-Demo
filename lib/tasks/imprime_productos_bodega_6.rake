@@ -3,7 +3,7 @@ require 'prawn/labels'
 require 'prawn/table'
 namespace :imprime do
   desc "Envía a imprimir un documento facturado o boleta"
-  task :productos => :environment do
+  task :productos_bodega6 => :environment do
   	my_logger ||= Logger.new("#{Rails.root}/log/my_products_print.log")
   	7715.times do  		
 		  #... content of the loop
@@ -11,7 +11,7 @@ namespace :imprime do
 		  puts "Rango Consulta: #{Time.now - 2.minutes} - #{Time.now} "
 		  my_logger.info( "Rango Consulta: #{Time.now - 2.minutes} - #{Time.now} ")
 		  puts "Consultando a BD Softland..."
-		  products = Sale.last_products(min, Time.now,51 )
+		  products = Sale.last_products(min, Time.now,6 )
 		  t = Time.now
 		  products_within_print = []
 		  puts "Cantidad de Productos encontrados: #{products.length}"
@@ -106,7 +106,7 @@ namespace :imprime do
 					printer = '\\Bodega_51/BIXOLON SRP-350II (Copiar 1)'
 				 	shell = WIN32OLE.new('Shell.Application')
 				 	foxit= "C:/Program Files (x86)/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe"
-				 	shell.ShellExecute(foxit,"/t \"C:/eDespacho/output.pdf\"")
+				 	shell.ShellExecute(foxit,"/t \"C:/eDespacho/output_bodega6.pdf\"")
 				 	puts "Documento enviado a impresora"
 				 	my_logger.info( "Documentos enviados a la impresora.")				 	
 				end
