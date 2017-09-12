@@ -11,6 +11,13 @@ class GmovDistpach < ActiveRecord::Base
 		distpach = distpach.joins(:sale_distpach).where(sale_distpaches: { id_store: data[4]} ) unless data[4].blank?
 		distpach
 	end
+	def self.consulta_cierre_diario(data)
+		distpach = all
+		distpach = distpach.where(fecha_ultimo_despacho: data[0].to_date.beginning_of_day..data[0].to_date.end_of_day)  
+		distpach = distpach.joins(:sale_distpach).where(sale_distpaches: { id_store: data[1]} ) unless data[1].blank?
+		distpach
+	end
+
 	def self.to_csv(options = {})
   	CSV.generate(options) do |csv|
   		csv << column_names

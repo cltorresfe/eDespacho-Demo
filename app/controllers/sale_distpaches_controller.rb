@@ -2,6 +2,10 @@ class SaleDistpachesController < ApplicationController
 	def new
 	end
 
+	def show
+		
+	end
+
 	def create
 		@sale = SaleDistpach.find(sale_distpach_params[:id])
 		p = params[:sale_distpach][:gmov_distpaches]

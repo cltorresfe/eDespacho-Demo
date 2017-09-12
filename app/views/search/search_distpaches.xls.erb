@@ -1,0 +1,117 @@
+<% if @gmov_distpaches_all.present? %>
+  <?xml version="1.0"?>
+  <?mso-application progid="Excel.Sheet"?>
+  <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+    xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:x="urn:schemas-microsoft-com:office:excel"
+    xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+    xmlns:html="http://www.w3.org/TR/REC-html40">
+    <ss:Styles>
+        <ss:Style ss:ID="1">
+            <ss:Font ss:Bold="1"/>
+        </ss:Style>
+        <ss:Style ss:ID="2">
+            <ss:Font ss:Bold="1" ss:FontName="Calibri" x:Family="Swiss" ss:Size="16" ss:Color="#000000"/>
+        </ss:Style>
+    </ss:Styles>
+    <Worksheet ss:Name="reporte_despacho">
+      <Table>
+        <ss:Column ss:Width="80"/>
+        <ss:Column ss:Width="120"/>
+        <% unless @array_data[2].present?%>
+          <ss:Column ss:Width="80"/>
+          <ss:Column ss:Width="180"/>
+        <% end %>
+        <ss:Column ss:Width="80"/>
+        <ss:Column ss:Width="80"/>
+        <% unless @array_data[5].present?%>
+          <ss:Column ss:Width="80"/>
+        <% end %>
+        <% if current_user.admin? %>
+          <% unless @array_data[4].present?%>
+            <ss:Column ss:Width="240"/>
+          <% end %>
+          <ss:Column ss:Width="130"/>
+          <% end %>
+        <Row><Cell><Data ss:Type="String"></Data></Cell>
+        </Row>
+        <Row ss:StyleID="2">
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String">REPORTE CIERRE DIARIO</Data></Cell>
+        </Row>
+        <Row><Cell><Data ss:Type="String"></Data></Cell>
+        </Row>
+        <Row ss:StyleID="1">
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell ss:MergeAcross="1">
+            <Data ss:Type="String">Fecha Cierre: <%= @array_data[0].to_date%> </Data>
+          </Cell>
+          <% if @array_data[2].present?%>
+            <Cell ss:MergeAcross="2"><Data ss:Type="String">Codigo: <%= @array_data[2]%> - Producto: <%= @gmov_distpaches_all.first.name_product%></Data></Cell>
+          <% end %>
+        </Row>
+        <Row ss:StyleID="1" >
+          <% if @array_data[4].present?%>
+            <Cell><Data ss:Type="String"></Data></Cell>
+            <Cell ss:MergeAcross="1"><Data ss:Type="String">Bodega: <%= @array_data[4]%></Data></Cell>
+          <% end %>
+          <% if @array_data[5].present?%>
+            <Cell><Data ss:Type="String"></Data></Cell>
+            <Cell><Data ss:Type="String">Estado: <%= @array_data[5]%></Data></Cell>
+          <% end %>
+        </Row>
+        <Row ><Cell><Data ss:Type="String"></Data></Cell>
+        </Row>
+        <Row ss:StyleID="1">
+          <Cell><Data ss:Type="String">Folio</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Crea eDespacho</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Crea Softland</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Inicia Despacho</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha Ultimo Despacho</Data></Cell>
+          <% unless @array_data[2].present?%>
+            <Cell><Data ss:Type="String">Codigo</Data></Cell>
+            <Cell><Data ss:Type="String">Producto Despachado</Data></Cell>
+          <% end %>
+          <Cell><Data ss:Type="String">Cantidad Despachado</Data></Cell>
+          <Cell><Data ss:Type="String">Pendiente por despachar</Data></Cell>
+          <% unless @array_data[5].present?%>
+            <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <% end %>
+          <% if current_user.admin? %>
+            <% unless @array_data[4].present?%>
+              <Cell><Data ss:Type="String">Tipo Ingreso</Data></Cell>
+              <Cell><Data ss:Type="String">Bodega</Data></Cell>
+            <% end %>
+            <Cell><Data ss:Type="String">Usuario</Data></Cell>
+          <% end %>
+        </Row>
+      <% @gmov_distpaches_all.each do |gmov| %>
+        <Row>
+          <Cell><Data ss:Type="Number"><%= gmov.sale_distpach.folio %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.created_at.to_formatted_s(:db) %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.sale_distpach.fecha_crea_softland.to_formatted_s(:db) if gmov.sale_distpach.fecha_crea_softland.present? %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.fecha_inicia_despacho.to_formatted_s(:db) if gmov.fecha_inicia_despacho.present? %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= gmov.fecha_ultimo_despacho.to_formatted_s(:db) if gmov.fecha_ultimo_despacho.present? %></Data></Cell>
+          <% unless @array_data[2].present?%>
+            <Cell><Data ss:Type="String"><%= gmov.id_product  %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= gmov.name_product  %></Data></Cell>
+          <% end %>
+         <Cell><Data ss:Type="String"><%= gmov.distpached_quantity.present? ? gmov.distpached_quantity : "0.0" %></Data></Cell>
+         <Cell><Data ss:Type="String"><%= gmov.pending_distpach  %></Data></Cell>
+         <% unless @array_data[5].present?%>
+           <Cell><Data ss:Type="String"><%= gmov.status if gmov.status.present? %></Data></Cell>
+         <% end %>
+         <% if current_user.admin? %>
+          <Cell><Data ss:Type="String"><%= gmov.sale_distpach.tipo_ingreso if gmov.sale_distpach.tipo_ingreso.present? %></Data></Cell>
+          <% unless @array_data[4].present?%>
+            <Cell><Data ss:Type="String"><%= Warehouse.find(gmov.sale_distpach.id_store).name if gmov.sale_distpach.id_store.present?%></Data></Cell>
+          <% end %>
+          <Cell><Data ss:Type="String"><%= gmov.user.email if gmov.user.present? %></Data></Cell>
+        <% end %>
+        </Row>
+      <% end %>
+      </Table>
+    </Worksheet>
+  </Workbook>
+<% end %>
+

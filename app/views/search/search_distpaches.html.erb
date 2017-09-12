@@ -1,9 +1,54 @@
-  <%= form_tag sale_distpaches_path, method: :get do %>
-    <div class="form-group">
-      <%= text_field_tag :start_date, params[:start_date], class: "form-control", placeholder: "Fecha Inicio" %>
-    </div>
-    <div class="form-group">
-      <%= text_field_tag :end_date, params[:end_date], class: "form-control", placeholder: "Fecha Término" %>
-    </div>
-  <%= submit_tag "Buscar", name: nil, class: "btn btn-primary btn-md" %>
+<% if @gmov_distpaches.present? %>
+    <p>
+      Descargar: 
+      <%= link_to "Excel", search_distpaches_path(format: "xls") if current_user.admin? %>
+    </p>
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr class="bg-success">
+          <th>Folio</th>
+          <th>Fecha Crea eDespacho</th>
+          <th>Fecha Crea Softland</th>
+          <th>Fecha Inicia Despacho</th>
+          <th>Fecha último Despacho</th>
+          <th>Código</th>
+          <th>Producto Despachado</th>
+          <th>Cantidad Vendida</th>
+          <th>Cantidad Despachada</th>
+          <th>Pendiente por despachar</th>
+          <th>Estado</th>
+          <% if current_user.admin? %>
+            <th>Tipo Ingreso</th>
+            <th>Bodega</th>
+            <th>Usuario</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+    
+        <% @gmov_distpaches.each do |gmov| %>
+          <tr>
+            <td>
+              <%= link_to gmov.sale_distpach.folio, search_path(search: {type_sale: gmov.sale_distpach.id_sale_type, q: gmov.sale_distpach.folio}, commit: "Buscar") %>
+            </td>
+            <td><%= gmov.sale_distpach.created_at.to_formatted_s(:db) %> </td>
+            <td><%= gmov.sale_distpach.fecha_crea_softland.to_formatted_s(:db) if gmov.sale_distpach.fecha_crea_softland.present? %> </td>
+            <td><%= gmov.fecha_inicia_despacho.to_formatted_s(:db) if gmov.fecha_inicia_despacho.present? %> </td>
+            <td><%= gmov.fecha_ultimo_despacho.to_formatted_s(:db) if gmov.fecha_ultimo_despacho.present? %> </td>
+            <td><%= gmov.id_product %></td>
+            <td ><%= gmov.name_product %></td>
+            <td ><%= gmov.distpached_quantity.present? ? gmov.sale_check_quantity : "0.0"  %></td>
+            <td ><%= gmov.distpached_quantity.present? ? gmov.distpached_quantity : "0.0"  %></td>
+            <td ><%= gmov.pending_distpach %></td>
+            <td ><%= gmov.status if gmov.status.present?  %></td>
+            <% if current_user.admin? %>
+              <td ><%= gmov.sale_distpach.tipo_ingreso if gmov.sale_distpach.tipo_ingreso.present?  %></td>
+              <td><%= Warehouse.find(gmov.sale_distpach.id_store).name if gmov.sale_distpach.id_store.present?%></td>
+              <td><%= gmov.user.email if gmov.user.present?%></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @gmov_distpaches %>
   <% end %>

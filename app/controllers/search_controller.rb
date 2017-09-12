@@ -23,7 +23,18 @@ class SearchController < ApplicationController
   end
 
   def search_distpaches
-    
+    @array_data = Array.new
+    @array_data << Time.now
+    current_user.warehouse.present? ? @array_data << current_user.warehouse.id : @array_data << ''
+    @gmov_distpaches_all = GmovDistpach.consulta_cierre_diario(@array_data)
+    @gmov_distpaches = @gmov_distpaches_all.paginate(:page => params[:page], :per_page => 20) if @gmov_distpaches_all.present?
+    flash.now[:warning] = "No se encontraron resultados para su búsqueda" unless @gmov_distpaches.present?
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @prueba.to_csv }
+      format.xls # { send_data @prueba.to_csv(col_sep: "\t") }
+    end
     
   end
 
