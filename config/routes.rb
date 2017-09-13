@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'main/index'
 
   resources :warehouses
-  resources :sale_distpaches, only: [:create, :new, :index], shollow: true do
+  resources :sale_distpaches, only: [:create, :new, :index, :destroy], shollow: true do
   	resources :gmov_distpaches
   end
   resources :sales, only: [:show]

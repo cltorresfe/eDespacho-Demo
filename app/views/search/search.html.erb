@@ -89,8 +89,13 @@
     <div class="col-xs-6">
       <%= f.submit 'Despachar', class: 'btn btn-primary pull-right' %>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-3">
       <input class="btn btn-warning pull-right" type="button" value="Despacho Total" data-toggle="modal" data-target="#confirm-distpach"/>
+    </div>
+  <% end %>
+  <% if current_user.admin? %>
+    <div class="col-xs-3">
+        <input class="btn btn-danger pull-right" type="button" value="Eliminar Despacho" data-toggle="modal" data-target="#confirm-delete-distpach"/>
     </div>
   <% end %>
   <div class="modal fade" id="confirm-distpach" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -109,6 +114,24 @@
       </div>
     </div>
   </div>
+  <% if current_user.admin? %>
+    <div class="modal fade" id="confirm-delete-distpach" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              Administrador - Eliminar Productos Despachados
+          </div>
+          <div class="modal-body">
+              <strong>¿Está seguro que quiere ELIMINAR el Despacho a todos los productos?</strong>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <%= link_to "Eliminar", sale_distpach_path(@distpach), :method => :delete, :class=> 'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 <% end %>
 <div id="credit_note" class="modal fade" role="dialog">
     <% if @credit_note.present? %>

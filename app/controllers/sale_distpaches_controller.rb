@@ -2,8 +2,17 @@ class SaleDistpachesController < ApplicationController
 	def new
 	end
 
-	def show
-		
+	def destroy
+		@sale = SaleDistpach.find(params[:id])
+		params_search = ActionController::Parameters.new({
+			search: {
+				q: @sale.folio,
+				type_sale: @sale.id_sale_type
+			}
+		})
+		@sale.destroy!
+		redirect_to search_path(params_search), action: "search", success: 'Despacho Eliminado satisfactoriamente.'
+
 	end
 
 	def create
