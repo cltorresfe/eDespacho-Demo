@@ -1,7 +1,7 @@
 <% if @gmov_distpaches.present? %>
     <p>
       Descargar: 
-      <%= link_to "Excel", search_distpaches_path(format: "xls") if current_user.admin? %>
+      <%= link_to "Excel", search_distpaches_path(format: "xls") %>
     </p>
     <table class="table table-sm table-hover">
       <thead>
