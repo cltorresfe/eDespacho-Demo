@@ -8,19 +8,20 @@ namespace :imprime do
   	7715.times do  		
 		  #... content of the loop
 		  min = Time.now - 4.hours - 3.minutes
-		  puts "Rango Consulta: #{Time.now - 2.minutes} - #{Time.now} "
-		  my_logger.info( "Rango Consulta: #{Time.now - 2.minutes} - #{Time.now} ")
-		  puts "Consultando a BD Softland..."
-		  products = Sale.last_products(min, Time.now,6 )
+		  puts "Rango Consulta Bodega 6: #{Time.now - 2.minutes} - #{Time.now} "
+		  my_logger.info( "Rango Consulta Rango Consulta Bodega 06: #{Time.now - 2.minutes} - #{Time.now} ")
+		  puts "Consultando a BD Softland Bodega 6..."
+		  products = Sale.last_products(min, Time.now,"06" )
 		  t = Time.now
 		  products_within_print = []
 		  puts "Cantidad de Productos encontrados: #{products.length}"
 		  my_logger.info( "Cantidad de Productos encontrados: #{products.length}")
 		  if(products.length > 0)
-			  puts "Consultando folios existentes en BD eDespacho..."
+			  puts "Consultando folios existentes en BD eDespacho bodega 06..."
 	    	page_size = 0
 	    	products.each do |sale|
 	    	  my_logger.info( "Producto Softland: #{sale.Folio} - Tipo: #{sale.Tipo} ")	
+	    	  puts "Producto Softland: #{sale.Folio} - Tipo: #{sale.Tipo}"
 	    		printer = Printer.where(folio: sale.Folio, id_gsaen: sale.NroInt).take
 	    		if( printer.present?)	    				    			
 	    			if(printer.imprime_at < (Time.now - 25))
@@ -100,7 +101,7 @@ namespace :imprime do
 				 	pdf.move_down 85
 				 	pdf.text "\r \n"+"p:"+page_size.to_s
 				 	puts "Guardando PDF..."
-				 	pdf.render_file "C:/eDespacho/output.pdf"
+				 	pdf.render_file "C:/eDespacho/output_bodega6.pdf"
 				 	puts "Enviando a imprimir PDF..."
 				 	my_logger.info( "Enviando a imprimir productos... ")	
 					printer = '\\Bodega_51/BIXOLON SRP-350II (Copiar 1)'
