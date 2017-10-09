@@ -11,5 +11,6 @@
  * file per style scope.
  *= require_tree .
  *= require bootstrap-datepicker3
+ *= require morris
  *= require_self
  */
