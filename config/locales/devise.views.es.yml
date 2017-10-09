@@ -3,6 +3,7 @@ es:
     attributes:
       user:
         current_password: Contraseña actual
+        full_name: Nombre Completo
         email: Correo electrónico
         password: Contraseña
         password_confirmation: Confirma contraseña
