@@ -74,7 +74,7 @@
             <td><%= gmov.fecha_ultimo_despacho.to_formatted_s(:db) if gmov.fecha_ultimo_despacho.present? %> </td>
             <td><%= gmov.id_product %></td>
             <td ><%= gmov.name_product %></td>
-            <td ><%= gmov.distpached_quantity.present? ? gmov.sale_check_quantity : "0.0"  %></td>
+            <td ><%= gmov.sale_check_quantity.present? ? gmov.sale_check_quantity : "0.0"  %></td>
             <td ><%= gmov.distpached_quantity.present? ? gmov.distpached_quantity : "0.0"  %></td>
             <td ><%= gmov.pending_distpach %></td>
             <td ><%= gmov.status if gmov.status.present?  %></td>
