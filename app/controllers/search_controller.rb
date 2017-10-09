@@ -39,11 +39,16 @@ class SearchController < ApplicationController
   end
 
   def search_costs
-      if  params[:costo].blank?
-        flash[:warning] = "Debe ingresar una fecha de Inicio y Termino"
-      else
-        flash[:warning] = "se encontraron resultados para su búsqueda" 
-      end
+    if  params[:costo].blank?
+      flash[:warning] = "Debe ingresar una fecha de Inicio y Termino"
+    else
+      flash[:warning] = "se encontraron resultados para su búsqueda" 
+    end
+    respond_to do |format|
+      format.html
+      format.pdf { render template: 'search/search_cotizacion', pdf: 'Cotizacion' }
+      format.xls # { send_data @prueba.to_csv(col_sep: "\t") }
+    end
 
   end
 

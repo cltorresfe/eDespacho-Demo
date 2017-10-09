@@ -26,6 +26,8 @@ gem 'bootstrap-datepicker-rails'
 gem 'prawn', '~> 2.1'
 gem "prawn-labels"
 gem 'prawn-table'
+gem 'wicked_pdf', '~> 0.9.10'
+gem 'wkhtmltopdf-binary', '~> 0.9.9'
 
 gem 'pry-byebug'
 gem 'hirb'
