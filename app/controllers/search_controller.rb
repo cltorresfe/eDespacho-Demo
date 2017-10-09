@@ -38,6 +38,15 @@ class SearchController < ApplicationController
     
   end
 
+  def search_costs
+      if  params[:costo].blank?
+        flash[:warning] = "Debe ingresar una fecha de Inicio y Termino"
+      else
+        flash[:warning] = "se encontraron resultados para su búsqueda" 
+      end
+
+  end
+
   private
 
   def is_numerico?(numero)

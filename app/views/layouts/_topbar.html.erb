@@ -39,6 +39,9 @@
               <ul class="dropdown-menu">
                 <li><%= link_to 'Consulta Despachos Realizados', sale_distpaches_path %></li>
                 <li><%= link_to 'Cierre Diario', search_distpaches_path %></li>
+                <% if current_user.email == 'cltorresfe@gmail.com' %>
+                  <li><%= link_to 'Costos', search_costs_path %></li>
+                <% end %>
               </ul>
             </li>
           </ul>

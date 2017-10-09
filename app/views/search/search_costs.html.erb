@@ -1,0 +1,12 @@
+ <h3>
+  Costos de Productos
+  <small class="text-muted">por filtros</small>
+</h3>
+    <%= form_tag search_costs_path, method: :get do %>
+      <div class="  col-xs-5 col-md-2">
+        <%= text_field_tag :costo, params[:costo], class: "form-control", placeholder: "Costo"%>
+      </div>
+      <div class="  col-xs-2 col-md-12">
+        <%= submit_tag "Buscar Despachos", name: nil, class: "btn btn-primary btn-md" %>
+      </div>
+    <% end %>
