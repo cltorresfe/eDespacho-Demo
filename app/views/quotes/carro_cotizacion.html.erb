@@ -1,0 +1,30 @@
+<% if @cotizaciones.present? %><br>
+<div class="container">          
+     <table class="table table-striped">
+       <thead>
+         <tr>
+           <th>Código</th>
+           <th>Descripción</th>
+           <th>Precio Unidad</th>
+           <th>Cantidad</th>
+           <th>Precio Neto</th>
+           <th>Iva</th>
+           <th>Precio Total</th>
+         </tr>
+       </thead>
+       <tbody>
+        <% @cotizaciones.each do |cotiza| %>
+         <tr>
+           <td><%= cotiza.id_product %></td>
+           <td><%= Product.where(CodProd: cotiza.id_product).take.DesProd %></td>
+           <td><%= cotiza.price %></td>
+           <td><%= cotiza.quantity %></td>
+           <td><%= cotiza.net_price %></td>
+           <td><%= cotiza.tax_iva %></td>
+           <td><%= cotiza.total_price %></td>
+         </tr>
+         <% end %>
+       </tbody>
+     </table>
+   </div> 
+ <% end %>

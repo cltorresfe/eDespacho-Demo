@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get "search" => "search#search", as: :search
   get "search_distpaches" => "search#search_distpaches", as: :search_distpaches
   get "search_costs" => "search#search_costs", as: :search_costs
+  get "carro_cotizacion" => "quotes#carro_cotizacion", as: :carro_cotizacion
   post "llamada_ajax" => "search#llamada_ajax", as: :llamada_ajax
   
 

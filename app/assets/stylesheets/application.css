@@ -12,5 +12,6 @@
  *= require_tree .
  *= require bootstrap-datepicker3
  *= require morris
+ *= require font-awesome
  *= require_self
  */
