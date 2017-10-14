@@ -12,10 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require raphael
-//= require morris
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
+//= require raphael
+//= require morris
 //= require_tree .

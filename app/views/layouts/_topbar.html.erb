@@ -16,7 +16,6 @@
       <%= form_for :search, url: search_path, html: {class: 'navbar-form navbar-left'}, method: :get do |f| %>
         <div class="input-group">
           <span class="input-group-btn">
-            <div class="btn-group">
                 <input type="button" class="btn dropdown-toggle" data-toggle="dropdown" id="button-drpdown-toggle" value="selecciona..." style="width: 100px;"/>
                 <%= f.hidden_field :type_sale %>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
@@ -25,10 +24,12 @@
                <li><a tabindex="-1" id="d_guide">Salida</a></li>
                <li><a tabindex="-1" id="d_gap">Gaps</a></li>
             </ul>
-            </div>
           </span>
           <%= f.text_field :q, class: 'form-control', style: "width: 260px;", readonly: true %>
-          <%= f.submit "Buscar", class: 'botton btn btn-default' %>
+          <span class="input-group-btn">
+             <%= f.submit "Buscar", class: 'btn btn-default' %>
+          </span>
+          
         </div>
       <% end %>
       <ul class="nav navbar-nav navbar-right">
@@ -39,7 +40,7 @@
               <ul class="dropdown-menu">
                 <li><%= link_to 'Consulta Despachos Realizados', sale_distpaches_path %></li>
                 <li><%= link_to 'Cierre Diario', search_distpaches_path %></li>
-                <% if current_user.email == 'cltorresfe@gmail.com' %>
+                <% if current_user.email == 'cltorresfe@gmail.com' || current_user.email == 'prueba_ingeniero@gmail.com' || current_user.email == 'digwiljjp@hotmail.com' %>
                   <li><%= link_to 'Costos', search_costs_path %></li>
                 <% end %>
               </ul>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  id_product: MyString
+  price: 1
+  quantity: 1
+  margin: 1.5
+  net_price: 1
+
+two:
+  user_id: 
+  id_product: MyString
+  price: 1
+  quantity: 1
+  margin: 1.5
+  net_price: 1

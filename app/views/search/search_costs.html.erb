@@ -4,10 +4,156 @@
 </h3>
 <div id="costosDiv"></div>
     <%= form_tag search_costs_path, method: :get do %>
-      <div class="  col-xs-5 col-md-2">
-        <%= text_field_tag :costo, params[:costo], class: "form-control", placeholder: "Costo"%>
+    <div class="row">
+      <div class="  col-xs-5 col-md-4">
+        <%= text_field_tag :CodProd, params[:CodProd], class: "form-control", placeholder: "Ingrese Código Producto"%>
       </div>
-      <div class="  col-xs-2 col-md-12">
-        <%= submit_tag "Buscar Despachos", name: nil, class: "btn btn-primary btn-md" %>
+      <div class="  col-xs-2 col-md-8">
+        <%= submit_tag "Buscar Producto", name: nil, class: "btn btn-primary btn-md" %>
+      </div>
+    </div>
+    <% end %>
+    <% if @costos_producto.present? %><br>
+      <div class="panel panel-primary">
+        <div class="panel-heading"><%= @costos_producto.product.DesProd %></div>
+        <div class="panel-body">
+          <div class=" col-md-8 col-lg-8 ">  
+            <table class="table table-user-information">
+             <tbody>
+               <tr>
+                 <th>Código:</th>
+                 <td><%=@costos_producto.CodProd %></td>
+               </tr>
+               <tr>
+                 <th>Fecha Costo:</td>
+                 <td><%=@costos_producto.Fecha.to_date %></td>
+               </tr>
+               <tr>
+                 <th>Costo Unitario:</th>
+                 <td>$ <%=number_with_delimiter(@costos_producto.CostoUnitario.to_i, delimiter: ".") %>
+                   <input type="hidden" name="costo" id="costo" value="<%=@costos_producto.CostoUnitario.to_i %>">
+                   <input type="hidden" name="precio" id="precio">
+                   <input type="hidden" name="precio_con_iva" id="precio_con_iva">
+                   <input type="hidden" name="id_product" id="id_product" value="<%=@costos_producto.CodProd %>">
+                 </td>
+               </tr>
+              <tr>
+                 <th>Stock:</td>
+                 <td><%=@costos_producto.Stock %></td>
+               </tr>
+                 <tr>
+                 <th>Pendiente Despacho:</th>
+                 <td><%=@pending_distpach%></td>
+               </tr>
+               <tr>
+                 <th>Margen (%):</th>
+                 <td><input type="text" name="margen" id="margen" class="form-control" placeholder="ingrese porcentaje" ></td>
+               </tr>
+               <tr><th>Cantidad:</th>
+                 <td><input type="text" name="cantidad" id="cantidad" class="form-control" placeholder="ingrese cantidad" >
+                 </td>
+                    
+               </tr>
+              
+             </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="llamada()">Agregar</button>
+          </div> 
+          <div class="row col-xs-12 col-md-4">                              
+            <div class="col-xs-12" id="precio_text"></div><br><br>
+            <div class="col-xs-12" id="precio_iva_text"></div><br><br>
+            <div class="col-xs-12" id="precio_con_iva_text"></div>
+            <div class="col-xs-12" id="total_text"></div>
+          </div>
+        </div>
       </div>
     <% end %>
+    <div id="llamada_x"></div>
+<% if current_user.email == 'cltorresfe@gmail.com' || current_user.email == 'prueba_ingeniero@gmail.com' %>
+  <!-- <div class="container">          
+     <table class="table table-striped">
+       <thead>
+         <tr>
+           <th>Firstname</th>
+           <th>Lastname</th>
+           <th>Email</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td>John</td>
+           <td>Doe</td>
+           <td>john@example.com</td>
+         </tr>
+         <tr>
+           <td>Mary</td>
+           <td>Moe</td>
+           <td>mary@example.com</td>
+         </tr>
+         <tr>
+           <td>July</td>
+           <td>Dooley</td>
+           <td>july@example.com</td>
+         </tr>
+       </tbody>
+     </table>
+   </div> 
+   -->              
+<% end %>
+
+    <script>
+    $(document).ready(function(){
+        $("#margen").keyup(function(event){
+          var factor = ($("#margen").val()/100)+1;
+          var precio = parseInt($("#costo").val()*factor);
+          var iva = parseInt(precio * 0.19);
+          var precio_con_iva = precio+ iva;
+          $("#precio_text").html("El precio neto es: <div class='texto_mediano'>$" +format_numero_separador_miles(parseInt(precio))+"</div>"  );
+          $("#precio_iva_text").html("Impuesto Iva: <div class='texto_mediano'>$" +format_numero_separador_miles(parseInt(iva))+"</div>"  );
+          $("#precio_con_iva_text").html("Precio: <div class='texto_grande'>$" +format_numero_separador_miles(parseInt(precio_con_iva))+"</div>"  );
+          $("#precio").val(precio);
+          $("#precio_con_iva").val(precio_con_iva);
+          if($("#cantidad").val() != ""  && $("#margen").val() != ""){
+            var total = $("#precio_con_iva").val()*$("#cantidad").val();
+            $("#total_text").html("Total: <div class='texto_grande alert alert-success'>$" +format_numero_separador_miles(parseInt(total))+"</div>"  );
+          }else{
+            $("#total_text").html("");
+          }
+        });
+        $("#cantidad").keyup(function(event){
+          if($("#precio").val() != ""){
+            var total = $("#precio_con_iva").val()*$("#cantidad").val();
+            $("#total_text").html("Total: <div class='texto_grande alert alert-success'>$" +format_numero_separador_miles(parseInt(total))+"</div>"  );  
+          }
+        }); 
+    });
+     function llamada(){
+      var precio = $("#precio_con_iva").val();
+      var cantidad = $("#cantidad").val();
+      var margen = $("#margen").val();
+      var precio_neto = $("#precio").val();
+      var id_product = $("#id_product").val();
+      $.ajax({
+              url:'/llamada_ajax',
+              type:'POST',
+              dataType:'json',
+              data:{ cotiza:{
+                  price: precio,
+                  quantity: cantidad,
+                  margin: margen,
+                  net_price: precio_neto,
+                  id_product: id_product}
+              },
+              success:function(data){
+                $("#llamada_x").html("<div class='alert alert-success'>Datos añadidos al carro de cotizaciones.</div>");
+                //alertModal("Datos añadidos al carro de cotizaciones.");
+                  console.log(data);
+              },
+              error:function(data){
+                  console.log("errorr rr");
+              }
+          });
+    }
+  </script>
+
+

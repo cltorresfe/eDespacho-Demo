@@ -39,10 +39,11 @@ class SearchController < ApplicationController
   end
 
   def search_costs
-    if  params[:costo].blank?
-      flash[:warning] = "Debe ingresar una fecha de Inicio y Termino"
+    if  params[:CodProd].blank?
+      flash.now[:warning] = "Debe ingresar un Código de Producto"
     else
-      flash[:warning] = "se encontraron resultados para su búsqueda" 
+      @costos_producto = Costo.where(CodProd: params[:CodProd]).last
+      @pending_distpach = GmovDistpach.where("id_product = ? and pending_distpach > 0 ", params[:CodProd]).sum(:pending_distpach)
     end
     respond_to do |format|
       format.html
@@ -50,6 +51,20 @@ class SearchController < ApplicationController
       format.xls # { send_data @prueba.to_csv(col_sep: "\t") }
     end
 
+  end
+
+  def llamada_ajax
+    
+    @quote = Quote.new(quote_params)
+    @quote.user = current_user
+    if @quote.save
+      respond_to do |format|
+        format.json { render :json => @quote.to_json }
+      end
+    else
+      render action:search_costs
+    end
+    
   end
 
   private
@@ -193,5 +208,10 @@ class SearchController < ApplicationController
     else
       redirect_to root_path, danger: 'Debe indicar primero la cantidad de resultados que quiere obtener luego un # y posteriormente el código de la bodega. Ejemplo: 20#03'
     end
+  end
+
+  private
+  def quote_params
+    params.require(:cotiza).permit(:id_product, :price, :quantity, :margin, :net_price )
   end
 end
