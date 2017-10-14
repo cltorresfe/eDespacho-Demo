@@ -35,11 +35,12 @@
                    <input type="hidden" name="precio" id="precio">
                    <input type="hidden" name="precio_con_iva" id="precio_con_iva">
                    <input type="hidden" name="id_product" id="id_product" value="<%=@costos_producto.CodProd %>">
+                   <input type="hidden" name="tax_iva" id="tax_iva" value="0.19">
                  </td>
                </tr>
               <tr>
                  <th>Stock:</td>
-                 <td><%=@costos_producto.Stock %></td>
+                 <td><%=@stock %></td>
                </tr>
                  <tr>
                  <th>Pendiente Despacho:</th>
@@ -52,14 +53,13 @@
                <tr><th>Cantidad:</th>
                  <td><input type="text" name="cantidad" id="cantidad" class="form-control" placeholder="ingrese cantidad" >
                  </td>
-                    
                </tr>
-              
              </tbody>
             </table>
-            <button class="btn btn-primary" onclick="llamada()">Agregar</button>
+            <button class="btn btn-primary" onclick="llamada()"><i class="fa fa-shopping-cart"></i> Agregar</button><br>
+            <div class="row col-xs-12" id="llamada_x"></div>
           </div> 
-          <div class="row col-xs-12 col-md-4">                              
+          <div class="row col-xs-12 col-md-4" id="info_precios_div">                              
             <div class="col-xs-12" id="precio_text"></div><br><br>
             <div class="col-xs-12" id="precio_iva_text"></div><br><br>
             <div class="col-xs-12" id="precio_con_iva_text"></div>
@@ -68,45 +68,21 @@
         </div>
       </div>
     <% end %>
-    <div id="llamada_x"></div>
-<% if current_user.email == 'cltorresfe@gmail.com' || current_user.email == 'prueba_ingeniero@gmail.com' %>
-  <!-- <div class="container">          
-     <table class="table table-striped">
-       <thead>
-         <tr>
-           <th>Firstname</th>
-           <th>Lastname</th>
-           <th>Email</th>
-         </tr>
-       </thead>
-       <tbody>
-         <tr>
-           <td>John</td>
-           <td>Doe</td>
-           <td>john@example.com</td>
-         </tr>
-         <tr>
-           <td>Mary</td>
-           <td>Moe</td>
-           <td>mary@example.com</td>
-         </tr>
-         <tr>
-           <td>July</td>
-           <td>Dooley</td>
-           <td>july@example.com</td>
-         </tr>
-       </tbody>
-     </table>
-   </div> 
-   -->              
-<% end %>
 
     <script>
     $(document).ready(function(){
+        var impuesto_iva = $("#tax_iva").val();
         $("#margen").keyup(function(event){
+          $("#llamada_x").html("");
+          if($("#margen").val() <11){
+            $("#llamada_x").html("<div class='alert alert-danger'>El margen debe ser mayor a 10%.</div>");
+            $("#info_precios_div").hide();
+            return;
+          }
+          $("#info_precios_div").show();
           var factor = ($("#margen").val()/100)+1;
           var precio = parseInt($("#costo").val()*factor);
-          var iva = parseInt(precio * 0.19);
+          var iva = parseInt(precio * impuesto_iva);
           var precio_con_iva = precio+ iva;
           $("#precio_text").html("El precio neto es: <div class='texto_mediano'>$" +format_numero_separador_miles(parseInt(precio))+"</div>"  );
           $("#precio_iva_text").html("Impuesto Iva: <div class='texto_mediano'>$" +format_numero_separador_miles(parseInt(iva))+"</div>"  );
@@ -128,10 +104,13 @@
         }); 
     });
      function llamada(){
-      var precio = $("#precio_con_iva").val();
+      var impuesto_iva = $("#tax_iva").val();
+      var precio = $("#precio").val();
       var cantidad = $("#cantidad").val();
       var margen = $("#margen").val();
-      var precio_neto = $("#precio").val();
+      var precio_neto = precio * cantidad;
+      var tax_iva = precio_neto * impuesto_iva;
+      var total_price = precio_neto + tax_iva;
       var id_product = $("#id_product").val();
       $.ajax({
               url:'/llamada_ajax',
@@ -142,12 +121,19 @@
                   quantity: cantidad,
                   margin: margen,
                   net_price: precio_neto,
+                  tax_iva: tax_iva,
+                  total_price: total_price,
                   id_product: id_product}
               },
               success:function(data){
                 $("#llamada_x").html("<div class='alert alert-success'>Datos añadidos al carro de cotizaciones.</div>");
-                //alertModal("Datos añadidos al carro de cotizaciones.");
-                  console.log(data);
+                if(parseInt($("#badge_cantidad_carro_cotizacion_top_bar").text()) != '0'){
+                  var cantidad = parseInt($("#badge_cantidad_carro_cotizacion_top_bar").text())+1;
+                  $("#badge_cantidad_carro_cotizacion_top_bar").text(cantidad);
+                }else{
+                  $("#display_carro").show();
+                  $("#badge_cantidad_carro_cotizacion_top_bar").text(1); 
+                }
               },
               error:function(data){
                   console.log("errorr rr");

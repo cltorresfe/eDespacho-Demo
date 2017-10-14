@@ -43,6 +43,8 @@ class SearchController < ApplicationController
       flash.now[:warning] = "Debe ingresar un Código de Producto"
     else
       @costos_producto = Costo.where(CodProd: params[:CodProd]).last
+      @compra_ventas_producto = Gmov.where(CodProd: params[:CodProd], Actualizado: -1)
+      @stock = @compra_ventas_producto.sum(:CantIngresada) - @compra_ventas_producto.sum(:CantDespachada)
       @pending_distpach = GmovDistpach.where("id_product = ? and pending_distpach > 0 ", params[:CodProd]).sum(:pending_distpach)
     end
     respond_to do |format|
@@ -212,6 +214,6 @@ class SearchController < ApplicationController
 
   private
   def quote_params
-    params.require(:cotiza).permit(:id_product, :price, :quantity, :margin, :net_price )
+    params.require(:cotiza).permit(:id_product, :price, :quantity, :margin, :net_price, :total_price, :tax_iva )
   end
 end
