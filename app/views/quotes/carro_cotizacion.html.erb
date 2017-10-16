@@ -13,17 +13,29 @@
            <th>Precio Total</th>
          </tr>
        </thead>
+       <tfoot>
+         <tr>
+           <td></td>
+           <td>TOTALES</td>
+           <td><%= number_with_delimiter(@cotizaciones.sum(:cost_product), delimiter: ".") %></td>
+           <td><%= number_with_delimiter(@cotizaciones.sum(:net_price), delimiter: ".") %></td>
+           <td><%= number_with_delimiter(@cotizaciones.sum(:tax_iva), delimiter: ".") %></td>
+           <td><%= number_with_delimiter(@cotizaciones.sum(:price), delimiter: ".") %></td>
+           <td></td>
+           <td><%= number_with_delimiter(@cotizaciones.sum(:total_price), delimiter: ".") %></td>
+         </tr>
+       </tfoot>
        <tbody>
         <% @cotizaciones.each do |cotiza| %>
          <tr>
            <td><%= cotiza.id_product %></td>
            <td><%= Product.where(CodProd: cotiza.id_product).take.DesProd %></td>
-           <td><%= cotiza.cost_product %></td>
-           <td><%= cotiza.net_price %></td>
-           <td><%= cotiza.tax_iva %></td>
-           <td><%= cotiza.price %></td>
+           <td><%= number_with_delimiter(cotiza.cost_product, delimiter: ".") %></td>
+           <td><%= number_with_delimiter(cotiza.net_price, delimiter: ".") %></td>
+           <td><%= number_with_delimiter(cotiza.tax_iva, delimiter: ".") %></td>
+           <td><%= number_with_delimiter(cotiza.price, delimiter: ".") %></td>
            <td><%= cotiza.quantity %></td>
-           <td><%= cotiza.total_price %></td>
+           <td><%= number_with_delimiter(cotiza.total_price, delimiter: ".") %></td>
          </tr>
          <% end %>
        </tbody>
