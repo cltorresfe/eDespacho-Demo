@@ -214,6 +214,6 @@ class SearchController < ApplicationController
 
   private
   def quote_params
-    params.require(:cotiza).permit(:id_product, :price, :quantity, :margin, :net_price, :total_price, :tax_iva )
+    params.require(:cotiza).permit(:id_product, :price, :quantity, :margin, :net_price, :total_price, :tax_iva, :cost_product )
   end
 end

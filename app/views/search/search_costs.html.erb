@@ -33,6 +33,7 @@
                  <td>$ <%=number_with_delimiter(@costos_producto.CostoUnitario.to_i, delimiter: ".") %>
                    <input type="hidden" name="costo" id="costo" value="<%=@costos_producto.CostoUnitario.to_i %>">
                    <input type="hidden" name="precio" id="precio">
+                   <input type="hidden" name="precio_iva" id="precio_iva">
                    <input type="hidden" name="precio_con_iva" id="precio_con_iva">
                    <input type="hidden" name="id_product" id="id_product" value="<%=@costos_producto.CodProd %>">
                    <input type="hidden" name="tax_iva" id="tax_iva" value="0.19">
@@ -88,6 +89,7 @@
           $("#precio_iva_text").html("Impuesto Iva: <div class='texto_mediano'>$" +format_numero_separador_miles(parseInt(iva))+"</div>"  );
           $("#precio_con_iva_text").html("Precio: <div class='texto_grande'>$" +format_numero_separador_miles(parseInt(precio_con_iva))+"</div>"  );
           $("#precio").val(precio);
+          $("#precio_iva").val(iva);
           $("#precio_con_iva").val(precio_con_iva);
           if($("#cantidad").val() != ""  && $("#margen").val() != ""){
             var total = $("#precio_con_iva").val()*$("#cantidad").val();
@@ -104,24 +106,27 @@
         }); 
     });
      function llamada(){
-      var impuesto_iva = $("#tax_iva").val();
-      var precio = $("#precio").val();
-      var cantidad = $("#cantidad").val();
+      var costo = $("#costo").val();
       var margen = $("#margen").val();
-      var precio_neto = precio * cantidad;
-      var tax_iva = precio_neto * impuesto_iva;
-      var total_price = precio_neto + tax_iva;
+      var impuesto_iva = $("#tax_iva").val();
+      var net_price = $("#precio").val();
+      var tax_iva = $("#precio_iva").val();
+      var precio_con_iva = $("#precio_con_iva").val();
+      var cantidad = $("#cantidad").val();
+      var total_price = precio_con_iva * cantidad;
+
       var id_product = $("#id_product").val();
       $.ajax({
               url:'/llamada_ajax',
               type:'POST',
               dataType:'json',
               data:{ cotiza:{
-                  price: precio,
-                  quantity: cantidad,
+                  cost_product: costo,
                   margin: margen,
-                  net_price: precio_neto,
+                  net_price: net_price,
                   tax_iva: tax_iva,
+                  price: precio_con_iva,
+                  quantity: cantidad,
                   total_price: total_price,
                   id_product: id_product}
               },
