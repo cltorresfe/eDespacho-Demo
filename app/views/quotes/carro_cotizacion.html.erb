@@ -5,10 +5,11 @@
          <tr>
            <th>Código</th>
            <th>Descripción</th>
-           <th>Precio Unidad</th>
-           <th>Cantidad</th>
+           <th>Costo Producto</th>
            <th>Precio Neto</th>
            <th>Iva</th>
+           <th>Precio Bruto</th>
+           <th>Cantidad</th>
            <th>Precio Total</th>
          </tr>
        </thead>
@@ -17,10 +18,11 @@
          <tr>
            <td><%= cotiza.id_product %></td>
            <td><%= Product.where(CodProd: cotiza.id_product).take.DesProd %></td>
-           <td><%= cotiza.price %></td>
-           <td><%= cotiza.quantity %></td>
+           <td><%= cotiza.cost_product %></td>
            <td><%= cotiza.net_price %></td>
            <td><%= cotiza.tax_iva %></td>
+           <td><%= cotiza.price %></td>
+           <td><%= cotiza.quantity %></td>
            <td><%= cotiza.total_price %></td>
          </tr>
          <% end %>
@@ -28,3 +30,47 @@
      </table>
    </div> 
  <% end %>
+ <!-- Trigger the modal with a button -->
+ <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#cotizacion_modal">Cotizar</button>
+ <!-- Modal -->
+ <div id="cotizacion_modal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Datos Cliente  para exportar PDF</h4>
+       </div>
+       <%= form_tag carro_cotizacion_path(format: "pdf"), method: :get, class: "form-horizontal" do %>
+       <div class="modal-body">
+           <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-10">
+             <label for="rut_cliente">Rut:</label>
+             <%= text_field_tag :rut_cliente, params[:rut_cliente], class: "form-control", placeholder: "Ingrese Rut Cliente"%>
+            </div>
+           </div>
+           <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-10">
+             <label for="nombre_cliente">Nombre:</label>
+             <%= text_field_tag :nombre_cliente, params[:nombre_cliente], class: "form-control", placeholder: "Ingrese Nombre Cliente"%>
+            </div>
+           </div>
+           <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-10">
+             <label for="direccion_cliente">Dirección:</label>
+             <%= text_field_tag :direccion_cliente, params[:direccion_cliente], class: "form-control", placeholder: "Ingrese Dirección Cliente"%>
+             </div>
+           </div>
+         </div>
+       <div class="modal-footer">
+          <%= submit_tag "Exportar PDF", name: nil, class: "btn btn-primary btn-md fa fa-file-pdf-o" do %>
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+         <% end %>
+         <a data-toggle="modal" data-dismiss="modal">cancelar</a>
+       </div>
+       <% end %>
+     </div>
+
+   </div>
+ </div>

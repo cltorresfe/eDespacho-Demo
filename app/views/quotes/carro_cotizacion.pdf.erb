@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+    <%= wicked_pdf_javascript_include_tag "number_pages" %>
+    <style type="text/css">
+        body {
+         width: 100%;
+         margin: 10px;
+         font-family: Lucida Grande, Verdana, Sans-serif;
+         font-size: 17px;
+        }
+    
+        h1 {
+         color: #444;
+         background-color: transparent;
+         border-bottom: 1px solid #D0D0D0;
+         font-size: 39px;
+         font-weight: bold;
+         margin: 24px 0 2px 0;
+         padding: 5px 0 6px 0;
+        }
+    
+        h2 {
+         font-size: 19px;
+         font-weight: bold;
+         margin: -10px 16px 25px 0;
+         padding: 25px 0 6px 0;
+        }
+
+        h3 {
+         font-size: 19px;
+         font-weight: bold;
+        }
+
+        .tabla_cotizaciones tr:nth-child(even) {background-color: #f2f2f2}
+    
+        .tabla_cotizaciones table{
+        	border-collapse: collapse;
+        	border: 1px solid #ddd;
+          font-size: 16px;
+        }
+        .tabla_cotizaciones table, td, th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .tabla_cotizaciones tr{
+        	border: 1px solid #ddd;
+        }
+
+        .footer_sucursales table{
+          border-collapse: collapse;
+          font-size: 12px;
+        }
+        .footer_sucursales table, td, th {
+            border: 0px;
+            text-align: left;
+        }
+
+        tfoot {
+            border: 0px solid #ddd;
+        }
+
+        tbody {
+          border: 1px solid #ddd;
+        }
+
+        ul {
+          padding-left:0;
+          margin-left:10;
+        }
+        .title_header{
+          color: #ddd;
+          position: fixed;
+          top: -6px;
+          left: 630px;
+        }
+        .table_footer{
+          color: #710909;
+          font-size: 23px;
+        }
+        .table_footer_total{
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .pagina { 
+          width: 98%;
+          height: 95%;
+        }
+        .unidades{
+          margin-top: 2px;
+        }
+    
+        /* estilos para el footer y el numero de pagina */
+        @page { 
+          margin: 35px 80px;
+         }
+        #header { 
+            position: fixed;
+            left: 0px; 
+            top: 8px;
+            right: 0px; 
+            height: 40px; 
+            text-align: left; 
+        }
+        #footer { 
+            position: fixed; 
+            left: 0px; 
+            bottom: 10px;
+            right: 0px;  
+        }
+        #footer .page:after { 
+            content: counter(page, upper-roman);
+        }
+        div.absolute {
+            position: absolute;
+            top: 200px;
+            right: 40;
+            width: 200px;
+        }
+        div.tabla_cotizaciones {
+          position: relative;
+          left: -1;
+          width: 1000px;
+          z-index: 1;
+        }
+        #footer_firma {
+            position: relative;
+            width: 600px;
+            font-size: 13px;
+            /*border: 1px dotted #ddd;*/
+        }
+        #footer_persona_firma{
+          position: relative;
+          top: 120px;
+          width: 600px;
+          left: 140px;
+          font-size: 18px;
+          /*border: 1px double;*/
+        }
+
+        #footer_sucursales{
+          position: absolute;
+          font-size: 12px;
+          top: 260px;
+          left: 400px;
+          width: 640px;
+          /*border: 1px solid #f2f;*/
+        }
+        #top_logo{
+          position: relative;
+          top: -10px;
+          width: 40px;
+          height: 20px;
+        }
+    </style>
+  </head>
+  <body onload='number_pages'>
+    <div id="header">
+      ACOMA SPA <br>Isabel Riquelme 942 <br>
+      Rut: 77.258.350-8
+      <div style="text-decoration: underline;">
+          Chillán
+      </div>
+    </div>
+    <div id="content">
+      <div id="top_logo" style="z-index: 0;">
+          <img src="/turnos_contratos/assets/images/logo_herminda.png">
+      </div>
+      <div id="header" style="z-index: 1;">  
+        <div class="title_header">
+          Sistema S@M Software - Soluciones a la Medida
+        </div>
+      </div>
+      <div class="pagina" style="z-index: 2;">
+        <div align="center" style="z-index: 3;"><h1><strong>COTIZACIÓN</strong></h1> <br>
+        <div align="right" style="z-index: 2;">Chillán, <%= Date.today.day %> de <%= %w{dummy Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre}[Date.today.month] %> de <%= Date.today.year%></div><br></div>
+        <div style="z-index: 2;text-align: justify;">
+          <br>
+          SEÑORES: <%= @nombre_cliente %> <BR><BR>
+          RUT: <%= @rut_cliente %> <br><br>
+        </div><br>
+        <h2 align="left" style="z-index: 4;">PRESENTE<br></h2>
+        <div style="z-index: 4;text-align: justify;">Por medio de la presente me es grato cotizar lo que sigue:
+        </div><br>
+        <div class="tabla_cotizaciones" style="z-index: 4;">
+         <table>
+          <thead>
+            <tr>
+              <th width="160">CÓDIGO</th>
+              <th width="520">PRODUCTOS</th>
+              <th width="60">CANT.</th>
+              <th width="130">VALOR UN.</th>
+              <th width="130">TOTAL</th>
+            </tr>
+          </thead>
+          <tfoot>
+              <tr>
+                <td></td>
+                <td class="table_footer">VALORES C/IVA INCLUÍDO</td>
+                <td></td>
+                <td class="table_footer_total">TOTAL</td>
+                <td class="table_footer_total"><%= number_with_delimiter(@cotizaciones.sum(:total_price), delimiter: ".")  %></td>
+              </tr>
+            </tfoot>
+ 	         <tbody>
+ 	          <% @cotizaciones.each do |cotiza| %>
+ 	           <tr>
+ 	             <td><%= cotiza.id_product %></td>
+ 	             <td><%= Product.where(CodProd: cotiza.id_product).take.DesProd %></td>
+ 	             <td><%= cotiza.quantity %></td>
+ 	             <td><%= number_with_delimiter(cotiza.price, delimiter: ".") %></td>
+ 	             <td><%= number_with_delimiter(cotiza.total_price, delimiter: ".") %></td>
+ 	           </tr>
+ 	           <% end %>
+ 	         </tbody>
+ 	       </table>
+ 	      </div><br>
+ 	      <div style="z-index: 4;text-align: justify;"><br><br>
+ 	        Quedando a su disposición ante cualquier consulta lo saluda atentamente:
+ 	      </div><br>
+ 	    </div>
+	    <div id="footer_firma" >
+        <div id="footer_persona_firma" >
+	        <strong style="z-index: 4;">
+	          <center>_____________________________________________________</center>
+	          <center><h3><%= current_user.full_name %> </h3></center>
+	          <center><h3>Acoma SPA</h3></center>
+	        </strong>
+        </div>
+        <div id="footer_sucursales" style="z-index: 4;text-align: justify;">
+          <table>
+            <thead>
+	           <tr>
+	             <th width="300">CASA MATRIZ</th>
+	             <th width="300">SUCURSAL</th>
+	             <th width="300">SUCURSAL</th>
+	             <th width="300">SUCURSAL</th>
+	           </tr>
+	          </thead>
+	          <tbody>
+	          	<tr>
+	             <td>Isabel Riquelme 942</td>
+	             <td>Cocharcar 817</td>
+	             <td>Sargento Aldea 999</td>
+	             <td>Los Angeles</td>
+              </tr>
+	          	<tr>
+	             <td>042-432050</td>
+	             <td>042-432050</td>
+	             <td>042-432050</td>
+	             <td>Lientur 125</td>
+              </tr>
+	          	<tr>
+	             <td>042-432051</td>
+	             <td>042-432051</td>
+	             <td>042-432051</td>
+	             <td>043-311635</td>
+              </tr>
+	          </tbody>
+           
+	       </table>
+          
+
+        </div>
+ 	    </div>
+    </div>
+  </body>
+</html>
