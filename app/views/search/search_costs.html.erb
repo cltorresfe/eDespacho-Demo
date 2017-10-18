@@ -1,14 +1,15 @@
  <h3>
-  Costos de Productos
-  <small class="text-muted">por filtros</small>
+  Búsqueda de Productos
+  <small class="text-muted">autocompletar</small>
 </h3>
 <div id="costosDiv"></div>
     <%= form_tag search_costs_path, method: :get do %>
     <div class="row">
-      <div class="  col-xs-5 col-md-4">
-        <%= text_field_tag :CodProd, params[:CodProd], class: "form-control", placeholder: "Ingrese Código Producto"%>
+      <div class="  col-xs-8 col-md-7">
+        <%= hidden_field_tag  :CodProd, params[:CodProd], class: "form-control", placeholder: "Ingrese Códigooo Producto"%>
+      <input id="buscador_descripcion_productos"  name="buscador_descripcion_productos" type="text" class="txt-auto form-control" >
       </div>
-      <div class="  col-xs-2 col-md-8">
+      <div class="  col-xs-4 col-md-5">
         <%= submit_tag "Buscar Producto", name: nil, class: "btn btn-primary btn-md" %>
       </div>
     </div>
@@ -41,7 +42,7 @@
                </tr>
               <tr>
                  <th>Stock:</td>
-                 <td><%=@stock %></td>
+                 <td><%=number_with_precision(@stock, precision: 2, separator: ',', delimiter: '.') %></td>
                </tr>
                  <tr>
                  <th>Pendiente Despacho:</th>
@@ -71,6 +72,16 @@
     <% end %>
 
     <script>
+    $(function () {
+        $("#buscador_descripcion_productos").autocomplete({
+            source: '/buscardor_autocomplete',
+            minLength: 4,
+            select: function (event, ui) {
+              $("#CodProd").val(ui.item.CodProd);
+            },
+            close: function () {},
+        });
+    });
     $(document).ready(function(){
         var impuesto_iva = $("#tax_iva").val();
         $("#margen").keyup(function(event){

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get "search_costs" => "search#search_costs", as: :search_costs
   get "carro_cotizacion" => "quotes#carro_cotizacion", as: :carro_cotizacion
   post "llamada_ajax" => "search#llamada_ajax", as: :llamada_ajax
+  get "buscardor_autocomplete" => "search#buscardor_autocomplete", as: :buscardor_autocomplete
   
 
   root 'main#index'

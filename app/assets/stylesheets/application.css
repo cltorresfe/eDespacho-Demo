@@ -11,6 +11,10 @@
  * file per style scope.
  *= require_tree .
  *= require bootstrap-datepicker3
+ *= require jquery-ui
+  *= require jquery-ui/core
+ *= require jquery-ui/theme
+ *= require jquery-ui/autocomplete
  *= require morris
  *= require font-awesome
  *= require_self

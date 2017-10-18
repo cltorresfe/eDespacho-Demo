@@ -12,6 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require jquery-ui/core
+//= require jquery-ui/widget
+//= require jquery-ui/position
+//= require jquery-ui/widgets/autocomplete
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker

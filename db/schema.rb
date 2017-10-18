@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171015222751) do
+ActiveRecord::Schema.define(version: 20171018223930) do
 
   create_table "credit_notes", force: true do |t|
     t.integer  "folio"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 20171015222751) do
     t.string   "cod_product"
     t.decimal  "quantity",            precision: 18, scale: 0
     t.datetime "fecha_crea_softland"
+  end
+
+  create_table "customer_quotes", force: true do |t|
+    t.string   "email"
+    t.string   "full_name"
+    t.string   "rut"
+    t.string   "address"
+    t.integer  "total_quote"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "gmov_distpaches", force: true do |t|

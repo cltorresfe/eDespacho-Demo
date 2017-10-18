@@ -40,12 +40,16 @@ class SearchController < ApplicationController
 
   def search_costs
     if  params[:CodProd].blank?
-      flash.now[:warning] = "Debe ingresar un Código de Producto"
+      flash.now[:warning] = "Debe seleccionar un producto"
     else
       @costos_producto = Costo.where(CodProd: params[:CodProd]).last
-      @compra_ventas_producto = Gmov.where(CodProd: params[:CodProd], Actualizado: -1)
-      @stock = @compra_ventas_producto.sum(:CantIngresada) - @compra_ventas_producto.sum(:CantDespachada)
-      @pending_distpach = GmovDistpach.where("id_product = ? and pending_distpach > 0 ", params[:CodProd]).sum(:pending_distpach)
+      if@costos_producto.present?
+        @compra_ventas_producto = Gmov.where(CodProd: params[:CodProd], Actualizado: -1)
+        @stock = @compra_ventas_producto.sum(:CantIngresada) - @compra_ventas_producto.sum(:CantDespachada)
+        @pending_distpach = GmovDistpach.where("id_product = ? and pending_distpach > 0 ", params[:CodProd]).sum(:pending_distpach)
+      else
+        flash.now[:warning] = "No existen Costos ingresados para este producto seleccionado: "+params[:CodProd]
+      end
     end
     respond_to do |format|
       format.html
@@ -67,6 +71,14 @@ class SearchController < ApplicationController
       render action:search_costs
     end
     
+  end
+
+  def buscardor_autocomplete
+    term = params[:term]
+    @find = Product.select("DesProd as value, CodProd").where("DesProd LIKE ?", "%#{term}%").limit(10)
+    respond_to do |format|
+      format.json { render :json => @find.to_json }
+    end
   end
 
   private
