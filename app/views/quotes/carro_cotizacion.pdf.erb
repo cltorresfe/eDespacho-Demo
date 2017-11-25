@@ -30,6 +30,8 @@
         h3 {
          font-size: 19px;
          font-weight: bold;
+         margin: -10px 1px 2px 0;
+         padding: 9px 0 2px 0;
         }
 
         .tabla_cotizaciones tr:nth-child(even) {background-color: #f2f2f2}
@@ -74,6 +76,12 @@
           position: fixed;
           top: -6px;
           left: 630px;
+        }
+        .image_header{
+          color: #ddd;
+          position: absolute;
+          top: -2px;
+          left: 830px;
         }
         .table_footer{
           color: #710909;
@@ -168,6 +176,9 @@
         <div class="title_header">
           Sistema S@M Software - Soluciones a la Medida
         </div>
+        <div class="image_header">
+          <%= #wicked_pdf_image_tag_for_public 'unnamed2.png' %>
+        </div>
       </div>
       <div class="pagina" style="z-index: 2;"><br><br>
         <div align="center" style="z-index: 3;"><h1><strong>COTIZACIÓN</strong><br> N° <%= @customer_quote.id %></h1> <br>
@@ -222,7 +233,8 @@
         <div id="footer_persona_firma" >
 	        <strong style="z-index: 4;">
 	          <center>_____________________________________________________</center>
-	          <center><h3><%= current_user.full_name %> </h3></center>
+            <center><h3><%= current_user.full_name %> </h3></center>
+	          <center><h3><%= #current_user.email %> </h3></center>
 	          <center><h3>Acoma SPA</h3></center>
 	        </strong>
         </div>
