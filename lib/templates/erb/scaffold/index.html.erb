@@ -1,0 +1,24 @@
+<%%- model_class = <%= singular_table_name.classify %> -%>
+<div class="page-header">
+  <h1><%%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <% attributes.each do |attribute| -%>
+            <th><%= attribute.human_name %></th>
+      <% end -%>
+      <th>Fecha Creación</th>
+    </tr>
+  </thead>
+  <tbody id="container_<%= plural_table_name %>">
+    <%%= render @<%= plural_table_name %> %>
+  </tbody>
+</table>
+<%%= link_to 'Nuevo',
+            new_<%= singular_table_name %>_path,
+            :class => 'btn btn-info btn-sm' %>
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mynew<%=singular_table_name %>">
+  New <%%= model_class.model_name.human.titleize %>
+</button>
+<%%= render "modal" %>

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :gmovs, only: [:index]
   devise_for :users
   resources :users_admin, :controller => 'users'
+  resources :quotes
 
   get "search" => "search#search", as: :search
   get "search_distpaches" => "search#search_distpaches", as: :search_distpaches

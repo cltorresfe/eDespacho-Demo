@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171018223930) do
+ActiveRecord::Schema.define(version: 20171202133202) do
 
   create_table "credit_notes", force: true do |t|
     t.integer  "folio"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20171018223930) do
     t.integer  "warehouse_id"
     t.boolean  "admin",                  default: false
     t.string   "full_name"
+    t.string   "phone"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, where: "([email] IS NOT NULL)"

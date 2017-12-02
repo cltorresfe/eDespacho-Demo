@@ -25,5 +25,9 @@ module Edespacho
     # Do not swallow errors in after_commit/after_rollback callbacks.  
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif *.odt)
     config.assets.enabled = true
+    config.generators do |g|
+      g.template_engine :custom
+      g.fallbacks[:custom] = :erb # or haml/slim etc
+    end
   end
 end

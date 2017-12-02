@@ -1,0 +1,36 @@
+<%%= form_for @<%= singular_table_name  %>, remote: true, :html => { :class => "form-horizontal <%= singular_table_name  %>" } do |f| %>
+  <div class="modal fade" id="mynew<%= singular_table_name %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><%= singular_table_name.titleize %></h4>
+        </div>
+        
+        <div class="modal-body">
+          <%- attributes.each do |column| -%>
+            <div class="form-group">
+              <%- if column.reference? -%>
+                <%%= f.label :<%= column.column_name %>, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%%= f.collection_select :<%= column.column_name %>, <%= column.name.camelize %>.all, :id, :name, prompt: true  %>
+                </div>
+              <%- else -%>
+                <%%= f.label :<%= column.name %>, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%%= f.<%= column.field_type %> :<%= column.name %>, :class => 'form-control <%= singular_table_name %>_<%= column.name %>' %>
+                </div>
+              <%- end -%>
+            </div>
+          <%- end -%>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="mynew<%= singular_table_name %>close">Close</button>
+          <%%= submit_tag "Crear", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<%% end %>

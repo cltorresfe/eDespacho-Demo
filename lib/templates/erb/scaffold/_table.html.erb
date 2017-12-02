@@ -1,0 +1,17 @@
+<tr id="<%= singular_table_name %>_<%%= <%= singular_table_name %>.id %>">
+  <%- attributes.each do |column| -%>
+  <td><%%= <%= singular_table_name %>.<%= column.name %> %></td>
+  <%- end -%>
+  <td><%%= <%= singular_table_name %>.created_at %></td>
+  <td>
+    <%%= link_to 'Mostrar',
+                <%= singular_table_name%>_path(<%= singular_table_name %>), :class => 'btn btn-default btn-xs' %>
+    <%%= link_to 'Editar',
+                edit_<%= singular_table_name%>_path(<%= singular_table_name %>), :class => 'btn btn-default btn-xs' %>
+    <%%= link_to 'Eliminar',
+                <%= singular_table_name%>_path(<%= singular_table_name %>),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-xs btn-danger' %>
+  </td>
+</tr>

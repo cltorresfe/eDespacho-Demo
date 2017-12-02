@@ -1,0 +1,6 @@
+$("#mynew<%= singular_table_name %>").modal('hide');
+<%- attributes.each do |column| -%>
+$(".<%= singular_table_name %>_<%= column.name %>").val('');
+<%- end -%>
+$("#container_<%= plural_table_name %>").prepend('<%%= j render @<%= singular_table_name %>%>');
+$("#<%= singular_table_name %>_<%%= @<%= singular_table_name %>.id %>").hide().fadeIn(1000);
