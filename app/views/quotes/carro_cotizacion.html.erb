@@ -3,6 +3,7 @@
      <table class="table table-striped">
        <thead>
          <tr>
+           <th>ID</th>
            <th>Código</th>
            <th>Descripción</th>
            <th>Costo Producto</th>
@@ -17,6 +18,7 @@
        <tfoot>
          <tr>
            <td></td>
+           <td></td>
            <td>TOTALES</td>
            <td><%= number_with_delimiter(@cotizaciones.sum(:cost_product), delimiter: ".") %></td>
            <td><%= number_with_delimiter(@cotizaciones.sum(:net_price), delimiter: ".") %></td>
@@ -29,6 +31,7 @@
        <tbody>
         <% @cotizaciones.each do |cotiza| %>
          <tr>
+           <td><%= cotiza.id %></td>
            <td><%= cotiza.id_product %></td>
            <td><%= Product.where(CodProd: cotiza.id_product).take.DesProd %></td>
            <td><%= number_with_delimiter(cotiza.cost_product, delimiter: ".") %></td>
@@ -38,15 +41,15 @@
            <td><%= cotiza.quantity %></td>
            <td><%= number_with_delimiter(cotiza.total_price, delimiter: ".") %></td>
            <td><%= link_to 'Elimina', cotiza, method: :delete, data: { confirm: '¿Está seguro que desea eliminar esta cotización?' }, class: 'btn btn-sm btn-danger' %>
-           <%#= link_to 'Edit', edit_quote_path(cotiza), class: 'btn btn-sm btn-info' %></td>
+           <%= link_to 'Edit', edit_quote_path(cotiza), class: 'btn btn-sm btn-info' %></td>
          </tr>
          <% end %>
        </tbody>
      </table>
    </div>
    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#cotizacion_modal">Cotizar</button>
-   <%= link_to 'Ir a Costos', search_costs_path %>
- <% end %>
+   
+ <% end %><%= link_to 'Ir a Costos', search_costs_path %>
  <!-- Trigger the modal with a button -->
  
  <!-- Modal -->

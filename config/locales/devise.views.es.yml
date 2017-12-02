@@ -11,8 +11,18 @@ es:
         remember_me: Recordarme
         reset_password_token: Restablecer token contraseña
         unlock_token: Desbloquear token
+      quote:
+        id_product: ID producto
+        price: Precio
+        margin: Margen
+        quantity: Cantidad
+        net_price: Precio Neto
+        tax_iva: Precio Neto
+        cost_product: Costo
+        total_price: Precio Total
     models:
       user: Usuario
+      quote: Cotización
   devise:
     confirmations:
       confirmed: Tu cuenta ha sido confirmada satisfactoriamente.

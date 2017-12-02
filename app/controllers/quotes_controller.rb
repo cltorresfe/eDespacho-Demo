@@ -1,5 +1,6 @@
 class QuotesController < ApplicationController
 	before_action :authenticate_user!
+  before_action :set_quote, only: [:show, :edit, :update, :destroy]
   def carro_cotizacion
   	@cotizaciones = Quote.where(user: current_user)
   	@rut_cliente = params[:rut_cliente]
@@ -21,25 +22,31 @@ class QuotesController < ApplicationController
   	end
   end
   def destroy
-    @quote = Quote.find(params[:id])
     @quote.destroy
     @cotizaciones = Quote.where(user: current_user)
     respond_to do |format|
       format.html { redirect_to carro_cotizacion_path }
     end
   end
+  def show
+  end
   def edit
-    @quote = Quote.find(params[:id])
   end
   def update
-    @quote = Quote.find(params[:id])
     respond_to do |format|
-      if @quote.update_attributes(params[:quote])
-        format.html { redirect_to carro_cotizacion_path, notice: 'Quote was successfully updated.' }
+      if @quote.update_attributes(quote_params)
+        format.html { redirect_to @quote, notice: 'Item de Cotizacion ha sido actualizada correctamente' }
       else
         format.html { render action: "edit" }
       end
     end
+  end
+  private
+  def quote_params
+    params.require(:quote).permit(:id_product, :price, :quantity, :margin, :net_price, :total_price, :tax_iva, :cost_product )
+  end
+  def set_quote
+    @quote = Quote.find(params[:id])
   end
 
 end

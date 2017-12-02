@@ -1,0 +1,97 @@
+<%= form_for @quote, :html => { :class => "form-horizontal quote" } do |f| %>
+  <% if @quote.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@quote.errors.count, "error") %> prohibited this quote from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @quote.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+
+  <div class="form-group">
+    <%= f.label :id_product, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :id_product, :class => 'form-control', :readonly => true %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :cost_product, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.number_field :cost_product, :class => 'form-control', :readonly => true %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :margin, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :margin, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :net_price, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.number_field :net_price, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :tax_iva, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.number_field :tax_iva, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :price, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.number_field :price, :class => 'form-control', readonly: true %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :quantity, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.number_field :quantity, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :total_price, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.number_field :total_price, :class => 'form-control', readonly: true %>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancelar',
+                quotes_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>
+<script>
+  $(document).ready(function(){
+    $("#quote_margin").keyup(function(event){
+      calcula_net_price();
+    });
+    $("#quote_net_price").keyup(function(event){
+      calcula_margin();
+    });
+    $("#quote_quantity").keyup(function(event){
+      calcula_total($("#quote_price").val());
+    });
+  });
+
+</script>

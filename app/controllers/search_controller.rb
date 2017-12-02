@@ -7,6 +7,11 @@ class SearchController < ApplicationController
       # show_gaps(folio)
       return
     end
+    if type == "Cotiza"
+      @cotiza = Quote.find(folio)
+      redirect_to edit_quote_path(@cotiza) 
+      return
+    end
   	@sale = Sale.folio_sale(type, folio)
   	unless @sale.present? && @sale.NroInt.present? && ( current_user.admin? || ( current_user.warehouse.present? && current_user.warehouse.id == @sale.CodBode.to_i) )
   	  redirect_to root_path, danger: 'No se encontró un resultado válida para su búsqueda.'
