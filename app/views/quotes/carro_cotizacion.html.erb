@@ -41,7 +41,7 @@
            <td><%= cotiza.quantity %></td>
            <td><%= number_with_delimiter(cotiza.total_price, delimiter: ".") %></td>
            <td><%= link_to 'Elimina', cotiza, method: :delete, data: { confirm: '¿Está seguro que desea eliminar esta cotización?' }, class: 'btn btn-sm btn-danger' %>
-           <%= link_to 'Edit', edit_quote_path(cotiza), class: 'btn btn-sm btn-info' %></td>
+           <%#= link_to 'Edit', edit_quote_path(cotiza), class: 'btn btn-sm btn-info' %></td>
          </tr>
          <% end %>
        </tbody>

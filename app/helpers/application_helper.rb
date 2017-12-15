@@ -1,8 +1,8 @@
 module ApplicationHelper
 	require 'open-uri'
 	def show_number_cars!
-		if Quote.where(user:current_user).present?
-		  cotiza_cantidad = Quote.where(user:current_user).count if Quote.where(user:current_user).present?
+		if Quote.where(user:current_user, state: 1).present?
+		  cotiza_cantidad = Quote.where(user:current_user, state: 1).count
 		  html = <<-HTML
 		    <span class='badge badge-info badge-cl' id='badge_cantidad_carro_cotizacion_top_bar'>
 		    #{cotiza_cantidad}
@@ -20,7 +20,7 @@ module ApplicationHelper
 	end
 
 	def has_quotes?
-		return Quote.where(user:current_user).present?
+		return Quote.where(user:current_user,state: 1).present?
 	end
 	def wicked_pdf_image_tag_for_public(img, options={})
 	  image_tag "file:///#{WickedPdfHelper.root_path.join('public', 'images', img)}", options

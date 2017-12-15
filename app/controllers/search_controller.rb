@@ -9,7 +9,7 @@ class SearchController < ApplicationController
     end
     if type == "Cotiza"
       @cotiza = Quote.find(folio)
-      redirect_to edit_quote_path(@cotiza) 
+      redirect_to edit_quote_path(@cotiza) if @cotiza.state == 1
       return
     end
   	@sale = Sale.folio_sale(type, folio)
@@ -24,7 +24,8 @@ class SearchController < ApplicationController
     else
       # @distpach = edit_sale_distpach(@distpach, @sale, @credit_note )
   	end
-  	
+  rescue ActiveRecord::RecordNotFound
+    return	
   end
 
   def search_distpaches
@@ -68,6 +69,7 @@ class SearchController < ApplicationController
     
     @quote = Quote.new(quote_params)
     @quote.user = current_user
+    @quote.state = 1
     if @quote.save
       respond_to do |format|
         format.json { render :json => @quote.to_json }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171202133202) do
+ActiveRecord::Schema.define(version: 20171214231102) do
 
   create_table "credit_notes", force: true do |t|
     t.integer  "folio"
@@ -73,15 +73,18 @@ ActiveRecord::Schema.define(version: 20171202133202) do
     t.string   "id_product"
     t.integer  "price"
     t.integer  "quantity"
-    t.float    "margin",       limit: 24
+    t.float    "margin",            limit: 24
     t.integer  "net_price"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tax_iva"
     t.integer  "total_price"
     t.integer  "cost_product"
+    t.integer  "state"
+    t.integer  "customer_quote_id"
   end
 
+  add_index "quotes", ["customer_quote_id"], name: "index_quotes_on_customer_quote_id"
   add_index "quotes", ["user_id"], name: "index_quotes_on_user_id"
 
   create_table "sale_distpaches", force: true do |t|

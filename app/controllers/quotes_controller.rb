@@ -2,7 +2,7 @@ class QuotesController < ApplicationController
 	before_action :authenticate_user!
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
   def carro_cotizacion
-  	@cotizaciones = Quote.where(user: current_user)
+  	@cotizaciones = Quote.where(user: current_user, state: 1)
   	@rut_cliente = params[:rut_cliente]
   	@nombre_cliente = params[:nombre_cliente]
   	@direccion_cliente = params[:direccion_cliente]
@@ -12,6 +12,7 @@ class QuotesController < ApplicationController
       @customer_quote.full_name = params[:nombre_cliente]
       @customer_quote.rut = params[:rut_cliente]
       @customer_quote.total_quote = @cotizaciones.sum(:total_price) if @cotizaciones.present?
+      @customer_quote.quotes = @cotizaciones
       @customer_quote.save!
     end
     flash.now[:warning] = "No se encontraron resultados para su búsqueda" unless @cotizaciones.present?

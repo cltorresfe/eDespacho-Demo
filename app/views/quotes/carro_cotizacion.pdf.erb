@@ -224,7 +224,7 @@
  	         </tbody>
  	       </table>
  	      </div><br>
- 	      <% @cotizaciones.destroy_all %>
+ 	      <% @cotizaciones.update_all(state: 0) %>
  	      <div style="z-index: 4;text-align: justify;"><br><br>
  	        Quedando a su disposición ante cualquier consulta lo saluda atentamente:
  	      </div><br>
