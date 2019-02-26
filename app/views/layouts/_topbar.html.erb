@@ -53,6 +53,10 @@
                 <li><%= link_to 'Consulta Despachos Realizados', sale_distpaches_path %></li>
                 <li><%= link_to 'Cierre Diario', search_distpaches_path %></li>
                 <li><%= link_to 'Costos', search_costs_path %></li>
+                <!-- <li><%= link_to 'Stock Productos', search_stock_products_path %></li> -->
+                <% if current_user.admin? %>
+                  <li><%= link_to 'Cotizaciones', customer_quotes_path %></li>
+                <% end %>
               </ul>
             </li>
           </ul>

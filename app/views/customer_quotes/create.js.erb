@@ -1,0 +1,16 @@
+$("#mynewcustomer_quote").modal('hide');
+
+$(".customer_quote_email").val('');
+
+$(".customer_quote_full_name").val('');
+
+$(".customer_quote_rut").val('');
+
+$(".customer_quote_address").val('');
+
+$(".customer_quote_total_quote").val('');
+
+$(".customer_quote_user").val('');
+
+$("#container_customer_quotes").prepend('<%= j render @customer_quote%>');
+$("#customer_quote_<%= @customer_quote.id %>").hide().fadeIn(1000);

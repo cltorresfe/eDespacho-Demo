@@ -1,0 +1,52 @@
+<div class="page-header">
+  <h1>Cotizaciones <span>Vendedor</span></h1>
+    <%= form_tag customer_quotes_path, method: :get do %>
+    <div class=" row">
+      <div class="  col-xs-5 col-md-2">
+        <%= text_field_tag :start_date, params[:start_date], class: "form-control datepicker", placeholder: "Fecha Desde", title: "Fecha de Cotizaciones Vendedor Desde"%>
+      </div>
+      <div class="  col-xs-5 col-md-2">
+        <%= text_field_tag :end_date, params[:end_date], class: "form-control datepicker", placeholder: "Fecha Hasta", title: "Fecha de Cotizaciones Vendedor Hasta" %>
+      </div>
+      <div class="  col-xs-5 col-md-3">
+        <% if params[:user].present? %>
+          <%= collection_select :user, :id, User.all, :id, :full_name, {prompt: 'Selecciona un Vendedor', selected: params[:user][:id]}, {class: "form-control"} %>
+        <% else %>
+            <%= collection_select :user, :id, User.where.not(full_name: nil), :id, :full_name, {prompt: 'Selecciona un Vendedor'}, {class: "form-control"} %>
+        <% end %>
+        </div>
+      <div class="  col-xs-2 col-md-2">
+        <%= submit_tag "Buscar", name: nil, class: "btn btn-primary btn-md" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Vendedor</th>
+      <th>Cliente</th>
+      <th>Rut Cliente</th>
+      <th>Dirección</th>
+      <th>Total</th>
+      <th>Margen Global</th>
+      <th>Fecha Creación</th>
+    </tr>
+  </thead>
+  <tbody id="container_customer_quotes">
+    <%= render @customer_quotes %>
+  </tbody>
+</table>
+<%= will_paginate @customer_quotes, :previous_label => 'Anterior', :next_label => 'Siguiente' %>
+<%= render "modal" %>
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.datepicker').datepicker({
+        isRTL: false,
+        format: 'dd/mm/yyyy',
+        autoclose:true,
+        language: 'es'
+      });
+    });
+</script>

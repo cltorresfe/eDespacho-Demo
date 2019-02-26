@@ -1,0 +1,11 @@
+<tr>
+  <td align="center"><%=quote.id %></td>
+  <td align="center"><%=quote.id_product %></td>
+  <td align="right"><%=number_with_delimiter(quote.cost_product, delimiter: ".") %></td>
+  <td align="center"><%=quote.margin.round(2) %></td>
+  <td align="right"><%=number_with_delimiter(quote.net_price, delimiter: ".") %></td>
+  <td align="right"><%=number_with_delimiter(quote.price, delimiter: ".") %></td>
+  <td align="center"><%=quote.quantity %></td>
+  <td align="right"><%=number_with_delimiter(quote.total_price, delimiter: ".") %></td>
+  <td align="center"><%=quote.created_at.strftime('%d/%m/%Y') %></td>
+</tr>

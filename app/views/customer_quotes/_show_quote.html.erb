@@ -1,0 +1,53 @@
+<%- model_class = CustomerQuote -%>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:id) %>:</strong></dt>
+  <dd><%= @customer_quote.id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:user) %>:</strong></dt>
+  <dd><%= @customer_quote.user.full_name %></dd>
+
+  <dt><strong><%= model_class.human_attribute_name(:full_name) %>:</strong></dt>
+  <dd><%= @customer_quote.full_name %></dd>
+
+  <dt><strong><%= model_class.human_attribute_name(:rut) %>:</strong></dt>
+  <dd><%= @customer_quote.rut %></dd>
+
+  <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
+  <dd><%= @customer_quote.address %></dd>
+
+  <dt><strong><%= model_class.human_attribute_name(:total_quote) %>:</strong></dt>
+  <dd><%= number_with_delimiter(@customer_quote.total_quote , delimiter: ".") %></dd>
+
+  <br>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th align="center">Id Item</th>
+        <th align="center">Id Producto</th>
+        <th align="right">Costo</th>
+        <th align="center">Margen</th>
+        <th align="right">Precio Neto</th>
+        <th align="right">Precio</th>
+        <th align="center">Cantidad</th>
+        <th align="right">Total</th>
+        <th align="center">Fecha Creación</th>
+      </tr>
+    </thead>
+    <tbody id="container_quotes">
+      <%= render @customer_quote.quotes %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td align="center"></td>
+        <td align="center"><strong>Total</strong></td>
+        <td align="right"><strong><%= number_with_delimiter(@customer_quote.quotes.sum(:cost_product), delimiter: ".") %></strong></td>
+        <td align="center"><strong><%= (((@customer_quote.quotes.sum(:net_price).to_f/@customer_quote.quotes.sum(:cost_product).to_f).round(6)-1)*100).round(2)%></strong></td>
+        <td align="right"><strong><%= number_with_delimiter(@customer_quote.quotes.sum(:net_price), delimiter: ".") %></strong></td>
+        <td align="right"><strong><%= number_with_delimiter(@customer_quote.quotes.sum(:price), delimiter: ".") %></strong></td>
+        <td align="center"></td>
+        <td align="right"><strong><%= number_with_delimiter(@customer_quote.quotes.sum(:total_price), delimiter: ".")%></strong></td>
+        <td align="center"></td>
+      </tr>
+      
+    </tfoot>
+  </table> 
+</dl>

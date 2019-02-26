@@ -1,0 +1,76 @@
+<%= form_for @customer_quote, remote: true, :html => { :class => "form-horizontal customer_quote" } do |f| %>
+  <div class="modal fade" id="mynewcustomer_quote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Customer Quote</h4>
+        </div>
+        
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <%= f.label :email, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.text_field :email, :class => 'form-control customer_quote_email' %>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :full_name, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.text_field :full_name, :class => 'form-control customer_quote_full_name' %>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :rut, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.text_field :rut, :class => 'form-control customer_quote_rut' %>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :address, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.text_field :address, :class => 'form-control customer_quote_address' %>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :total_quote, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.number_field :total_quote, :class => 'form-control customer_quote_total_quote' %>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :user_id, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.collection_select :user_id, User.all, :id, :full_name, prompt: true  %>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="mynewcustomer_quoteclose">Close</button>
+          <%= submit_tag "Crear", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

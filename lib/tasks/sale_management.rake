@@ -1,7 +1,7 @@
 namespace :gestiona do
   desc "Gestiona las notas de créditos y las ventas de factura y boleta para agregarlas a eDespacho en forma automática"
   task :ventas => :environment do
-  	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_junio.log")
+  	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_febrero_2018.log")
   	6900.times do  		
 		  #... content of the loop
 		  min = Time.now - 4.hours - 4.minutes
@@ -30,7 +30,7 @@ namespace :gestiona do
 	end
 end
 def save_sale(sale)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_junio.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_febrero_2018.log")
 	# pregunta si existe una factura o boleta ya ingresada a eDespacho
 	sleep(2)
 	@distpach_edespacho = SaleDistpach.find_distpach(sale.Tipo, sale.NroInt)
@@ -44,34 +44,38 @@ def save_sale(sale)
 		@distpach.folio = sale.Folio
 		@distpach.status = "Pendiente Automatico"
 		@distpach.tipo_ingreso = 'IA'
-		sale.gmovs.each do |gmov|
-		  my_logger.info("Guardando producto #{gmov.CodProd} Cantidad pendiente por despachar: #{gmov.CantDespUVta}")
-			@gmovDistpach = GmovDistpach.new
-			@gmovDistpach.pending_distpach = gmov.CantDespUVta
-			@gmovDistpach.name_product = gmov.DetProd
-	    @gmovDistpach.measure = gmov.CodUMed
-			@gmovDistpach.id_product = gmov.CodProd
-			@gmovDistpach.id_line_gmov = gmov.Linea
-			@gmovDistpach.sale_check_quantity = gmov.CantDespUVta
-			@gmovDistpach.sale_distpach = @distpach
-			@gmovDistpach.created_at = Time.now - 3.hours
-			@gmovDistpach.updated_at = Time.now - 3.hours
-			if(@gmovDistpach.pending_distpach == 0.0)
-				@gmovDistpach.status = "Completado"
-			else
-				@flug_sale_distpached = false
-	      @gmovDistpach.status = "Pendiente Automatico"
+		begin
+			sale.gmovs.each do |gmov|
+			  my_logger.info("Guardando producto #{gmov.CodProd} Cantidad pendiente por despachar: #{gmov.CantDespUVta}")
+				@gmovDistpach = GmovDistpach.new
+				@gmovDistpach.pending_distpach = gmov.CantDespUVta
+				@gmovDistpach.name_product = gmov.DetProd
+		    @gmovDistpach.measure = gmov.CodUMed
+				@gmovDistpach.id_product = gmov.CodProd
+				@gmovDistpach.id_line_gmov = gmov.Linea
+				@gmovDistpach.sale_check_quantity = gmov.CantDespUVta
+				@gmovDistpach.sale_distpach = @distpach
+				@gmovDistpach.created_at = Time.now - 3.hours
+				@gmovDistpach.updated_at = Time.now - 3.hours
+				if(@gmovDistpach.pending_distpach == 0.0)
+					@gmovDistpach.status = "Completado"
+				else
+					@flug_sale_distpached = false
+		      @gmovDistpach.status = "Pendiente Automatico"
+				end
+				@distpach.gmov_distpaches << @gmovDistpach
 			end
-			@distpach.gmov_distpaches << @gmovDistpach
+			@distpach.fecha_crea_softland = sale.FecHoraCreacion
+			@distpach.created_at = Time.now - 3.hours
+			@distpach.save!
+		rescue Exception => e
+			my_logger.info("ERROR CL-> #{e.message} ... Guardando despacho. Tipo: #{sale.Tipo} - Folio: #{sale.Folio}. IdSale: #{sale.NroInt}")
 		end
-		@distpach.fecha_crea_softland = sale.FecHoraCreacion
-		@distpach.created_at = Time.now - 3.hours
-		@distpach.save!
 	end
 end
 
 def save_credit_note_product(nc_product, credit_note_softland)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_junio.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_febrero_2018.log")
 	# Agrega Nota de crédito a eDespacho
 	my_logger.info("(nuevo)...Guardando Nota de Credito - Folio: #{credit_note_softland.Folio}. IdSale: #{credit_note_softland.NroInt}")
 	my_logger.info("Guardando producto NC #{nc_product.CodProd} Cantidad pendiente por despachar: #{nc_product.CantFactUVta}")
@@ -81,11 +85,16 @@ def save_credit_note_product(nc_product, credit_note_softland)
 	@credit.cod_product = nc_product.CodProd
 	@credit.quantity = nc_product.CantFactUVta
 	@credit.fecha_crea_softland = credit_note_softland.FecHoraCreacion
-	@credit.save!
+	begin
+		@credit.save!
+	rescue Exception => e
+		my_logger.info("ERROR CL-> #{e.message} ... Guardando NC despacho. Tipo: #{credit_note_softland.Tipo} - Folio: #{credit_note_softland.Folio}. IdSale: #{credit_note_softland.NroInt}")
+	end
+	
 end
 
 def save_credit_note(credit_note_softland)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_junio.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_febrero_2018.log")
 	my_logger.info("nota de credito encontrada: #{credit_note_softland.TipDocRef} - Folio: #{credit_note_softland.AuxDocNum}.")
 	# pregunta si existe una nota de credito ya ingresada a eDespacho
 	@credit = CreditNote.find_credit_note(credit_note_softland.Tipo, credit_note_softland.Folio.to_i )
@@ -111,7 +120,11 @@ def save_credit_note(credit_note_softland)
 		  		my_logger.info("tarea 7")
 		  		@distpach.status = @flug_sale_distpached ? "Despachado"  : "Pendiente Automatico"
 		  		@distpach.updated_at = Time.now - 3.hours
-		  		@distpach.save!
+		  		begin
+		  			@distpach.save!
+		  		rescue Exception => e
+		  			my_logger.info("ERROR CL-> #{e.message} ... Guardando NC2 despacho. Tipo: #{credit_note_softland.Tipo} - Folio: #{credit_note_softland.Folio}. IdSale: #{credit_note_softland.NroInt}")
+		  		end
 		  		sleep(2)
 		  		my_logger.info("tarea 8")
 		  	else
@@ -127,7 +140,12 @@ def save_credit_note(credit_note_softland)
 		  		  @distpach.status = @flug_sale_distpached ? "Despachado"  : "Pendiente Automatico"
 		  		  my_logger.info("si es false:PendienteAutomatica Si es true:Despachado -> #{@flug_sale_distpached}")
 		  		  @distpach.updated_at = Time.now - 3.hours
-		  		  @distpach.save!
+
+		  		  begin
+		  		  	@distpach.save!
+		  		  rescue Exception => e
+		  		  	my_logger.info("ERROR CL-> #{e.message} ... Guardando NC3 despacho. Tipo: #{credit_note_softland.Tipo} - Folio: #{credit_note_softland.Folio}. IdSale: #{credit_note_softland.NroInt}")
+		  		  end
 		  		  sleep(2)
 		  		else
 		  			my_logger.info("algo anda mal!")
@@ -141,7 +159,7 @@ def save_credit_note(credit_note_softland)
 end
 
 def actualiza_documento_con_nota_de_credito(distpach, nc_product)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_junio.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_febrero_2018.log")
 	@flug_sale_distpached = true
 	distpach.gmov_distpaches.each do |gmov|
 		my_logger.info("Está en método: actualiza_documento_con_nota_de_credito() - recorriendo nuevo producto del documento")

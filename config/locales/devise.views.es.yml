@@ -20,9 +20,15 @@ es:
         tax_iva: Precio Neto
         cost_product: Costo
         total_price: Precio Total
+      customer_quote:
+        full_name: Nombre Cliente
+        user: Vendedor
+        address: Dirección
+        total_quote: Total
     models:
       user: Usuario
       quote: Cotización
+      customer_quote: Cotizaciones Vendedor
   devise:
     confirmations:
       confirmed: Tu cuenta ha sido confirmada satisfactoriamente.

@@ -11,6 +11,7 @@ class QuotesController < ApplicationController
       @customer_quote.address = params[:direccion_cliente]
       @customer_quote.full_name = params[:nombre_cliente]
       @customer_quote.rut = params[:rut_cliente]
+      @customer_quote.user = current_user
       @customer_quote.total_quote = @cotizaciones.sum(:total_price) if @cotizaciones.present?
       @customer_quote.quotes = @cotizaciones
       @customer_quote.save!

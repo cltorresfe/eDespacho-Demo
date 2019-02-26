@@ -1,0 +1,27 @@
+<tr id="customer_quote_<%= customer_quote.id %>">
+
+  <td><%= customer_quote.id %></td>
+  <td><%= customer_quote.user.full_name %></td>
+  <td><%= customer_quote.full_name %></td>
+  <td><%= customer_quote.rut %></td>
+  <td><%= customer_quote.address %></td>
+  <td align="right"><%= number_with_delimiter(customer_quote.total_quote, delimiter: ".") %></td>
+  <td align="center"><%= (((customer_quote.quotes.sum(:net_price).to_f/customer_quote.quotes.sum(:cost_product).to_f).round(6)-1)*100).round(2) %></td>
+  <td><%= customer_quote.created_at.localtime.to_s(:db) %></td>
+  <td>
+    <%= link_to 'Mostrar',
+                customer_quote_path(customer_quote), { :class => 'btn btn-info btn-xs', 'data-toggle' => 'modal', 'data-target'=> '#modal_quote', remote: true } %>
+  </td>
+</tr>
+<div id="modal_quote" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detalle Cotizacion</h4>
+      </div>     
+      <div id="content_quote" class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>

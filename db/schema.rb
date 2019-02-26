@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214231102) do
+ActiveRecord::Schema.define(version: 20171215003104) do
 
   create_table "credit_notes", force: true do |t|
     t.integer  "folio"
@@ -29,7 +29,10 @@ ActiveRecord::Schema.define(version: 20171214231102) do
     t.integer  "total_quote"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
+
+  add_index "customer_quotes", ["user_id"], name: "index_customer_quotes_on_user_id"
 
   create_table "gmov_distpaches", force: true do |t|
     t.string   "id_product"

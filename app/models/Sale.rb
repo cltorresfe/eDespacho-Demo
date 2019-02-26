@@ -7,6 +7,8 @@ class Sale < ActiveRecord::Base
   scope :last_sale, -> { where("acoma.softland.iw_gsaen.Total > ?",0).last  }
   belongs_to :store, foreign_key: 'CodBode'
   belongs_to :seller, foreign_key: 'CodVendedor'
+  belongs_to :auxiPerson, class_name: "AuxiPerson", foreign_key: :CodAux
+  belongs_to :transaccion, class_name: 'Transaction', foreign_key: [:Tipo, :Concepto]
   has_many :gmovs, class_name: "Gmov", foreign_key: [:Tipo, :NroInt]
 
   def self.folio_sale(type, folio)

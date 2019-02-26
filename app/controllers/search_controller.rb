@@ -31,7 +31,9 @@ class SearchController < ApplicationController
   def search_distpaches
     @array_data = Array.new
     @array_data << Time.now
-    current_user.warehouse.present? ? @array_data << current_user.warehouse.id : @array_data << ''
+    unless current_user.admin? 
+     current_user.warehouse.present? ? @array_data << current_user.warehouse.id : @array_data << ''
+    end
     @gmov_distpaches_all = GmovDistpach.consulta_cierre_diario(@array_data)
     @gmov_distpaches = @gmov_distpaches_all.paginate(:page => params[:page], :per_page => 20) if @gmov_distpaches_all.present?
     flash.now[:warning] = "No se encontraron resultados para su búsqueda" unless @gmov_distpaches.present?
@@ -40,8 +42,29 @@ class SearchController < ApplicationController
       format.html
       format.csv { send_data @prueba.to_csv }
       format.xls # { send_data @prueba.to_csv(col_sep: "\t") }
+    end 
+  end
+
+  def search_stock_products
+    if  params[:term].blank?
+      flash.now[:warning] = "Debe seleccionar un producto"
+    else
+      term = params[:term]
+      bodega = current_user.admin? ? params[:store][:CodBode] : current_user.warehouse.id
+      @products = Product.where("DesProd LIKE ?", "%#{term}%")
+      @products = @products.by_bodega(bodega).sorted.paginate(:page => params[:page], :per_page => 20) if @products.present?
     end
-    
+  end
+
+  def search_registro_existencia
+    if  params[:term].blank?
+      flash.now[:warning] = "Debe seleccionar un producto"
+    else
+      term = params[:term]
+      bodega = current_user.admin? ? params[:store][:CodBode] : current_user.warehouse.id
+      @products = Product.where("DesProd LIKE ?", "%#{term}%")
+      @products = @products.by_bodega(bodega).sorted.paginate(:page => params[:page], :per_page => 20) if @products.present?
+    end
   end
 
   def search_costs

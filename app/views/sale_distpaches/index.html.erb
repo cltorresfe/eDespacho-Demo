@@ -87,7 +87,7 @@
         <% end %>
       </tbody>
     </table>
-    <%= will_paginate @gmov_distpaches %>
+    <%= will_paginate @gmov_distpaches, :previous_label => 'Anterior', :next_label => 'Siguiente' %>
   <% end %>
   <script type="text/javascript">
     $(document).ready(function(){

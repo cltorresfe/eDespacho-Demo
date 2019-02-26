@@ -13,7 +13,7 @@ class GmovDistpach < ActiveRecord::Base
 	end
 	def self.consulta_cierre_diario(data)
 		distpach = all
-		distpach = distpach.where(fecha_ultimo_despacho: data[0].to_date.beginning_of_day..data[0].to_date.end_of_day)  
+		distpach = distpach.where("fecha_ultimo_despacho between ? and ? OR (fecha_ultimo_despacho is null and created_at between ? and ?)",data[0].to_date.beginning_of_day,data[0].to_date.end_of_day,data[0].to_date.beginning_of_day,data[0].to_date.end_of_day )
 		distpach = distpach.joins(:sale_distpach).where(sale_distpaches: { id_store: data[1]} ) unless data[1].blank?
 		distpach
 	end
