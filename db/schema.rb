@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215003104) do
+ActiveRecord::Schema.define(version: 20190227182923) do
 
   create_table "credit_notes", force: true do |t|
     t.integer  "folio"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20171215003104) do
     t.string   "credit_notes"
     t.datetime "fecha_inicia_despacho"
     t.datetime "fecha_ultimo_despacho"
+    t.string   "observation"
   end
 
   add_index "gmov_distpaches", ["sale_distpach_id"], name: "index_gmov_distpaches_on_sale_distpach_id"

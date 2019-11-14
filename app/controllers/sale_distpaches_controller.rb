@@ -29,6 +29,7 @@ class SaleDistpachesController < ApplicationController
 				@gmov.fecha_inicia_despacho = Time.now - 3.hours if @gmov.fecha_inicia_despacho == nil
 				@gmov.fecha_ultimo_despacho = Time.now - 3.hours
 				@gmov.updated_at = Time.now - 3.hours
+				@gmov.observation = g[1][:observation] if g[1][:observation] != nil
 				@gmov.save!
 			end
 			@sale.updated_at = Time.now - 3.hours
@@ -62,12 +63,14 @@ class SaleDistpachesController < ApplicationController
 					@gmov.fecha_inicia_despacho = Time.now - 3.hours if @gmov.fecha_inicia_despacho == nil
 					@gmov.updated_at = Time.now - 3.hours
 					@gmov.fecha_ultimo_despacho = Time.now - 3.hours
+					@gmov.observation = g[1][:observation] if g[1][:observation] != nil
 					@gmov.status = "Completado"
 				else
 					if(@gmov.pending_distpach.to_f == @gmov.sale_check_quantity.to_f)
 						@sale_distpach_complete = false
 						@gmov.updated_at = Time.now - 3.hours
 					  @gmov.status = "Pendiente"
+					  @gmov.observation = g[1][:observation]
 					  @gmov.user = current_user
 					else
 					  @sale_distpach_complete = false
@@ -75,6 +78,7 @@ class SaleDistpachesController < ApplicationController
 					  @gmov.updated_at = Time.now - 3.hours
 					  @gmov.fecha_ultimo_despacho = Time.now - 3.hours
 					  @gmov.status = "Parcial"
+					  @gmov.observation = g[1][:observation]
 					  @gmov.user = current_user
 				  end
 				end

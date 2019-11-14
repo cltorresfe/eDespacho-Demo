@@ -51,12 +51,13 @@
         <th>Cantidad Vendida</th>
         <th>Pendiente por despachar</th>
         <th>Cantidad a Despachar</th>
+        <th>Observación</th>
       </tr>
     </thead>
 
     <tbody>
   
-      <% @distpach.gmov_distpaches.each do |gmov| %>
+      <% @distpach.gmov_distpaches.order("id_line_gmov asc").each do |gmov| %>
         <%= f.fields_for  'gmov_distpaches[]', gmov do | g | %>
             <tr class= <%= "bg-warning" if gmov.has_credit_note %>>
                 <td><%= gmov.id_line_gmov %></td>
@@ -70,15 +71,22 @@
                 <td ><%= eval(sprintf("%8.3f", gmov.sale_check_quantity)) %></td>
                 <td ><%= eval(sprintf("%8.3f", gmov.pending_distpach)) %></td>
                 <td >
+                  <%= g.hidden_field :id %>
                   <% if gmov.status == 'Completado' %>
                     <span class="label label-info">Completado</span>
                   <% elsif gmov.status == 'Error' %>
                     <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any, value: "" %>
-                    <%= g.hidden_field :id %><span class="label label-danger">Error</span>
+                    <span class="label label-danger">Error</span>
                   <% else %>
                     <%= g.number_field :distpached_quantity, class: 'form-control', placeholder: 'Ingrese Cantidad', step: :any, Value: "" %>
-                    <%= g.hidden_field :id %>
                   <% end %>   
+                </td>
+                <td>
+                  <% if gmov.status == 'Completado' %>
+                    <span class=""><%= gmov.observation %></span>
+                  <% else %>
+                    <%= g.text_field :observation, class: 'form-control', placeholder: 'Ingrese obs.', step: :any %>
+                  <% end %>
                 </td>
             </tr>
         <% end %>
