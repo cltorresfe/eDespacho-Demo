@@ -1,4 +1,11 @@
 class Gmov < ActiveRecord::Base
+  #establish_connection({
+  #  :adapter     => "sqlserver",
+  #  :host          => "zeus",
+  #  :username => "sa",
+  #  :password => "SQLserver2010",
+  #  :database => "despacho_development"
+  #})
   establish_connection :report_db_development
   self.table_name_prefix  = 'acoma.softland'
   self.table_name =  "acoma.softland.iw_gmovi"

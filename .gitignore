@@ -11,5 +11,6 @@
 /log/*
 !/log/.keep
 /tmp
+#config/database.yml
 /public/assets/
-
+#.env

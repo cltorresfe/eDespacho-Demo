@@ -1,10 +1,12 @@
 source 'http://rubygems.org'
 
+ruby '2.3.3'
+
 gem 'rails', '4.1.16'
 gem 'sass-rails'
-gem 'sqlite3'
+
 gem 'bootstrap-sass'
-gem 'autoprefixer-rails'
+gem 'autoprefixer-rails', '~> 7.1.3'
 
 gem 'uglifier'
 gem 'coffee-rails'
@@ -15,9 +17,9 @@ gem 'jbuilder'
 gem 'sdoc'
 gem 'devise-i18n'
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+gem 'tzinfo-data',  '~> 1.2017', '<= 1.2017.2', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'thin'
-gem 'tiny_tds', '~> 1.0', '<= 1.0.5'
+gem 'tiny_tds'
 gem 'activerecord-sqlserver-adapter'
 gem 'composite_primary_keys'
 gem 'devise'

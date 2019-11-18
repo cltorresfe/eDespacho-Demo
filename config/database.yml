@@ -4,21 +4,25 @@ default: &default
   username: sa
   password: SQLserver2010
   timeout: 25
-  host: zeus
+
 
 development:
   <<: *default
+  host: zeus
   database: despacho_development
 
 
 report_db_development:
   <<: *default
-  database:   acoma
+  dataserver: ZEUS\SQL2014
+  database: acoma
 
 test:
   <<: *default
+  host: zeus
   database: despacho_development
 
 production:
   <<: *default
+  host: zeus
   database: despacho_production
