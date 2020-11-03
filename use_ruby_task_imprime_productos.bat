@@ -1,0 +1,1 @@
+rake imprime:productos stats RAILS_ENV="production"

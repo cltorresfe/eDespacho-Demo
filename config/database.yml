@@ -2,7 +2,7 @@ default: &default
   adapter: sqlserver
   encoding: utf8
   username: sa
-  password: SQLserver2010
+  password: SQLserver2011
   timeout: 25
 
 
@@ -14,7 +14,7 @@ development:
 
 report_db_development:
   <<: *default
-  dataserver: ZEUS\SQL2014
+  dataserver: ZEUS
   database: acoma
 
 test:

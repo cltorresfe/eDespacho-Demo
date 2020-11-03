@@ -5,7 +5,7 @@ namespace :imprime do
   desc "Envía a imprimir un documento facturado o boleta"
   task :productos => :environment do
   	my_logger ||= Logger.new("#{Rails.root}/log/my_products_print.log")
-  	7715.times do  		
+  	23500.times do  		
 		  #... content of the loop
 		  min = Time.now - 4.hours - 3.minutes
 		  puts "Rango Consulta: #{Time.now - 2.minutes} - #{Time.now} "
@@ -22,20 +22,20 @@ namespace :imprime do
 	    	products.each do |sale|
 	    	  my_logger.info( "Producto Softland: #{sale.Folio} - Tipo: #{sale.Tipo} ")	
 	    		printer = Printer.where(folio: sale.Folio, id_gsaen: sale.NroInt).take
-	    		if( printer.present?)	    				    			
-	    			if(printer.imprime_at < (Time.now - 25))
-	    			   # printer.destroy	    			   
-	    			end
-	    		else
+	  			if( printer.present?)	    				    			
+	  				if(printer.imprime_at < (Time.now - 25))
+	  				   # printer.destroy	    			   
+	  				end
+	  			else
 	    		  my_logger.info( "Ingresando Producto Softland a Impresora: #{sale.Folio} - Tipo: #{sale.Tipo} ")		    			
-	  	  		printer = Printer.new
-	  	  		printer.folio = sale.Folio
-	  	  		printer.id_gsaen = sale.NroInt
-	  	  		printer.type_doc = sale.Tipo
-	  	  		printer.codigo_bodega = sale.CodBode
-	  	  		printer.imprime_at = 1.minutes.ago
-	    			printer.save!
-	    			products_within_print << sale
+	  	  		  printer = Printer.new
+	  	  		  printer.folio = sale.Folio
+	  	  		  printer.id_gsaen = sale.NroInt
+	  	  		  printer.type_doc = sale.Tipo
+	  	  		  printer.codigo_bodega = sale.CodBode
+	  	  		  printer.imprime_at = 1.minutes.ago
+	    		  printer.save!
+	    		  products_within_print << sale
 	    		end
 	    	end
 	    	if(products_within_print.length > 0)
@@ -103,7 +103,8 @@ namespace :imprime do
 				 	pdf.render_file "C:/eDespacho/output.pdf"
 				 	puts "Enviando a imprimir PDF..."
 				 	my_logger.info( "Enviando a imprimir productos... ")	
-					printer = '\\Bodega_51/BIXOLON SRP-350II (Copiar 1)'
+					#printer = '\\Bodega_ir/BIXOLON SRP-350II (Copiar 1)'
+					printer = '\\Bodega_ir/Brother HL-2240 series (Copiar 1)'
 				 	shell = WIN32OLE.new('Shell.Application')
 				 	foxit= "C:/Program Files (x86)/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe"
 				 	shell.ShellExecute(foxit,"/t \"C:/eDespacho/output.pdf\"")
@@ -114,7 +115,7 @@ namespace :imprime do
 		 puts "Esperando para siguiente consulta..."
 		 my_logger.info( "Esperando para siguiente consulta...")
 		 #sleep(t + 8 - Time.now)
-		 sleep(7)
+		 sleep(2)
 	  end
 	  puts "#{Time.now} - Tarea Terminada Satisfactoriamente!"	  
 	  my_logger.info( "#{Time.now} - Tarea Terminada Satisfactoriamente!") 

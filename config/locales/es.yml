@@ -10,3 +10,6 @@ es:
               confirmation: "Debe agregar contraseña de confirmación válida."
             password:
               blank: "Campo vacío"
+    messages:
+      record_invalid: "Grabado incorrecto. Existen dos facturas con el mismo número en Softland."
+              

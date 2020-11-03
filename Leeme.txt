@@ -72,5 +72,42 @@ Pasos para instalar eDespacho Software
 - Para correr en Desarrollo
 	- gem install rack -v 2.0.1
 	- rails s
-	^
+	
 
+
+
+	Nueva aplicacion en carpeta c://Ruby23
+
+instalar 
+- rubyinstaller-2.3.3-x64 (https://rubyinstaller.org/downloads/archives/)
+- DevKit-mingw64-64-4.7.2-20130224-1432-sfx (https://rubyinstaller.org/downloads/archives/) ->elegir la carpeta donde está instalado ruby
+- node-v12.13.0-x64 ->esto me pidió para ejecutar el Sistema en la web
+- sqljdbc_7.0.0.0_enu.jar ->este es una lib jar para sql server cliente en squirrel
+
+- para probar que todo anda ok en consola debes poner ruby -v
+- si está correcto entonces instala rails: gem install rails -v 4.1.16 --no-ri --no-rdoc
+
+- copiar carpeta despacho a c://Ruby23/projects
+- ir a c://Ruby23 en la linea de comandos y ejecutar:
+      Run cd C:\Ruby193\DevKit
+      Run ruby dk.rb init
+      Run ruby dk.rb review
+      Run ruby dk.rb install
+- hacer bundle install
+- agregar al datebase.yml
+	report_db_development:
+  	<<: *default
+  	dataserver: ZEUS
+  	database: acoma
+- poner rails s
+- en RegEdit.
+	Under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\ hacer los cambios que dice esta web: https://www.benkirane.ch/deployment-rails-4-app-windows/
+	 OJO: colocar donde está alojado ruby.exe, la aplicación y la ruta del hin con el puerto 81 para que salga a la web con : acomaserver.ddns.net:81/users/sign_in
+- para crear servicio windows debes tener el archivo srvany.exe en la carpeta bin de ruby23
+- para tareas automatica  
+   -> hay que crear variable de entorno del sistema..nombre  pathy poner la ubicacion del bin... 
+   ->probarlo en cmd ...si resulta ruby -v está ok  
+   (importar en tareas programadas el archivo "Migra ventas para eDespacho.xml"). 
+    modificar la ubicacionactual de la aplicacion.
+Para enviar a imprimir en pdf se debe instalar la siguiente aplicación: wkhtmltox-0.12.4_msvc2015-win32.exe (está en herramientas del respaldo)dejarla en:
+"C:/Program Files (x86)/wkhtmltopdf/bin/wkhtmltopdf.exe" 

@@ -20,7 +20,14 @@ class SearchController < ApplicationController
   	@credit_note = Sale.credit_note('N', folio, type)
   	@distpach = SaleDistpach.find_distpach(type, @sale.NroInt)
   	unless @distpach.present?
-  		@distpach = new_sale_distpach(@sale, @credit_note )
+      result_distpach = nil
+      if result_distpach.present? 
+        mensaje = "Ya existe un despacho con fecha: #{result_distpach.first.created_at}"
+        redirect_to root_path, danger: mensaje
+        return
+      else
+        @distpach = new_sale_distpach(@sale, @credit_note ) 
+      end
     else
       # @distpach = edit_sale_distpach(@distpach, @sale, @credit_note )
   	end
@@ -126,6 +133,7 @@ class SearchController < ApplicationController
   	@distpach.folio = sale.Folio
     @distpach.fecha_crea_softland = sale.FecHoraCreacion
     @distpach.tipo_ingreso = 'IM'
+    @distpach.subTipoDoc = sale.SubTipoDocto
   	@flug_sale_distpached = true
   	sale.gmovs.each do |gmov|
   		flug_nc = false

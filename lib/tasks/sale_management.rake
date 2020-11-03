@@ -43,6 +43,7 @@ def save_sale(sale)
 		@distpach.id_store = sale.CodBode.to_i
 		@distpach.folio = sale.Folio
 		@distpach.status = "Pendiente Automatico"
+		@distpach.subTipoDoc = sale.SubTipoDocto
 		@distpach.tipo_ingreso = 'IA'
 		begin
 			sale.gmovs.each do |gmov|

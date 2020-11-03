@@ -12,7 +12,7 @@ class Sale < ActiveRecord::Base
   has_many :gmovs, class_name: "Gmov", foreign_key: [:Tipo, :NroInt]
 
   def self.folio_sale(type, folio)
-		where(Folio: folio.to_i, Tipo: type).take
+		where(Folio: folio.to_i, Tipo: type).where("YEAR(Fecha) > ?",2019).last
   end
 
   def self.credit_note(type, folio, doc_ref)
