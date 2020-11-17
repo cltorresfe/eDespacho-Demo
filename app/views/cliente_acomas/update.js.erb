@@ -1,0 +1,3 @@
+$("#modal_cliente").modal('hide');
+$("#container_cliente_acomas").prepend('<%= j render @cliente_acoma%>');
+$("#cliente_acoma_<%= @cliente_acoma.id %>").hide().fadeIn(1000);

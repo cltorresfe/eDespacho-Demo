@@ -11,7 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190227182923) do
+ActiveRecord::Schema.define(version: 20201111184814) do
+
+  create_table "cliente_acomas", force: true do |t|
+    t.integer  "run_cliente"
+    t.string   "dv_cliente"
+    t.string   "nombres_cliente"
+    t.string   "apellidos_cliente"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "cliente_acomas", ["run_cliente"], name: "index_cliente_acomas_on_run_cliente", unique: true
+  add_index "cliente_acomas", ["user_id"], name: "index_cliente_acomas_on_user_id"
+
+  create_table "clientes", force: true do |t|
+    t.integer  "run_cliente"
+    t.string   "dv_cliente"
+    t.string   "nombres_cliente"
+    t.string   "apellidos_cliente"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "clientes", ["user_id"], name: "index_clientes_on_user_id"
 
   create_table "credit_notes", force: true do |t|
     t.integer  "folio"
@@ -102,6 +127,7 @@ ActiveRecord::Schema.define(version: 20190227182923) do
     t.integer  "id_store",                      default: 51
     t.string   "tipo_ingreso",                  default: "IM"
     t.datetime "fecha_crea_softland"
+    t.string   "subTipoDoc",                    default: "XY"
   end
 
   create_table "users", force: true do |t|

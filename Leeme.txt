@@ -111,3 +111,32 @@ instalar
     modificar la ubicacionactual de la aplicacion.
 Para enviar a imprimir en pdf se debe instalar la siguiente aplicación: wkhtmltox-0.12.4_msvc2015-win32.exe (está en herramientas del respaldo)dejarla en:
 "C:/Program Files (x86)/wkhtmltopdf/bin/wkhtmltopdf.exe" 
+
+
+
+Modificaciones al Sistema (03 de novmiembre 2020)
+- Cambiar estructura base de la tabla SaleDistpach: $50.000
+
+- Modificar eventos de migraciones ->Búsaueda manual y Búsqueda automática desde Softland a eDespacho para agregar columna nueva “SubTipoDocTo”: $30.000
+- Modificar índice de la estructura de la tabla SaleDistpach con el nuevo campo “TipoDocto” en código fuente eDespacho: $30.000
+- Modificar indice masivamente para datos ingresados con: Folio, TipoDoc, SubTipoDcto” en todos los despachos realizados: $50.000
+- Agregar columna SubtipoDcto en reporte eDespacho: $20.000
+Total: $170.000 
+descuento: $20.000
+Total con descuento: $150.000
+
+
+(11-11-2020)
+- crear nueva tabla clientes (rut, nombres, apellidos, usuario_crea, fecha creación)  en base de datos y en modelo de datos de la aplicación=> $80.000
+Detalle: rails generate migration CreateCliente run_cliente:int dv_cliente nombres_cliente:string apellidos_cliente:string usuario_crea_cliente: int
+
+- Creación Formulario CRUD (crea, lee, actualiza, borra) de los datos de un cliente => $80.000
+- Modificar tabla en base de datos despacho_productos para agregar campo rut cliente =>$30.000
+- Modificar Reporte de despachos por fecha para agregar campo rut cliente y nombre completo cuando corresponda => $30.000
+-  Agregar nueva ventana al formulario de ingreso de despachos de productos para agregar datos necesarios del cliente nuevo $40.000
+- Agregar búsqueda por rut de cliente al formulario de ingreso de despachos de productos =>$45.000
+- Modificar acción del botón de "Despachar" en el formulario de ingreso de despachos de productos => $20.000
+
+Total = $325.000
+Descuento = $25.000
+Total = $300.000

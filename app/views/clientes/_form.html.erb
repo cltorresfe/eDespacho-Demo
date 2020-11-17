@@ -1,0 +1,55 @@
+<%= form_for @cliente, :html => { :class => "form-horizontal cliente" } do |f| %>
+  <% if @cliente.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@cliente.errors.count, "error") %> prohibited this cliente from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @cliente.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+
+  <div class="form-group">
+    <%= f.label :run_cliente, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.number_field :run_cliente, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :dv_cliente, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :dv_cliente, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :nombres_cliente, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :nombres_cliente, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :apellidos_cliente, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :apellidos_cliente, :class => 'form-control' %>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancelar',
+                clientes_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>

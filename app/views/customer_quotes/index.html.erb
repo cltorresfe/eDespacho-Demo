@@ -39,6 +39,9 @@
   </tbody>
 </table>
 <%= will_paginate @customer_quotes, :previous_label => 'Anterior', :next_label => 'Siguiente' %>
+ <%= link_to 'Nuevojax',
+                new_cliente_acoma_path, { :class => 'btn btn-info btn-xs', 'data-toggle' => 'modal', 'data-target'=> '#modal_cliente', remote: true } %>
+<%= render "cliente_acomas/modal" %>
 <%= render "modal" %>
 <script type="text/javascript">
     $(document).ready(function(){

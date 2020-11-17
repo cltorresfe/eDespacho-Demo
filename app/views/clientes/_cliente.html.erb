@@ -1,0 +1,23 @@
+<tr id="cliente_<%= cliente.id %>">
+
+  <td><%= cliente.run_cliente %></td>
+
+  <td><%= cliente.dv_cliente %></td>
+
+  <td><%= cliente.nombres_cliente %></td>
+
+  <td><%= cliente.apellidos_cliente %></td>
+
+  <td><%= cliente.created_at %></td>
+  <td>
+    <%= link_to 'Mostrar',
+                cliente_path(cliente), :class => 'btn btn-default btn-xs' %>
+    <%= link_to 'Editar',
+                edit_cliente_path(cliente), :class => 'btn btn-default btn-xs' %>
+    <%= link_to 'Eliminar',
+                cliente_path(cliente),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-xs btn-danger' %>
+  </td>
+</tr>

@@ -11,6 +11,7 @@ class CustomerQuotesController < ApplicationController
       @customer_quotes = CustomerQuote.all.paginate(:page => params[:page], :per_page => 20)
     end
     @customer_quote = CustomerQuote.new
+    @cliente_acoma = ClienteAcoma.new
   end
 
   def show

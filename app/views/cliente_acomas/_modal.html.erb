@@ -1,0 +1,77 @@
+
+  <%= form_for @cliente_acoma, remote: true, :html => { :class => "form-horizontal cliente_acoma" } do |f| %>
+  <div class="modal fade" id="modal_cliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Cliente Acoma</h4>
+        </div>
+        
+        <div class="modal-body">
+            <div class="form-group">
+
+                <%= f.label :run_cliente, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                    <%= hidden_field_tag  :run_cliente, params[:run_cliente], class: "form-control"%>
+                    <%= hidden_field_tag  :id, params[:id], class: "form-control"%>
+                  <input id="buscador_rut_cliente"  name="buscador_rut_cliente" type="text" class="txt-auto form-control" >
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :dv_cliente, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.text_field :dv_cliente, :class => 'form-control cliente_acoma_dv_cliente' %>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :nombres_cliente, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.text_field :nombres_cliente, :class => 'form-control cliente_acoma_nombres_cliente' %>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <%= f.label :apellidos_cliente, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-8">
+                  <%= f.text_field :apellidos_cliente, :class => 'form-control cliente_acoma_apellidos_cliente' %>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="mynewcliente_acomaclose">Close</button>
+          <%= submit_tag "Crear", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+ <% end %>
+<script>
+  $(function () {
+      $("#buscador_rut_cliente").autocomplete({
+          source: '/cliente_autocomplete',
+          minLength: 4,
+          appendTo: '#modal_cliente',
+          select: function (event, ui) {
+            $("#run_cliente").val(ui.item.run_cliente);
+            $("#cliente_acoma_dv_cliente").val(ui.item.dv_cliente);
+            $("#cliente_acoma_nombres_cliente").val(ui.item.nombres_cliente);
+            $("#cliente_acoma_apellidos_cliente").val(ui.item.apellidos_cliente);
+            $("#cliente_acoma_apellidos_cliente").val(ui.item.apellidos_cliente);
+          },
+          close: function () {},
+      });
+  });
+
+</script>

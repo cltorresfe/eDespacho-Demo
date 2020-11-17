@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  resources :cliente_acomas
   get 'main/index'
 
   resources :warehouses
+  resources :clientes
   resources :sale_distpaches, only: [:create, :new, :index, :destroy], shollow: true do
   	resources :gmov_distpaches
   end
@@ -20,6 +22,7 @@ Rails.application.routes.draw do
   get "carro_cotizacion" => "quotes#carro_cotizacion", as: :carro_cotizacion
   post "llamada_ajax" => "search#llamada_ajax", as: :llamada_ajax
   get "buscardor_autocomplete" => "search#buscardor_autocomplete", as: :buscardor_autocomplete
+  get "cliente_autocomplete" => "cliente_acomas#buscardor_autocomplete", as: :cliente_autocomplete
   
 
   root 'main#index'

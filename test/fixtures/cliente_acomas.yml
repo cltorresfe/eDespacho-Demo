@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  run_cliente: 1
+  dv_cliente: MyString
+  nombres_cliente: MyString
+  apellidos_cliente: MyString
+
+two:
+  run_cliente: 1
+  dv_cliente: MyString
+  nombres_cliente: MyString
+  apellidos_cliente: MyString

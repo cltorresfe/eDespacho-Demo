@@ -1,0 +1,12 @@
+$("#modal_cliente").modal('hide');
+
+$(".cliente_acoma_run_cliente").val('');
+
+$(".cliente_acoma_dv_cliente").val('');
+
+$(".cliente_acoma_nombres_cliente").val('');
+
+$(".cliente_acoma_apellidos_cliente").val('');
+
+$("#container_cliente_acomas").prepend('<%= j render @cliente_acoma%>');
+$("#cliente_acoma_<%= @cliente_acoma.id %>").hide().fadeIn(1000);
