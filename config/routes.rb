@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   get 'main/index'
 
   resources :warehouses
-  resources :clientes
   resources :sale_distpaches, only: [:create, :new, :index, :destroy], shollow: true do
   	resources :gmov_distpaches
   end
