@@ -21,8 +21,8 @@ class ClienteAcomasController < ApplicationController
   # POST /cliente_acomas
   # POST /cliente_acomas.js
   def create
-    binding.pry
     if params[:id].present?
+      @cliente_acoma = ClienteAcoma.find(params[:id])
       respond_to do |format|
         if @cliente_acoma.update(cliente_acoma_params)
           format.html { redirect_to @cliente_acoma, notice: 'Cliente acoma ha sido actualizado correctamente.' }
@@ -62,7 +62,7 @@ class ClienteAcomasController < ApplicationController
 
   def buscardor_autocomplete
     term = params[:term]
-    @find = ClienteAcoma.select("run_cliente as value, run_cliente, nombres_cliente, id, apellidos_cliente, dv_cliente ").where("run_cliente LIKE ?", "%#{term}%").limit(10)
+    @find = ClienteAcoma.select("concat(run_cliente,'-',dv_cliente) as value, run_cliente, nombres_cliente, id, apellidos_cliente, dv_cliente ").where("run_cliente LIKE ?", "%#{term}%").limit(10)
     respond_to do |format|
       format.json { render :json => @find.to_json }
     end
