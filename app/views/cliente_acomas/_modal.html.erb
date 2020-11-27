@@ -1,4 +1,6 @@
-
+<% if @distpach.present? && @distpach.cliente_acoma.present?
+     @cliente_acoma = @distpach.cliente_acoma
+  end %>
   <%= form_for @cliente_acoma, remote: true, :html => { :class => "form-horizontal cliente_acoma" } do |f| %>
   <div class="modal fade" id="modal_cliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -6,21 +8,24 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Cliente Acoma</h4>
+          <h4 class="modal-title" id="myModalLabel">Cliente Acoma Folio: <%= @distpach.folio if @distpach.present?%></h4>
         </div>
         
         <div class="modal-body">
-            <div class="form-group">
+            <div class="form-group" id="form_group_rut">
 
-                <%= f.label :run_cliente, :class => 'control-label col-lg-3' %>
-                <div class="col-lg-6">
-                    <%= f.hidden_field  :run_cliente, class: "form-control"%>
+                <%= f.label :rut_cliente, :class => 'control-label col-lg-3' %>
+                <div class="col-lg-4">
+                    <%= hidden_field_tag  :run_cliente, @cliente_acoma.run_cliente, class: "form-control"%>
                     <%= hidden_field_tag  :id, params[:id], class: "form-control"%>
-                  <input id="buscador_rut_cliente"  name="buscador_rut_cliente" type="text" class="txt-auto form-control" >
+                    <% if @distpach.present? %>
+                    <%= hidden_field_tag  :id_sale_distpach, @distpach.id, class: "form-control"%>
+                    <% end %>
+                  <input id="buscador_rut_cliente"  name="buscador_rut_cliente" type="text" class="txt-auto form-control" oninput="vaciaCampos(this)" maxlength="12" aria-describedby="helpBlock2" >
+                  <input id="id_cliente_acoma"  name="id_cliente_acoma" type="hidden" class="txt-auto form-control" >
+                  <span id="glyphicon_error_rut" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
-                <div class="col-lg-2">
-                    <%= f.text_field :dv_cliente, :class => 'form-control cliente_acoma_dv_cliente' %>
-                </div>
+                <span id="error_rut_txt" class="help-block"></span>
 
             </div>
 
@@ -28,7 +33,8 @@
 
                 <%= f.label :nombres_cliente, :class => 'control-label col-lg-3' %>
                 <div class="col-lg-8">
-                  <%= f.text_field :nombres_cliente, :class => 'form-control cliente_acoma_nombres_cliente' %>
+
+                  <%= f.text_field :nombres_cliente, :class => 'form-control cliente_acoma_nombres_cliente', :required => true, :maxlength => '30' %>
                 </div>
 
             </div>
@@ -37,7 +43,7 @@
 
                 <%= f.label :apellidos_cliente, :class => 'control-label col-lg-3' %>
                 <div class="col-lg-8">
-                  <%= f.text_field :apellidos_cliente, :class => 'form-control cliente_acoma_apellidos_cliente' %>
+                  <%= f.text_field :apellidos_cliente, :class => 'form-control cliente_acoma_apellidos_cliente', :required => true, :maxlength => '30' %>
                 </div>
 
             </div>
@@ -45,7 +51,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="mynewcliente_acomaclose">Close</button>
-          <%= submit_tag "Crear", class: "btn btn-primary" %>
+          <%= submit_tag "Asociar", class: "btn btn-primary" %>
         </div>
       </div>
     </div>
@@ -53,33 +59,76 @@
  <% end %>
 <script>
   $(function () {
-    var select = "alcano";
       $("#buscador_rut_cliente").autocomplete({
           source: '/cliente_autocomplete',
           minLength: 4,
           appendTo: '#modal_cliente',
           select: function (event, ui) {
-            $("#cliente_acoma_run_cliente").val(ui.item.run_cliente);
-            select = ui.item.run_cliente;
-            $("#buscador_rut_cliente").val(ui.item.run_cliente);
-            $("#cliente_acoma_dv_cliente").val(ui.item.dv_cliente);
+            $("#run_cliente").val(ui.item.rut_cliente);
             $("#cliente_acoma_nombres_cliente").val(ui.item.nombres_cliente);
             $("#cliente_acoma_apellidos_cliente").val(ui.item.apellidos_cliente);
             $("#cliente_acoma_apellidos_cliente").val(ui.item.apellidos_cliente);
             $("#id").val(ui.item.id);
-          },
-          close: function () {
-            $("#buscador_rut_cliente").val(select);
-          },
-          change: function () {
-            $("#cliente_acoma_run_cliente").val($("#buscador_rut_cliente").val());
-            $("#cliente_acoma_dv_cliente").val('');
-            $("#cliente_acoma_nombres_cliente").val('');
-            $("#cliente_acoma_apellidos_cliente").val('');
-            $("#cliente_acoma_apellidos_cliente").val('');
-            $("#id").val('');
+            $("#id_cliente_acoma").val(ui.item.id);
           }
       });
+      
   });
+  $(document).ready(function() {
+
+     var Fn = {
+      // Valida el rut con su cadena completa "XXXXXXXX-X"
+      validaRut : function (rutCompleto) {
+        rutCompleto = rutCompleto.replace("‐","-");
+        if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+          return false;
+        var tmp   = rutCompleto.split('-');
+        var digv  = tmp[1]; 
+        var rut   = tmp[0];
+        if ( digv == 'K' ) digv = 'k' ;
+        
+        return (Fn.dv(rut) == digv );
+      },
+      dv : function(T){
+        var M=0,S=1;
+        for(;T;T=Math.floor(T/10))
+          S=(S+T%10*(9-M++%6))%11;
+        return S?S-1:'k';
+      }
+    }
+
+    $("#glyphicon_error_rut").hide();
+    $('form.cliente_acoma').on('ajax:beforeSend', function(event, xhr, settings) {
+      if (Fn.validaRut( $("#buscador_rut_cliente").val() )){
+        $('#form_group_rut').removeClass('has-error');
+        $('#form_group_rut').removeClass('has-feedback');
+        $("#error_rut_txt").text("");
+        $("#glyphicon_error_rut").hide();
+        return true;
+      }else{
+        $('#form_group_rut').addClass('has-error');
+        $('#form_group_rut').addClass('has-feedback');
+        $("#error_rut_txt").text("Debe ingresar un rut válido");
+        $("#glyphicon_error_rut").show();
+        //$('form.cliente_acoma').validator();
+        return false;
+      }
+    });
+
+    
+  });
+
+  function vaciaCampos(rut){
+    $("#cliente_acoma_nombres_cliente").val('');
+    $("#cliente_acoma_apellidos_cliente").val('');
+    $("#cliente_acoma_apellidos_cliente").val('');
+    $("#id_cliente_acoma").val('');
+    $("#buscador_rut_cliente").val(rut.value.replace('.',''));
+    $('#form_group_rut').removeClass('has-error');
+    $('#form_group_rut').removeClass('has-feedback');
+    $("#error_rut_txt").text("");
+    $("#glyphicon_error_rut").hide();
+  }
+
 
 </script>

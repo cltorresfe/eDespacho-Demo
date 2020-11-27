@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201111184814) do
+ActiveRecord::Schema.define(version: 20201119131855) do
 
   create_table "cliente_acomas", force: true do |t|
     t.integer  "run_cliente"
@@ -128,7 +128,10 @@ ActiveRecord::Schema.define(version: 20201111184814) do
     t.string   "tipo_ingreso",                  default: "IM"
     t.datetime "fecha_crea_softland"
     t.string   "subTipoDoc",                    default: "XY"
+    t.integer  "cliente_acoma_id"
   end
+
+  add_index "sale_distpaches", ["cliente_acoma_id"], name: "index_sale_distpaches_on_cliente_acoma_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false

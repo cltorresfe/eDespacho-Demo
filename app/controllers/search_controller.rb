@@ -20,15 +20,21 @@ class SearchController < ApplicationController
   	@credit_note = Sale.credit_note('N', folio, type)
   	@distpach = SaleDistpach.find_distpach(type, @sale.NroInt)
   	unless @distpach.present?
+      @cliente_acoma = ClienteAcoma.new
       result_distpach = nil
       if result_distpach.present? 
         mensaje = "Ya existe un despacho con fecha: #{result_distpach.first.created_at}"
         redirect_to root_path, danger: mensaje
         return
       else
-        @distpach = new_sale_distpach(@sale, @credit_note ) 
+        @distpach = new_sale_distpach(@sale, @credit_note )
       end
     else
+      if @distpach.cliente_acoma.present?
+        @cliente_acoma = @distpach.cliente_acoma
+      else
+        @cliente_acoma = ClienteAcoma.new
+      end
       # @distpach = edit_sale_distpach(@distpach, @sale, @credit_note )
   	end
   rescue ActiveRecord::RecordNotFound

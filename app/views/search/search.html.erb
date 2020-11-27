@@ -34,6 +34,12 @@
             <dd><%= @sale.Usuario %></dd>
             <dt>Total Venta:</dt>
             <dd><%= @sale.Total %></dd>
+            <dt>Cliente:</dt>
+            <% if @distpach.cliente_acoma.present? %>
+              <dd id="nombre_cliente_acoma_dd"><%= "#{@distpach.cliente_acoma.nombres_cliente} #{@distpach.cliente_acoma.apellidos_cliente} (#{@distpach.cliente_acoma.run_cliente}-#{@distpach.cliente_acoma.dv_cliente})" %></dd>
+            <% else %>
+              <dd id="nombre_cliente_acoma_dd"></dd>
+            <% end %>
           </dl>
         </address>
     </blockquote>
@@ -93,8 +99,19 @@
       <% end %>
     </tbody>
   </table>
+  <% if current_user.admin? %>
+  <div class="col-xs-3" id="cliente_acoma_boton">
+    <%= link_to 'Asociar Cliente',
+                    new_cliente_acoma_path, { :class => 'btn btn-info btn pull-right', 'data-toggle' => 'modal', 'data-target'=> '#modal_cliente', remote: true } %>
+  </div>
+  <% elsif @distpach.cliente_acoma.nil? %>
+    <div class="col-xs-3" id="cliente_acoma_boton">
+      <%= link_to 'Asociar Cliente',
+                      new_cliente_acoma_path, { :class => 'btn btn-info pull-right', 'data-toggle' => 'modal', 'data-target'=> '#modal_cliente', remote: true } %>
+    </div>
+  <% end %>
   <% if(@distpach.status != 'Despachado') %>
-    <div class="col-xs-6">
+    <div class="col-xs-3">
       <%= f.submit 'Despachar', class: 'btn btn-primary pull-right' %>
     </div>
     <div class="col-xs-3">
@@ -149,4 +166,21 @@
 <% else %>
   <h3>No se encontraron resultados</h3>
 <% end %>
+<%= render "cliente_acomas/modal", object: @distpach %>
+<script type="text/javascript">
+    $(document).ready(function(){
+      <% if @distpach.cliente_acoma.present? %>
+        $("#id_cliente_acoma").val("<%= @distpach.cliente_acoma.id %>");
+        $("#buscador_rut_cliente").val('<%= "#{@distpach.cliente_acoma.run_cliente}-#{@distpach.cliente_acoma.dv_cliente}" %>');
+        $("#run_cliente").val('<%= "#{@distpach.cliente_acoma.run_cliente}-#{@distpach.cliente_acoma.dv_cliente}" %>');
+      <% else %>
+        $("#buscador_rut_cliente").val("");
+        $("#id").val('');
+        $("#id_cliente_acoma").val('');
+        $("#run_cliente").val('');
+      <% end %>
+
+
+    });
+</script>
 

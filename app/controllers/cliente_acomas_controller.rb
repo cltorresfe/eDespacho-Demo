@@ -21,10 +21,16 @@ class ClienteAcomasController < ApplicationController
   # POST /cliente_acomas
   # POST /cliente_acomas.js
   def create
-    if params[:id].present?
-      @cliente_acoma = ClienteAcoma.find(params[:id])
+    if params[:id_cliente_acoma].present?
+      @cliente_acoma = ClienteAcoma.find(params[:id_cliente_acoma])
       respond_to do |format|
         if @cliente_acoma.update(cliente_acoma_params)
+          rut_cliente = params[:buscador_rut_cliente].split('-')
+          @cliente_acoma.run_cliente = rut_cliente[0]
+          @cliente_acoma.dv_cliente = rut_cliente[1]
+          @cliente_acoma.user = current_user
+          @cliente_acoma.save!
+          asocia_cliente_despacho(@cliente_acoma)
           format.html { redirect_to @cliente_acoma, notice: 'Cliente acoma ha sido actualizado correctamente.' }
           format.js
         else
@@ -34,9 +40,14 @@ class ClienteAcomasController < ApplicationController
       end
     else
      @cliente_acoma = ClienteAcoma.new(cliente_acoma_params)
+     rut_cliente = params[:buscador_rut_cliente].split('-')
+     @cliente_acoma.user = current_user
+     @cliente_acoma.run_cliente = rut_cliente[0]
+     @cliente_acoma.dv_cliente = rut_cliente[1]
 
      respond_to do |format|
       if @cliente_acoma.save
+        asocia_cliente_despacho(@cliente_acoma)
         format.html { redirect_to @cliente_acoma, notice: 'Cliente acoma ha sido creado correctamente.' }
         format.js
       else
@@ -49,20 +60,46 @@ class ClienteAcomasController < ApplicationController
   # PUT /cliente_acomas/1
   # PUT /cliente_acomas/1.json
   def update
-    respond_to do |format|
-      if @cliente_acoma.update(cliente_acoma_params)
-        format.html { redirect_to @cliente_acoma, notice: 'Cliente acoma ha sido actualizado correctamente.' }
+    if params[:id_cliente_acoma].present?
+      @cliente_acoma = ClienteAcoma.find(params[:id_cliente_acoma])
+      respond_to do |format|
+        if @cliente_acoma.update(cliente_acoma_params)
+          rut_cliente = params[:buscador_rut_cliente].split('-')
+          @cliente_acoma.run_cliente = rut_cliente[0]
+          @cliente_acoma.dv_cliente = rut_cliente[1]
+          @cliente_acoma.user = current_user
+          @cliente_acoma.save!
+          asocia_cliente_despacho(@cliente_acoma)
+          format.html { redirect_to @cliente_acoma, notice: 'Cliente acoma ha sido actualizado correctamente.' }
+          format.js
+        else
+          format.html { render action: 'edit' }
+          format.js
+        end
+      end
+    else
+     @cliente_acoma = ClienteAcoma.new(cliente_acoma_params)
+     rut_cliente = params[:buscador_rut_cliente].split('-')
+     @cliente_acoma.user = current_user
+     @cliente_acoma.run_cliente = rut_cliente[0]
+     @cliente_acoma.dv_cliente = rut_cliente[1]
+
+     respond_to do |format|
+      if @cliente_acoma.save
+        asocia_cliente_despacho(@cliente_acoma)
+        format.html { redirect_to @cliente_acoma, notice: 'Cliente acoma ha sido creado correctamente.' }
         format.js
       else
-        format.html { render action: 'edit' }
+        format.html { render action: 'new' }
         format.js
       end
+     end
     end
   end
 
   def buscardor_autocomplete
     term = params[:term]
-    @find = ClienteAcoma.select("concat(run_cliente,'-',dv_cliente) as value, run_cliente, nombres_cliente, id, apellidos_cliente, dv_cliente ").where("run_cliente LIKE ?", "%#{term}%").limit(10)
+    @find = ClienteAcoma.select("concat(run_cliente,'-',dv_cliente) as value, run_cliente, nombres_cliente, id, apellidos_cliente, dv_cliente, concat(run_cliente,'-',dv_cliente) as rut_cliente ").where("run_cliente LIKE ?", "%#{term}%").limit(10)
     respond_to do |format|
       format.json { render :json => @find.to_json }
     end
@@ -86,7 +123,13 @@ class ClienteAcomasController < ApplicationController
       # Only allow a trusted parameter "white list" through.
       def cliente_acoma_params
 
-        params.require(:cliente_acoma).permit(:run_cliente, :dv_cliente, :nombres_cliente, :apellidos_cliente)
+        params.require(:cliente_acoma).permit(:nombres_cliente, :apellidos_cliente)
 
+      end
+
+      def asocia_cliente_despacho(cliente)
+        distpach = SaleDistpach.find(params[:id_sale_distpach])
+        distpach.cliente_acoma = cliente
+        distpach.save!
       end
 end

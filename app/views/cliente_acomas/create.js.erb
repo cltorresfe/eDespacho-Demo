@@ -1,12 +1,14 @@
 $("#modal_cliente").modal('hide');
-
-$("#cliente_acoma_run_cliente").val('');
-
-$(".cliente_acoma_dv_cliente").val('');
-
-$(".cliente_acoma_nombres_cliente").val('');
-
-$(".cliente_acoma_apellidos_cliente").val('');
+<% unless @cliente_acoma.present? %>
+  $("#run_cliente").val('');
+  $("#buscador_rut_cliente").val('');
+  $("#id").val('');
+  $("#nombres_cliente").val('');
+  $("#apellidos_cliente").val('');
+<% else %>
+  $("#id_cliente_acoma").val('<%=@cliente_acoma.id %>');
+  $("#nombre_cliente_acoma_dd").text('<%= "#{@cliente_acoma.nombres_cliente} #{@cliente_acoma.apellidos_cliente} (#{@cliente_acoma.run_cliente}-#{@cliente_acoma.dv_cliente})" %>')
+<% end %>
 
 $("#container_cliente_acomas").prepend('<%= j render @cliente_acoma%>');
 $("#cliente_acoma_<%= @cliente_acoma.id %>").hide().fadeIn(1000);

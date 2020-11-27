@@ -53,6 +53,7 @@
           <th>Cantidad Vendida</th>
           <th>Cantidad Despachada</th>
           <th>Pendiente por despachar</th>
+          <th>Rut Cliente</th>
           <th>Estado</th>
           <% if current_user.admin? %>
             <th>Tipo Ingreso</th>
@@ -77,6 +78,7 @@
             <td ><%= gmov.sale_check_quantity.present? ? gmov.sale_check_quantity : "0.0"  %></td>
             <td ><%= gmov.distpached_quantity.present? ? gmov.distpached_quantity : "0.0"  %></td>
             <td ><%= gmov.pending_distpach %></td>
+            <td ><%= "#{gmov.sale_distpach.cliente_acoma.run_cliente}-#{gmov.sale_distpach.cliente_acoma.dv_cliente}" if gmov.sale_distpach.cliente_acoma.present? %></td>
             <td ><%= gmov.status if gmov.status.present?  %></td>
             <% if current_user.admin? %>
               <td ><%= gmov.sale_distpach.tipo_ingreso if gmov.sale_distpach.tipo_ingreso.present?  %></td>
