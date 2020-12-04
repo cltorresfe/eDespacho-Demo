@@ -158,6 +158,21 @@
     </div>
   <% end %>
 <% end %>
+<div class="modal fade" id="aviso-asociar-cliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title text-danger" id="exampleModalLongTitle">Asociar Cliente</h2>
+      </div>
+      <div class="modal-body">
+          <strong>Debes Asociar Cliente antes de Despachar productos.</strong>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn btn-primary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="credit_note" class="modal fade" role="dialog">
     <% if @credit_note.present? %>
         <%= render @credit_note %>
@@ -174,10 +189,13 @@
         $("#buscador_rut_cliente").val('<%= "#{@distpach.cliente_acoma.run_cliente}-#{@distpach.cliente_acoma.dv_cliente}" %>');
         $("#run_cliente").val('<%= "#{@distpach.cliente_acoma.run_cliente}-#{@distpach.cliente_acoma.dv_cliente}" %>');
       <% else %>
-        $("#buscador_rut_cliente").val("");
-        $("#id").val('');
-        $("#id_cliente_acoma").val('');
-        $("#run_cliente").val('');
+        <% if Date.today > @distpach.fecha_crea_softland %>
+          $("#buscador_rut_cliente").val("");
+          $("#aviso-asociar-cliente").modal("show");
+          $("#id").val('');
+          $("#id_cliente_acoma").val('');
+          $("#run_cliente").val('');
+        <% end %>
       <% end %>
 
 

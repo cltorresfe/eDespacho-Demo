@@ -12,12 +12,21 @@ class SaleDistpachesController < ApplicationController
 		})
 		@sale.destroy!
 		redirect_to search_path(params_search), action: "search", success: 'Despacho Eliminado satisfactoriamente.'
-
 	end
 
 	def create
 		@sale = SaleDistpach.find(sale_distpach_params[:id])
-		p = params[:sale_distpach][:gmov_distpaches]
+		if Date.today > @sale.fecha_crea_softland && !@sale.cliente_acoma.present?
+			params_search = ActionController::Parameters.new({
+				search: {
+					q: @sale.folio,
+					type_sale: @sale.id_sale_type
+				}
+			})
+      redirect_to search_path(params_search), action: "search", danger: 'Debe asociar un cliente para este despacho'
+		  return
+		end
+	  p = params[:sale_distpach][:gmov_distpaches]
 		@type_distpach = params[:commit]
 		if( @type_distpach == 'Despachar Total')
 			@sale.status = "Despachado"
@@ -96,6 +105,7 @@ class SaleDistpachesController < ApplicationController
 		}) 
 
 		redirect_to search_path(params_search), action: "search", success: 'Productos Despachados satisfactoriamente.'
+		return
 	end
 
 	def index

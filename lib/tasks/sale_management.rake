@@ -2,13 +2,13 @@ namespace :gestiona do
   desc "Gestiona las notas de créditos y las ventas de factura y boleta para agregarlas a eDespacho en forma automática"
   task :ventas => :environment do
   	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_nov_2019.log")
-  	6900.times do  		
+  	7900.times do  		
 		  #... content of the loop
 		  min = Time.now - 4.hours - 4.minutes
 		  my_logger.info("Consultando Rango: #{Time.now - 4.minutes} - #{Time.now} ")
 		  puts "Consultando a BD Softland..."
 		  products = Sale.all_last_sales_softland(min, Time.now )
-		  sleep(3)
+		  sleep(1)
   	  puts "Cantidad de Productos encontrados: #{products.length}"
   	  my_logger.info("Cantidad de Productos encontrados: #{products.length}")
   	  if(products.length > 0)
@@ -21,7 +21,7 @@ namespace :gestiona do
 				  else
 				  	save_sale(sale)
 				  end
-				  sleep(2)
+				  sleep(1)
 				end
 			end
 		  my_logger.info("Esperando para siguiente consulta automática...")
@@ -32,9 +32,9 @@ end
 def save_sale(sale)
 	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_nov_2019.log")
 	# pregunta si existe una factura o boleta ya ingresada a eDespacho
-	sleep(2)
+	sleep(1)
 	@distpach_edespacho = SaleDistpach.find_distpach(sale.Tipo, sale.NroInt)
-	sleep(2)
+	sleep(1)
 	unless @distpach_edespacho.present?
 		my_logger.info("(nuevo)...Guardando Doc. Tipo: #{sale.Tipo} - Folio: #{sale.Folio}. IdSale: #{sale.NroInt}")
 		@distpach = SaleDistpach.new
@@ -114,7 +114,7 @@ def save_credit_note(credit_note_softland)
 				if @distpach.present?
 					my_logger.info("Documento existente en eDespacho Tipo: #{@sale_softland.Tipo} Folio:#{@sale_softland.Folio}")
 					save_credit_note_product(nc_product, credit_note_softland)
-					sleep(2)
+					sleep(1)
 					my_logger.info("tarea 3")
 					# actualiza SaleDistpach y GmovDistpach rebajando los notas de crédito
 		  		@flug_sale_distpached = actualiza_documento_con_nota_de_credito(@distpach, nc_product)
@@ -126,17 +126,17 @@ def save_credit_note(credit_note_softland)
 		  		rescue Exception => e
 		  			my_logger.info("ERROR CL-> #{e.message} ... Guardando NC2 despacho. Tipo: #{credit_note_softland.Tipo} - Folio: #{credit_note_softland.Folio}. IdSale: #{credit_note_softland.NroInt}")
 		  		end
-		  		sleep(2)
+		  		sleep(1)
 		  		my_logger.info("tarea 8")
 		  	else
 		  		my_logger.info("No encuentra documento en Softlandy y lo guarda 1")
 		  		save_sale(@sale_softland)
-		  		sleep(2)
+		  		sleep(1)
 		  		@distpach = SaleDistpach.find_distpach(@sale_softland.Tipo, @sale_softland.NroInt)
 		  		if @distpach.present?
 					  my_logger.info("Ahora Documento existente en eDespacho Tipo: #{@sale_softland.Tipo} Folio:#{@sale_softland.Folio}")
 		  			save_credit_note_product(nc_product, credit_note_softland)
-		  			sleep(2)
+		  			sleep(1)
 		  		  @flug_sale_distpached = actualiza_documento_con_nota_de_credito(@distpach, nc_product)
 		  		  @distpach.status = @flug_sale_distpached ? "Despachado"  : "Pendiente Automatico"
 		  		  my_logger.info("si es false:PendienteAutomatica Si es true:Despachado -> #{@flug_sale_distpached}")
@@ -147,7 +147,7 @@ def save_credit_note(credit_note_softland)
 		  		  rescue Exception => e
 		  		  	my_logger.info("ERROR CL-> #{e.message} ... Guardando NC3 despacho. Tipo: #{credit_note_softland.Tipo} - Folio: #{credit_note_softland.Folio}. IdSale: #{credit_note_softland.NroInt}")
 		  		  end
-		  		  sleep(2)
+		  		  sleep(1)
 		  		else
 		  			my_logger.info("algo anda mal!")
 					end
