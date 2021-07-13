@@ -22,7 +22,9 @@ class ClienteAcomasController < ApplicationController
   # POST /cliente_acomas.js
   def create
     if params[:id_cliente_acoma].present?
+      cliente_cl = params[:id_cliente_acoma]
       @cliente_acoma = ClienteAcoma.find(params[:id_cliente_acoma])
+
       respond_to do |format|
         if @cliente_acoma.update(cliente_acoma_params)
           rut_cliente = params[:buscador_rut_cliente].split('-')

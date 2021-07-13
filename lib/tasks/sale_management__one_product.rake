@@ -1,13 +1,14 @@
-namespace :gestiona do
+namespace :gestiona_busca do
   desc "Gestiona las notas de créditos y las ventas de factura y boleta para agregarlas a eDespacho en forma automática"
   task :ventas => :environment do
-  	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_nov_2020.log")
-  	10900.times do  		
+  	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_one_product.log")
+  	1.times do  		
 		  #... content of the loop
 		  min = Time.now - 4.hours - 4.minutes
 		  my_logger.info("Consultando Rango: #{Time.now - 4.minutes} - #{Time.now} ")
 		  puts "Consultando a BD Softland..."
-		  products = Sale.all_last_sales_softland(min, Time.now )
+		 products = Sale.where(Folio: 13778, Tipo: 'N').where("YEAR(Fecha) > ?",2019)
+		 # products = Sale.where(Folio: 186352 , Tipo: 'F').where("YEAR(Fecha) > ?",2019)
 		  sleep(1)
   	  puts "Cantidad de Productos encontrados: #{products.length}"
   	  my_logger.info("Cantidad de Productos encontrados: #{products.length}")
@@ -16,6 +17,7 @@ namespace :gestiona do
       		my_logger.info("(nuevo)...Doc encontrado: #{sale.Tipo} - Folio: #{sale.Folio}. IdSale: #{sale.NroInt}")
       		puts "(nuevo)...Doc encontrado: #{sale.Tipo} - Folio: #{sale.Folio}. IdSale: #{sale.NroInt}"
 				  if(sale.Tipo == "N")
+				  	puts "esta todo bueno"
 				  	my_logger.info("(again)...Doc encontrado: #{sale.Tipo} - Folio: #{sale.Folio}. IdSale: #{sale.NroInt}")
 				  	save_credit_note(sale)
 				  else
@@ -30,7 +32,7 @@ namespace :gestiona do
 	end
 end
 def save_sale(sale)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_nov_2019.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_one_product.log")
 	# pregunta si existe una factura o boleta ya ingresada a eDespacho
 	sleep(1)
 	@distpach_edespacho = SaleDistpach.find_distpach(sale.Tipo, sale.NroInt)
@@ -76,7 +78,7 @@ def save_sale(sale)
 end
 
 def save_credit_note_product(nc_product, credit_note_softland)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_nov_2019.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_one_product.log")
 	# Agrega Nota de crédito a eDespacho
 	my_logger.info("(nuevo)...Guardando Nota de Credito - Folio: #{credit_note_softland.Folio}. IdSale: #{credit_note_softland.NroInt}")
 	my_logger.info("Guardando producto NC #{nc_product.CodProd} Cantidad pendiente por despachar: #{nc_product.CantFactUVta}")
@@ -95,13 +97,12 @@ def save_credit_note_product(nc_product, credit_note_softland)
 end
 
 def save_credit_note(credit_note_softland)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_nov_2019.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_one_product.log")
 	my_logger.info("nota de credito encontrada: #{credit_note_softland.TipDocRef} - Folio: #{credit_note_softland.AuxDocNum}.")
 	# pregunta si existe una nota de credito ya ingresada a eDespacho
 	@credit = CreditNote.find_credit_note(credit_note_softland.Tipo, credit_note_softland.Folio.to_i )
 	unless @credit.present?
 		#recorre los productos con las notas de credito de Softland
-		my_logger.info("nota de credito no ingresada")
 		credit_note_softland.gmovs.each do |nc_product|
 			my_logger.info("productos nota de credito no ingresada #{nc_product.CodProd}")
 			@sale_softland = Sale.folio_sale(credit_note_softland.TipDocRef, credit_note_softland.AuxDocNum)
@@ -160,7 +161,7 @@ def save_credit_note(credit_note_softland)
 end
 
 def actualiza_documento_con_nota_de_credito(distpach, nc_product)
-	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_nov_2019.log")
+	my_logger ||= Logger.new("#{Rails.root}/log/my_management_production_one_product.log")
 	@flug_sale_distpached = true
 	distpach.gmov_distpaches.each do |gmov|
 		my_logger.info("Está en método: actualiza_documento_con_nota_de_credito() - recorriendo nuevo producto del documento")

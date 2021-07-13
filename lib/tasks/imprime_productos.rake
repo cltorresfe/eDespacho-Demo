@@ -4,7 +4,7 @@ require 'prawn/table'
 namespace :imprime do
   desc "Envía a imprimir un documento facturado o boleta"
   task :productos => :environment do
-  	my_logger ||= Logger.new("#{Rails.root}/log/my_products_print.log")
+  	my_logger ||= Logger.new("#{Rails.root}/log/my_products_print_bodega_51.log")
   	23500.times do  		
 		  #... content of the loop
 		  min = Time.now - 4.hours - 3.minutes
