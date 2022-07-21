@@ -67,8 +67,10 @@ GEM
     devise-i18n (1.8.2)
       devise (>= 4.6)
     erubis (2.7.0)
+    eventmachine (1.2.7)
     eventmachine (1.2.7-x64-mingw32)
     execjs (2.7.0)
+    ffi (1.11.2)
     ffi (1.11.2-x64-mingw32)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
@@ -129,6 +131,8 @@ GEM
       railties (>= 3.2, < 4.2)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
+    sassc (2.2.1)
+      ffi (~> 1.9)
     sassc (2.2.1-x64-mingw32)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -154,12 +158,13 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    tiny_tds (2.1.2)
     tiny_tds (2.1.2-x64-mingw32)
     ttfunk (1.5.1)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (1.2.5)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     tzinfo-data (1.2017.2)
       tzinfo (>= 1.0.0)
@@ -178,6 +183,7 @@ GEM
     wkhtmltopdf-binary (0.9.9.3)
 
 PLATFORMS
+  ruby
   x64-mingw32
 
 DEPENDENCIES
