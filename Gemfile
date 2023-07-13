@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby '2.3.3'
 
-gem 'rails', '4.1.16'
+gem 'rails', '5.2.8.1'
 gem 'sass-rails'
 
 gem 'bootstrap-sass'
